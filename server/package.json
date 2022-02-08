@@ -5,7 +5,10 @@
   "dependencies": {
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "ethers": "^5.5.4",
     "express": "^4.17.2",
+    "firebase-admin": "^10.0.2",
+    "moralis": "^1.2.6",
     "mysql": "^2.18.1"
   },
   "devDependencies": {
