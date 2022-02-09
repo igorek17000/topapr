@@ -80,7 +80,7 @@ async function main() {
 
   const insertValRaw = farmVal.reduce((prev, farm) => {
     return `${prev}
-      (${dbConn.escape(farm.name)}, 'mdex-heco', 'heco', ${farm.apr}, ${
+      (${dbConn.escape(farm.name)}, 'Mdex-BSC', 'bsc', ${farm.apr}, ${
       farm.totalValue
     }, null, NOW(), NOW()),`;
   }, "");
@@ -90,7 +90,7 @@ async function main() {
   on DUPLICATE KEY UPDATE apr = new.apr, totalValue = new.totalValue, multiplier = new.multiplier, updatedAt = NOW();
   `;
 
-  console.log(query);
+  // console.log(query);
   await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {
       if (err) return rej(err);

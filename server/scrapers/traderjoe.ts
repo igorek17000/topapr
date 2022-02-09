@@ -37,7 +37,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   on DUPLICATE KEY UPDATE apr = new.apr, totalValue = new.totalValue, multiplier = new.multiplier, updatedAt = NOW();
   `;
 
-  console.log(query);
+  // console.log(query);
   await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {
       if (err) return rej(err);

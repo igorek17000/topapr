@@ -71,7 +71,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
 
   const insertValRaw = farmVal.reduce((prev, farm) => {
     return `${prev}
-      (${dbConn.escape(farm.name)}, 'mdex-heco', 'heco', ${farm.apr}, ${
+      (${dbConn.escape(farm.name)}, 'Mdex-Heco', 'heco', ${farm.apr}, ${
       farm.totalValue
     }, null, NOW(), NOW()),`;
   }, "");
@@ -81,7 +81,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   on DUPLICATE KEY UPDATE apr = new.apr, totalValue = new.totalValue, multiplier = new.multiplier, updatedAt = NOW();
   `;
 
-  console.log(query);
+  // console.log(query);
   await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {
       if (err) return rej(err);
