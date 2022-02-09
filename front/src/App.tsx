@@ -7,16 +7,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
-import { useSetContracts, useSetMetamaskListener } from 'hooks';
+import { useAuth, useSetContracts } from 'hooks';
 
 import HideOnScroll from 'components/HideOnScroll';
 import WalletButton from 'components/WalletButton';
-import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
 
 function App() {
-  useSetMetamaskListener();
   useSetContracts();
-  useFirebaseAuth();
+  useAuth();
 
   return (
     <React.Fragment>

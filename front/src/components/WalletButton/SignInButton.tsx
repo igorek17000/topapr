@@ -8,8 +8,13 @@ import { auth } from 'initFirebase';
 
 export default function SignInButton() {
   const { signer } = useContext(ContractContext);
-  const { setAddress, setShortAddress, resetAccount, setUid } =
-    useContext(UserContext);
+  const {
+    setAddress,
+    setShortAddress,
+    resetAccount,
+    setUid,
+    setIsUserLoading,
+  } = useContext(UserContext);
 
   const handleClick = () => {
     const { ethereum } = window as any;
@@ -34,6 +39,7 @@ export default function SignInButton() {
                         `Sign In to TopAPR.com \n Sign ID: ${result.nonce}`
                       )
                       .then((signature) => {
+                        setIsUserLoading(true);
                         fetch(
                           `http://localhost:3100/auth/verify/${address}/${signature}`
                         )
@@ -44,12 +50,15 @@ export default function SignInButton() {
                               signInWithCustomToken(auth, result.customToken)
                                 .then((userCredential) => {
                                   // Signed in
+                                  setIsUserLoading(false);
                                   setUid(userCredential.user.uid.toLowerCase());
                                 })
                                 .catch((error) => {
                                   resetAccount();
                                   console.log(error);
                                 });
+                            } else {
+                              setIsUserLoading(false);
                             }
                           });
                       });

@@ -21,5 +21,5 @@ export function useSetContracts() {
       const cakiaContract = new ethers.Contract(cakiaCa, cakiaAbi, signer);
       setCakiaContract(cakiaContract);
     }
-  }, [setNftContract, setCakiaContract]);
+  }, [setNftContract, setCakiaContract, setSigner]);
 }

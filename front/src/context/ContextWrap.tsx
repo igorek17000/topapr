@@ -12,6 +12,7 @@ export default function ContextWrap(props: ContextWrapProps) {
   const [shortAddress, setShortAddress] = useState('');
   const [uid, setUid] = useState('');
   const [isHavingNft, setIsHavingNft] = useState(false);
+  const [isUserLoading, setIsUserLoading] = useState(false);
 
   const [signer, setSigner] = useState<
     ethers.providers.JsonRpcSigner | undefined
@@ -28,6 +29,7 @@ export default function ContextWrap(props: ContextWrapProps) {
     setShortAddress('');
     setUid('');
     setIsHavingNft(false);
+    setIsUserLoading(false);
   }
 
   return (
@@ -37,10 +39,12 @@ export default function ContextWrap(props: ContextWrapProps) {
         shortAddress,
         uid,
         isHavingNft,
+        isUserLoading,
         setAddress,
         setShortAddress,
         setUid,
         setIsHavingNft,
+        setIsUserLoading,
         resetAccount,
       }}
     >
