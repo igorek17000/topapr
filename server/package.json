@@ -25,6 +25,9 @@
     "start": "ts-node-dev ./index.ts",
     "mexc-margin": "npx tsc && node ./build/scrapers/mexc-margin.js",
     "mdex-heco": "npx tsc && node ./build/scrapers/mdex-heco.js",
-    "pancake": "npx tsc && node ./build/scrapers/pancake.js"
+    "mdex-bsc": "npx tsc && node ./build/scrapers/mdex-bsc.js",
+    "pancake": "npx tsc && node ./build/scrapers/pancake.js",
+    "traderjoe": "npx tsc && node ./build/scrapers/traderjoe.js",
+    "raydium": "npx tsc && node ./build/scrapers/raydium.js"
   }
 }
