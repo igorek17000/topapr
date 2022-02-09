@@ -73,12 +73,12 @@ const device = puppeteer.devices["iPad Pro landscape"];
     return `${prev}
       (${dbConn.escape(farm.name)}, 'mdex-heco', 'heco', ${farm.apr}, ${
       farm.totalValue
-    }, NOW(), NOW()),`;
+    }, null, NOW(), NOW()),`;
   }, "");
   const insertVal = insertValRaw.slice(0, insertValRaw.length - 1);
 
   const query = `insert into topapr.farms values ${insertVal} as new
-    on DUPLICATE KEY UPDATE apr = new.apr, totalValue = new.totalValue, updatedAt = NOW();
+  on DUPLICATE KEY UPDATE apr = new.apr, totalValue = new.totalValue, multiplier = new.multiplier, updatedAt = NOW();
   `;
 
   console.log(query);
