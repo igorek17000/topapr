@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import authRouter from "./routes/auth";
+import apiRouter from "./routes/api";
 
 const app: Application = express();
 const port = 3100;
@@ -17,6 +18,7 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
 });
 
 app.use("/auth", authRouter);
+app.use("/api", apiRouter);
 
 try {
   app.listen(port, (): void => {
