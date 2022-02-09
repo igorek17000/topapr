@@ -1,5 +1,5 @@
 import mysql from "mysql";
-const dbConfig = require("./db.config.ts");
+const dbConfig = require("./db.config");
 
 // Create a connection to the database
 const connection = mysql.createConnection({
@@ -7,6 +7,7 @@ const connection = mysql.createConnection({
   user: dbConfig.USER,
   password: dbConfig.PASSWORD,
   database: dbConfig.DB,
+  multipleStatements: true,
 });
 
 // open the MySQL connection
