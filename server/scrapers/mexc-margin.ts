@@ -50,16 +50,6 @@ const device = puppeteer.devices["iPad Pro landscape"];
   const assessmentInfo = await getContent(page);
 
   const info = [...mainInfo, ...innovationInfo, ...assessmentInfo];
-  // const info = assessmentInfo;
-  // const infoObj = info.reduce((prev, obj) => {
-  //   const tokenName = obj.token || obj.pair.replaceAll("/USDT", "");
-  //   return {
-  //     ...prev,
-  //     [tokenName]: {
-  //       ...obj,
-  //     },
-  //   };
-  // }, {});
 
   const queryValues: string = info.reduce((prev, obj) => {
     const token = obj.token || obj.pair.replaceAll("/USDT", "");
@@ -77,8 +67,8 @@ const device = puppeteer.devices["iPad Pro landscape"];
     queryValues.length - 2
   )};`;
 
-  console.log(info);
-  console.log(query);
+  // console.log(info);
+  // console.log(query);
 
   const queryRes = await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {
@@ -86,9 +76,6 @@ const device = puppeteer.devices["iPad Pro landscape"];
       return res(result);
     });
   });
-  // const db = admin.database();
-  // const mexcRef = db.ref("/MEXC");
-  // await mexcRef.set(infoObj);
 
   await browser.close();
   console.log("finish", queryRes);
