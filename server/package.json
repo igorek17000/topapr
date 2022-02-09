@@ -23,6 +23,7 @@
   },
   "scripts": {
     "start": "ts-node-dev ./index.ts",
-    "mexc-margin": "npx tsc && node ./build/scrapers/mexc-margin.js"
+    "mexc-margin": "npx tsc && node ./build/scrapers/mexc-margin.js",
+    "mdex-heco": "npx tsc && node ./build/scrapers/mdex-heco.js"
   }
 }
