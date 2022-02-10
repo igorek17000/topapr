@@ -45,13 +45,16 @@ function AprList() {
 
   useEffect(() => {
     console.log(debouncedValue);
+    resetStates();
   }, [debouncedValue]);
 
   useEffect(() => {
     if (isScrollHit && !isNoMoreData) {
       setIsScrollHit(false);
       console.log('loading data ...');
-      fetch(`http://localhost:3100/api/${sortBy}/${page}`)
+      fetch(
+        `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}`
+      )
         .then((res) => res.json())
         .then((result) => {
           if (result.queryRes && result.queryRes.length > 0) {
@@ -61,7 +64,7 @@ function AprList() {
           console.log(result);
         });
     }
-  }, [isScrollHit, isNoMoreData]);
+  }, [isScrollHit, isNoMoreData, debouncedValue, farmsAprList, page, sortBy]);
 
   window.onscroll = () => {
     if (
@@ -80,6 +83,10 @@ function AprList() {
   const handleSortByChange = (event: SelectChangeEvent) => {
     const newSortBy = event.target.value as SortBy;
     setSortBy(newSortBy);
+    resetStates();
+  };
+
+  const resetStates = () => {
     setFarmsAprList([]);
     setPage(1);
     setIsLoading(false);
