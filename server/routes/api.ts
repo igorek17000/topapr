@@ -15,12 +15,16 @@ router.get("/", async (req, res) => {
 router.get(
   "/:sortBy/:page",
   async (req: Request, res: Response): Promise<Response> => {
-    const sortBy = req.params.sortBy;
+    const sortBy = (() => {
+      if (req.params.sortBy === "Name") return "pair";
+      if (req.params.sortBy === "Total value") return "totalValue";
+      return req.params.sortBy;
+    })();
     const page = parseInt(req.params.page, 10) || 1;
 
-    const query = `select * from topapr.farms order by ${sortBy} desc limit ${
-      (page - 1) * 10
-    },10`;
+    const query = `select * from topapr.farms group by pair order by ${sortBy} ${
+      sortBy === "pair" ? "" : "desc"
+    } limit ${(page - 1) * 10},10`;
     const queryRes = await new Promise((res, rej) => {
       dbConn.query(query, function (err, result) {
         if (err) return rej(err);
