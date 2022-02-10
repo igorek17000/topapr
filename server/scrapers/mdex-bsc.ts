@@ -80,14 +80,14 @@ async function main() {
 
   const insertValRaw = farmVal.reduce((prev, farm) => {
     return `${prev}
-      (${dbConn.escape(farm.name)}, 'Mdex-BSC', 'bsc', ${farm.apr}, ${
+      (${dbConn.escape(farm.name)}, 'Mdex-BSC', 'BSC', ${farm.apr}, ${
       farm.totalValue
     }, null, NOW(), NOW()),`;
   }, "");
   const insertVal = insertValRaw.slice(0, insertValRaw.length - 1);
 
   const query = `insert into topapr.farms values ${insertVal} as new
-  on DUPLICATE KEY UPDATE apr = new.apr, totalValue = new.totalValue, multiplier = new.multiplier, updatedAt = NOW();
+    on DUPLICATE KEY UPDATE apr = new.apr, totalValue = new.totalValue, multiplier = new.multiplier, updatedAt = NOW();
   `;
 
   // console.log(query);
