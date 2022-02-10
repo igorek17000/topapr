@@ -44,16 +44,22 @@ function AprList() {
   };
 
   useEffect(() => {
-    console.log(debouncedValue);
+    console.log('debaouncedVal changed', debouncedValue);
+    console.log('poolChecked changed', poolChecked);
     resetStates();
-  }, [debouncedValue]);
+  }, [debouncedValue, poolChecked]);
 
   useEffect(() => {
     if (isScrollHit && !isNoMoreData) {
       setIsScrollHit(false);
       console.log('loading data ...');
+      const poolList = pools.reduce((prev, pool) => {
+        if (poolChecked[pool]) return `${prev}${prev ? ',' : ''}${pool}`;
+        return prev;
+      }, '');
+      console.log('poolList', poolList);
       fetch(
-        `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}`
+        `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}`
       )
         .then((res) => res.json())
         .then((result) => {

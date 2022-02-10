@@ -4,8 +4,8 @@ import FilterFormControlLabel from './FilterFormControlLabel';
 
 export const pools = [
   'PancakeSwap',
-  'MDEX-BSC',
-  'MDEX-HECO',
+  'Mdex-BSC',
+  'Mdex-Heco',
   'Raydium',
   'TraderJoe',
   'Sushi',

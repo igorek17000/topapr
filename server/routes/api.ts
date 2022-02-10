@@ -22,9 +22,23 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
   const pairAlphanum = req.query.q
     ? (req.query.q as string).replace(/[\W_]+/g, " ").trim()
     : "";
-  const pairFilter = pairAlphanum ? `where pair like '%${pairAlphanum}%'` : "";
+  const pairTextFilter = pairAlphanum
+    ? `where pair like '%${pairAlphanum}%'`
+    : "";
 
-  const query = `select * from topapr.farms ${pairFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+  const checkedPools = `where pool in ${(() => {
+    if (!req.query.pools) return "('')";
+    return `(${req.query.pools
+      .toString()
+      .split(",")
+      .reduce((prev, pool) => {
+        return `${prev}${prev ? "," : ""}'${pool}'`;
+      }, "")})`;
+  })()}`;
+  // console.log("checkedPools", checkedPools);
+
+  const query = `select * from topapr.farms ${checkedPools} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+  // console.log(query);
   const queryRes = await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {
       if (err) return rej(err);
