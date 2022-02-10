@@ -37,7 +37,18 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
   })()}`;
   // console.log("checkedPools", checkedPools);
 
-  const query = `select * from topapr.farms ${checkedPools} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+  const checkedChains = `and network in ${(() => {
+    if (!req.query.chains) return "('')";
+    return `(${req.query.chains
+      .toString()
+      .split(",")
+      .reduce((prev, chain) => {
+        return `${prev}${prev ? "," : ""}'${chain}'`;
+      }, "")})`;
+  })()}`;
+  // console.log("checkedChains", checkedChains);
+
+  const query = `select * from topapr.farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
   // console.log(query);
   const queryRes = await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {

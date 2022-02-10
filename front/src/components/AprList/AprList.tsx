@@ -19,7 +19,6 @@ function AprList() {
   const [chainChecked, setChainChecked] = useFilter<CheckedChain, ChainName>(
     chains
   );
-
   const [poolChecked, setPoolChecked] = useFilter<CheckedPool, PoolName>(pools);
 
   const [isHedge, setIsHedge] = useState(false);
@@ -44,10 +43,11 @@ function AprList() {
   };
 
   useEffect(() => {
-    console.log('debaouncedVal changed', debouncedValue);
+    console.log('debouncedValue changed', debouncedValue);
     console.log('poolChecked changed', poolChecked);
+    console.log('chainChecked changed', chainChecked);
     resetStates();
-  }, [debouncedValue, poolChecked]);
+  }, [debouncedValue, poolChecked, chainChecked]);
 
   useEffect(() => {
     if (isScrollHit && !isNoMoreData) {
@@ -58,8 +58,13 @@ function AprList() {
         return prev;
       }, '');
       console.log('poolList', poolList);
+      const chainList = chains.reduce((prev, chain) => {
+        if (chainChecked[chain]) return `${prev}${prev ? ',' : ''}${chain}`;
+        return prev;
+      }, '');
+      console.log('chainList', chainList);
       fetch(
-        `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}`
+        `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}`
       )
         .then((res) => res.json())
         .then((result) => {
@@ -70,7 +75,16 @@ function AprList() {
           console.log(result);
         });
     }
-  }, [isScrollHit, isNoMoreData, debouncedValue, farmsAprList, page, sortBy]);
+  }, [
+    isScrollHit,
+    isNoMoreData,
+    debouncedValue,
+    farmsAprList,
+    page,
+    sortBy,
+    poolChecked,
+    chainChecked,
+  ]);
 
   window.onscroll = () => {
     if (

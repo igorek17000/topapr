@@ -2,7 +2,7 @@ import React from 'react';
 import FilterCheckbox from './FilterCheckbox';
 import FilterFormControlLabel from './FilterFormControlLabel';
 
-export const chains = ['Avalanche', 'BSC', 'ETH', 'HECO', 'Solana'] as const;
+export const chains = ['Avalanche', 'BSC', 'ETH', 'Heco', 'Solana'] as const;
 
 export type ChainName = typeof chains[number];
 
