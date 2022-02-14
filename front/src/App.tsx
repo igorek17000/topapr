@@ -12,6 +12,7 @@ import { useAuth, useSetContracts } from 'hooks';
 import HideOnScroll from 'components/HideOnScroll';
 import WalletButton from 'components/WalletButton';
 import AprList from 'components/AprList/AprList';
+import NftMint from 'components/NftMint/NftMint';
 
 function App() {
   useSetContracts();
@@ -49,7 +50,7 @@ function App() {
         <Box sx={{ my: 2 }}>
           <Routes>
             <Route path="/" element={<AprList />} />
-            <Route path="/nft" element={<div>Nft</div>} />
+            <Route path="/nft" element={<NftMint />} />
           </Routes>
         </Box>
       </Container>
