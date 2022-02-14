@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import { Grid, SelectChangeEvent } from '@mui/material';
 import { useFilter } from 'hooks/useFilter';
 import useDebounce from 'hooks/useDebounce';
+import UserContext from 'context/UserContext';
 import PoolFilter, { CheckedPool, PoolName, pools } from './Filter/PoolFilter';
 import ChainFilter, {
   ChainName,
@@ -16,6 +17,8 @@ import SortBySelect, { SortBy } from './SortBySelect';
 import HedgeSwitch from './HedgeSwitch';
 
 function AprList() {
+  const { idToken, isUserLoading } = useContext(UserContext);
+
   const [chainChecked, setChainChecked] = useFilter<CheckedChain, ChainName>(
     chains
   );
@@ -50,7 +53,7 @@ function AprList() {
   }, [debouncedValue, poolChecked, chainChecked]);
 
   useEffect(() => {
-    if (isScrollHit && !isNoMoreData) {
+    if (isScrollHit && !isNoMoreData && !isUserLoading) {
       setIsScrollHit(false);
       console.log('loading data ...');
       const poolList = pools.reduce((prev, pool) => {
@@ -64,7 +67,12 @@ function AprList() {
       }, '');
       console.log('chainList', chainList);
       fetch(
-        `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}`
+        `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + idToken,
+          },
+        }
       )
         .then((res) => res.json())
         .then((result) => {
@@ -84,6 +92,8 @@ function AprList() {
     sortBy,
     poolChecked,
     chainChecked,
+    idToken,
+    isUserLoading,
   ]);
 
   window.onscroll = () => {

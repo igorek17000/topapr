@@ -13,6 +13,8 @@ export function useAuth() {
     setShortAddress,
     uid,
     setUid,
+    setIdToken,
+    setIsUserLoading,
     resetAccount,
     setIsHavingNft,
     isUserLoading,
@@ -24,9 +26,21 @@ export function useAuth() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUid(user.uid.toLowerCase());
+        user
+          .getIdToken()
+          .then((userIdToken) => {
+            if (userIdToken) {
+              setIdToken(userIdToken);
+            }
+          })
+          .finally(() => {
+            setIsUserLoading(false);
+          });
+      } else {
+        setIsUserLoading(false);
       }
     });
-  }, [setUid]);
+  }, [setUid, setIdToken, setIsUserLoading]);
 
   useEffect(() => {
     const { ethereum } = window as any;
