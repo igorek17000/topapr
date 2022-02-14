@@ -46,11 +46,11 @@ function AprList() {
   };
 
   useEffect(() => {
-    console.log('debouncedValue changed', debouncedValue);
-    console.log('poolChecked changed', poolChecked);
-    console.log('chainChecked changed', chainChecked);
+    // console.log('debouncedValue changed', debouncedValue);
+    // console.log('poolChecked changed', poolChecked);
+    // console.log('chainChecked changed', chainChecked);
     resetStates();
-  }, [debouncedValue, poolChecked, chainChecked]);
+  }, [debouncedValue, poolChecked, chainChecked, isHedge]);
 
   useEffect(() => {
     if (isScrollHit && !isNoMoreData && !isUserLoading) {
@@ -67,10 +67,10 @@ function AprList() {
       }, '');
       console.log('chainList', chainList);
       fetch(
-        `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}`,
+        `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}&ih=${isHedge}`,
         {
           headers: {
-            Authorization: 'Bearer ' + idToken,
+            Authorization: idToken ? 'Bearer ' + idToken : '',
           },
         }
       )
@@ -94,6 +94,7 @@ function AprList() {
     chainChecked,
     idToken,
     isUserLoading,
+    isHedge,
   ]);
 
   window.onscroll = () => {

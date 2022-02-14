@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { getAuth } from "firebase-admin/auth";
 
 import dbConn from "../db";
 
@@ -7,7 +8,7 @@ var router = express.Router();
 const crypto = require("crypto");
 
 router.get("/", async (req: Request, res: Response): Promise<Response> => {
-  console.log(req.query);
+  // console.log(req.query);
 
   const itemsPerPage = 20;
   const page = parseInt((req.query.p as any) || "1", 10) || 1;
@@ -48,7 +49,27 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
   })()}`;
   // console.log("checkedChains", checkedChains);
 
-  const query = `select * from topapr.farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+  const decodeToken = await (async () => {
+    if (req.headers.authorization.startsWith("Bearer ")) {
+      const token = req.headers.authorization.substring(
+        7,
+        req.headers.authorization.length
+      );
+      const decode = await getAuth().verifyIdToken(token);
+      return decode;
+    } else {
+      return undefined;
+    }
+  })();
+
+  const query = (() => {
+    if (decodeToken && decodeToken.isHavingNft && req.query.ih === "true") {
+      return `select topapr.farms.* from topapr.farms left join topapr.mexc on topapr.farms.pair like concat('%',topapr.mexc.token,'%') and topapr.mexc.token not in ('AVAX', 'USDC', 'BNB', 'SOL', 'RAY') ${checkedPools} ${checkedChains} ${pairTextFilter} and token is not null group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+    }
+
+    return `select * from topapr.farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+  })();
+
   // console.log(query);
   const queryRes = await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {
