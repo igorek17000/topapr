@@ -27,7 +27,7 @@ export function useAuth() {
       if (user) {
         setUid(user.uid.toLowerCase());
         user
-          .getIdToken()
+          .getIdToken(true)
           .then((userIdToken) => {
             if (userIdToken) {
               setIdToken(userIdToken);
