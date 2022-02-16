@@ -3,6 +3,7 @@ import ListItem from '@mui/material/ListItem';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Farm } from 'types';
+import PairImg from './PairImg';
 
 type AprListItemProps = {
   farm: Farm;
@@ -19,6 +20,17 @@ export default React.memo(function AprListItem(props: AprListItemProps) {
       }}
     >
       <Grid container spacing={3}>
+        <Grid
+          item
+          xs
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            maxWidth: '80px !important',
+          }}
+        >
+          <PairImg pair={farm.pair} />
+        </Grid>
         <Grid
           item
           xs
