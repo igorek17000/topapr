@@ -29,6 +29,7 @@
     "pancake": "npx tsc && node ./build/scrapers/pancake.js",
     "traderjoe": "npx tsc && node ./build/scrapers/traderjoe.js",
     "raydium": "npx tsc && node ./build/scrapers/raydium.js",
-    "tokenImage": "npx tsc && node ./build/scrapers/tokenImage.js"
+    "tokenImage": "npx tsc && node ./build/scrapers/tokenImage.js",
+    "cleanup": "npx tsc && node ./build/scrapers/cleanup.js"
   }
 }
