@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { signOut } from 'firebase/auth';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import UserContext from 'context/UserContext';
-import { auth } from 'initFirebase';
 
 export default function SignOutButton() {
   const { shortAddress, resetAccount } = useContext(UserContext);
@@ -18,9 +16,9 @@ export default function SignOutButton() {
   };
 
   const handleSignout = () => {
-    signOut(auth);
     resetAccount();
     setAnchorEl(null);
+    localStorage.removeItem('data');
   };
 
   return (

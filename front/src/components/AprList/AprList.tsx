@@ -17,7 +17,7 @@ import SortBySelect, { SortBy } from './SortBySelect';
 import HedgeSwitch from './HedgeSwitch';
 
 function AprList() {
-  const { idToken, isUserLoading } = useContext(UserContext);
+  const { idToken, uid, isUserLoading } = useContext(UserContext);
 
   const [chainChecked, setChainChecked] = useFilter<CheckedChain, ChainName>(
     chains
@@ -55,22 +55,22 @@ function AprList() {
   useEffect(() => {
     if (isScrollHit && !isNoMoreData && !isUserLoading) {
       setIsScrollHit(false);
-      console.log('loading data ...');
+      // console.log('loading data ...');
       const poolList = pools.reduce((prev, pool) => {
         if (poolChecked[pool]) return `${prev}${prev ? ',' : ''}${pool}`;
         return prev;
       }, '');
-      console.log('poolList', poolList);
+      // console.log('poolList', poolList);
       const chainList = chains.reduce((prev, chain) => {
         if (chainChecked[chain]) return `${prev}${prev ? ',' : ''}${chain}`;
         return prev;
       }, '');
-      console.log('chainList', chainList);
+      // console.log('chainList', chainList);
       fetch(
         `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}&ih=${isHedge}`,
         {
           headers: {
-            Authorization: idToken ? 'Bearer ' + idToken : '',
+            Authorization: idToken ? `Bearer ${uid}:${idToken}` : '',
           },
         }
       )
@@ -80,7 +80,7 @@ function AprList() {
             setFarmsAprList([...farmsAprList, ...result.queryRes]);
             setPage(page + 1);
           }
-          console.log(result);
+          // console.log(result);
         });
     }
   }, [
@@ -95,6 +95,7 @@ function AprList() {
     idToken,
     isUserLoading,
     isHedge,
+    uid,
   ]);
 
   window.onscroll = () => {

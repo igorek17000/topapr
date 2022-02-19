@@ -1,22 +1,13 @@
 import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import { ethers } from "ethers";
 import Moralis from "moralis/node";
-import admin from "firebase-admin";
-import { initializeApp } from "firebase-admin/app";
-import { getAuth } from "firebase-admin/auth";
 
 import dbConn from "../db";
 
 var express = require("express");
 var router = express.Router();
 const crypto = require("crypto");
-
-var serviceAccount = require("../private.json");
-initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL:
-    "https://top-apr-default-rtdb.asia-southeast1.firebasedatabase.app/",
-});
 
 const serverUrl = "https://cfrj4efwe4ue.usemoralis.com:2053/server";
 const appId = "COE2RmzQBrMy1CNJR0Qaw70r5np2YTKrFyYu14r8";
@@ -90,18 +81,19 @@ router.get(
         token_address: "0x5481307Ebc228f8B791b7b684cAaA6F9e781ddD9",
       });
 
-      return getAuth()
-        .createCustomToken(address, { isHavingNft: !!nfts.total })
-        .then((customToken) => {
-          console.log("token created", customToken);
-          return res.status(200).send({
-            customToken,
-          });
-        })
-        .catch((error) => {
-          console.log("Error creating custom token:", error);
-          return res.status(500);
-        });
+      jwt.sign(
+        { isHavingNft: !!nfts.total },
+        nonce,
+        function (err, customToken) {
+          if (customToken) {
+            return res.status(200).send({
+              customToken,
+            });
+          }
+
+          return res.status(401).send("Unauthorized");
+        }
+      );
     } catch {
       return res.status(401).send("Unauthorized");
     }

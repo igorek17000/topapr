@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getAuth } from "firebase-admin/auth";
+import jwt from "jsonwebtoken";
 
 import dbConn from "../db";
 
@@ -51,12 +51,32 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
 
   const decodeToken = await (async () => {
     if (req.headers.authorization.startsWith("Bearer ")) {
-      const token = req.headers.authorization.substring(
-        7,
-        req.headers.authorization.length
-      );
-      const decode = await getAuth().verifyIdToken(token);
-      return decode;
+      const authData = req.headers.authorization
+        .replace("Bearer ", "")
+        .split(":");
+      const uid = authData[0];
+      const token = authData[1];
+
+      if (uid && token) {
+        const getNonceQuery = `
+        SELECT nonce from topapr.users where id = ${dbConn.escape(uid)};
+      `;
+        const nonceQueryRes: any = await new Promise((res, rej) => {
+          dbConn.query(getNonceQuery, function (err, result) {
+            if (err) return rej(err);
+            return res(result);
+          });
+        });
+
+        if (nonceQueryRes.length < 1) return undefined;
+
+        const nonce = nonceQueryRes[0].nonce;
+        const decode = jwt.verify(token, nonce);
+        // console.log(decode);
+        return decode;
+      }
+
+      return undefined;
     } else {
       return undefined;
     }

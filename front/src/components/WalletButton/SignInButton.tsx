@@ -3,8 +3,7 @@ import { Button } from '@mui/material';
 import ContractContext from 'context/ContractContext';
 import UserContext from 'context/UserContext';
 import { getShortAddress } from 'utils/getShortAddress';
-import { signInWithCustomToken } from 'firebase/auth';
-import { auth } from 'initFirebase';
+import jwt_decode from 'jwt-decode';
 
 export default function SignInButton() {
   const { signer } = useContext(ContractContext);
@@ -12,8 +11,10 @@ export default function SignInButton() {
     setAddress,
     setShortAddress,
     resetAccount,
+    setIdToken,
     setUid,
     setIsUserLoading,
+    setIsHavingNft,
   } = useContext(UserContext);
 
   const handleClick = () => {
@@ -45,18 +46,18 @@ export default function SignInButton() {
                         )
                           .then((res) => res.json())
                           .then((result) => {
-                            if (result.customToken) {
-                              // console.log('custom token:', result.customToken);
-                              signInWithCustomToken(auth, result.customToken)
-                                .then((userCredential) => {
-                                  // Signed in
-                                  setIsUserLoading(false);
-                                  setUid(userCredential.user.uid.toLowerCase());
-                                })
-                                .catch((error) => {
-                                  resetAccount();
-                                  console.log(error);
-                                });
+                            const { customToken } = result;
+                            if (customToken) {
+                              const { isHavingNft } = jwt_decode(
+                                customToken
+                              ) as any;
+
+                              setIsHavingNft(isHavingNft);
+                              setIsUserLoading(false);
+                              setUid(address.toLowerCase());
+                              setIdToken(customToken);
+
+                              localStorage.setItem('data', customToken);
                             } else {
                               setIsUserLoading(false);
                             }

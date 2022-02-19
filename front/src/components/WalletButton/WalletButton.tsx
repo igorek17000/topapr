@@ -5,7 +5,7 @@ import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 
 export default function WalletButton() {
-  const { uid: firebaseUid } = useContext(UserContext);
+  const { uid } = useContext(UserContext);
 
-  return <Box>{firebaseUid ? <SignOutButton /> : <SignInButton />}</Box>;
+  return <Box>{uid ? <SignOutButton /> : <SignInButton />}</Box>;
 }

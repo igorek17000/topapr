@@ -1,88 +1,59 @@
 import { useContext, useEffect } from 'react';
 import UserContext from 'context/UserContext';
 import ContractContext from 'context/ContractContext';
-import { onAuthStateChanged } from 'firebase/auth';
-import { signOut } from 'firebase/auth';
 import { getShortAddress } from 'utils/getShortAddress';
-import { auth } from 'initFirebase';
+import jwt_decode from 'jwt-decode';
 
 export function useAuth() {
   const {
     address,
     setAddress,
     setShortAddress,
-    uid,
-    setUid,
     setIdToken,
-    setIsUserLoading,
-    resetAccount,
     setIsHavingNft,
-    isUserLoading,
+    setIsUserLoading,
+    setUid,
+    resetAccount,
   } = useContext(UserContext);
 
   const { signer } = useContext(ContractContext);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setUid(user.uid.toLowerCase());
-        user
-          .getIdToken(true)
-          .then((userIdToken) => {
-            if (userIdToken) {
-              setIdToken(userIdToken);
-            }
-          })
-          .finally(() => {
-            setIsUserLoading(false);
-          });
-      } else {
-        setIsUserLoading(false);
-      }
-    });
-  }, [setUid, setIdToken, setIsUserLoading]);
 
   useEffect(() => {
     const { ethereum } = window as any;
     if (ethereum) {
       ethereum.on('accountsChanged', (acc: string[]) => {
         if (acc.length > 0) {
-          const address = acc[0].toLowerCase();
+          resetAccount();
+          localStorage.removeItem('data');
+        }
+      });
+    }
+  }, [resetAccount]);
+
+  useEffect(() => {
+    if (signer) {
+      signer.getAddress().then((data) => {
+        if (data) {
+          const address = data.toLocaleLowerCase();
           const shortAddress = getShortAddress(address);
 
           setAddress(address);
           setShortAddress(shortAddress);
+          setIsUserLoading(false);
         }
       });
     }
-  }, [setAddress, setShortAddress]);
+  }, [signer, setAddress, setShortAddress, setIsUserLoading]);
 
   useEffect(() => {
-    if (!isUserLoading && uid && !address) {
-      signer?.getAddress().then((val) => {
-        if (val) {
-          const signerAddress = val.toLowerCase();
-          if (signerAddress === uid) {
-            setAddress(signerAddress);
-            setShortAddress(getShortAddress(signerAddress));
-            auth.currentUser?.getIdTokenResult().then((idTokenResult) => {
-              setIsHavingNft((idTokenResult.claims as any).isHavingNft);
-            });
-          } else {
-            signOut(auth);
-            resetAccount();
-          }
-        }
-      });
+    if (address) {
+      const customToken = localStorage.getItem('data');
+      if (customToken) {
+        const { isHavingNft } = jwt_decode(customToken) as any;
+        setIdToken(customToken);
+        setIsHavingNft(isHavingNft);
+        setUid(address);
+      }
     }
-  }, [
-    address,
-    uid,
-    isUserLoading,
-    signer,
-    resetAccount,
-    setAddress,
-    setShortAddress,
-    setIsHavingNft,
-  ]);
+  }, [setIsHavingNft, setIdToken, address, setUid]);
 }
