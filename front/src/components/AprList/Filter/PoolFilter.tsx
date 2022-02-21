@@ -1,3 +1,4 @@
+import { Stack } from '@mui/material';
 import React from 'react';
 import FilterCheckbox from './FilterCheckbox';
 import FilterFormControlLabel from './FilterFormControlLabel';
@@ -69,7 +70,20 @@ function PoolFilter(props: PoolFilterProps) {
       {pools.map((pool) => (
         <FilterFormControlLabel
           key={pool}
-          label={pool}
+          label={
+            <Stack direction="row" spacing={1}>
+              <div>
+                <img
+                  src={`/pool/${pool}.png`}
+                  style={checked[pool] ? {} : { filter: 'grayscale(100%)' }}
+                  alt={pool}
+                  width={18}
+                  height={18}
+                />
+              </div>
+              <div>{pool}</div>
+            </Stack>
+          }
           checked={checked[pool]}
           control={
             <FilterCheckbox
