@@ -2,7 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
-import { Grid, SelectChangeEvent } from '@mui/material';
+import {
+  Box,
+  Grid,
+  LinearProgress,
+  ListItem,
+  SelectChangeEvent,
+} from '@mui/material';
 import { useFilter } from 'hooks/useFilter';
 import useDebounce from 'hooks/useDebounce';
 import UserContext from 'context/UserContext';
@@ -33,9 +39,6 @@ function AprList() {
   const [isLoading, setIsLoading] = useState(false);
   const [isNoMoreData, setIsNoMoreData] = useState(false);
 
-  // const dbMexcRef = ref(database, 'FarmsAprMexc');
-  // const farmsAprMexc = useDatabaseValue(['FarmsAprMexc'], dbMexcRef);
-
   const [searchText, setSearchText] = useState<string>('');
   const debouncedValue = useDebounce<string>(searchText, 200);
 
@@ -46,15 +49,13 @@ function AprList() {
   };
 
   useEffect(() => {
-    // console.log('debouncedValue changed', debouncedValue);
-    // console.log('poolChecked changed', poolChecked);
-    // console.log('chainChecked changed', chainChecked);
     resetStates();
   }, [debouncedValue, poolChecked, chainChecked, isHedge]);
 
   useEffect(() => {
-    if (isScrollHit && !isNoMoreData && !isUserLoading) {
+    if (isScrollHit && !isNoMoreData && !isLoading && !isUserLoading) {
       setIsScrollHit(false);
+      setIsLoading(true);
       // console.log('loading data ...');
       const poolList = pools.reduce((prev, pool) => {
         if (poolChecked[pool]) return `${prev}${prev ? ',' : ''}${pool}`;
@@ -79,7 +80,11 @@ function AprList() {
           if (result.queryRes && result.queryRes.length > 0) {
             setFarmsAprList([...farmsAprList, ...result.queryRes]);
             setPage(page + 1);
+          } else {
+            setIsNoMoreData(true);
           }
+
+          setIsLoading(false);
           // console.log(result);
         });
     }
@@ -96,6 +101,7 @@ function AprList() {
     isUserLoading,
     isHedge,
     uid,
+    setIsLoading,
   ]);
 
   window.onscroll = () => {
@@ -103,7 +109,7 @@ function AprList() {
       window.innerHeight + document.documentElement.scrollTop ===
       document.documentElement.offsetHeight
     ) {
-      console.log('Scroll hit...', isNoMoreData);
+      // console.log('Scroll hit...', isNoMoreData);
       if (!isNoMoreData) {
         setIsScrollHit(true);
       }
@@ -164,13 +170,17 @@ function AprList() {
             <Divider />
           </React.Fragment>
         ))}
+        {isLoading ? (
+          <ListItem>
+            <Box sx={{ width: '100%', padding: '24px' }}>
+              <LinearProgress />
+            </Box>
+          </ListItem>
+        ) : (
+          ''
+        )}
       </List>
-      {isLoading ? <div className="text-center">loading data ...</div> : ''}
-      {isNoMoreData ? (
-        <div className="text-center">no data anymore ...</div>
-      ) : (
-        ''
-      )}
+      {isNoMoreData ? <div className="text-center"></div> : ''}
     </div>
   );
 }
