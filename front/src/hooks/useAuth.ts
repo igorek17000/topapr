@@ -32,16 +32,23 @@ export function useAuth() {
 
   useEffect(() => {
     if (signer) {
-      signer.getAddress().then((data) => {
-        if (data) {
-          const address = data.toLocaleLowerCase();
-          const shortAddress = getShortAddress(address);
+      signer
+        .getAddress()
+        .then((data) => {
+          if (data) {
+            const address = data.toLocaleLowerCase();
+            const shortAddress = getShortAddress(address);
 
-          setAddress(address);
-          setShortAddress(shortAddress);
-          setIsUserLoading(false);
-        }
-      });
+            setAddress(address);
+            setShortAddress(shortAddress);
+            setIsUserLoading(false);
+          }
+        })
+        .catch((err) => {
+          resetAccount();
+          localStorage.removeItem('data');
+          console.error(err);
+        });
     }
   }, [signer, setAddress, setShortAddress, setIsUserLoading]);
 
