@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -25,9 +24,11 @@ function App() {
         <AppBar>
           <Toolbar>
             <Box sx={{ marginRight: 4 }}>
-              <img src="/logo.png" width={48} height={48} />
+              <Link to="/">
+                <img src="/logo.png" alt="Top APR" width={48} height={48} />
+              </Link>
             </Box>
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flex: 1 }}>
               <Box
                 component="span"
                 sx={{
@@ -35,10 +36,10 @@ function App() {
                   marginRight: 4,
                 }}
               >
-                <Link to={'/'}>Farms</Link>
+                <Link to="/">Farms</Link>
               </Box>
               <Box component="span" sx={linkStyle}>
-                <Link to={'/nft'}>NFT</Link>
+                <Link to="/nft">NFT</Link>
               </Box>
             </Box>
             <WalletButton />
