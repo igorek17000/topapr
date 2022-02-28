@@ -1,0 +1,11 @@
+{
+  "name": "tokens",
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.4",
+    "@openzeppelin/contracts": "^4.4.2",
+    "ethers": "^5.5.3",
+    "hardhat": "^2.8.3"
+  }
+}
