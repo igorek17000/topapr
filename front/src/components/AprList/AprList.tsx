@@ -101,6 +101,7 @@ function AprList() {
     isUserLoading,
     isHedge,
     uid,
+    isLoading,
     setIsLoading,
   ]);
 

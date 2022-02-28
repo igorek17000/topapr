@@ -50,7 +50,7 @@ export function useAuth() {
           console.error(err);
         });
     }
-  }, [signer, setAddress, setShortAddress, setIsUserLoading]);
+  }, [signer, setAddress, setShortAddress, setIsUserLoading, resetAccount]);
 
   useEffect(() => {
     if (address) {
