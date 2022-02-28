@@ -24,9 +24,9 @@ function App() {
       <HideOnScroll>
         <AppBar>
           <Toolbar>
-            <Typography variant="h6" component="div" sx={{ marginRight: 8 }}>
-              Top APR
-            </Typography>
+            <Box sx={{ marginRight: 4 }}>
+              <img src="/logo.png" width={48} height={48} />
+            </Box>
             <Box sx={{ flexGrow: 1 }}>
               <Box
                 component="span"
@@ -47,7 +47,7 @@ function App() {
       </HideOnScroll>
       <Toolbar />
       <Container>
-        <Box sx={{ my: 2 }}>
+        <Box sx={{ my: 4 }}>
           <Routes>
             <Route path="/" element={<AprList />} />
             <Route path="/nft" element={<NftMint />} />
