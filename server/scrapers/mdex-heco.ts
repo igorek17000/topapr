@@ -77,9 +77,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   }, "");
   const insertVal = insertValRaw.slice(0, insertValRaw.length - 1);
 
-  const query = `insert into topapr.farms values ${insertVal} as new
-    on DUPLICATE KEY UPDATE apr = new.apr, totalValue = new.totalValue, multiplier = new.multiplier, updatedAt = NOW();
-  `;
+  const query = `insert into sql3476271.farms values ${insertVal} on DUPLICATE KEY UPDATE apr = apr, totalValue = totalValue, multiplier = multiplier, updatedAt = NOW();`;
 
   // console.log(query);
   await new Promise((res, rej) => {

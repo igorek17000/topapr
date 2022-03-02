@@ -21,7 +21,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   console.log("sini");
   await page.waitForTimeout(5000);
 
-  const query = `select pair from topapr.farms`;
+  const query = `select pair from farms`;
 
   // console.log(query);
   const farms: any = await new Promise((res, rej) => {

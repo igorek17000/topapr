@@ -2,15 +2,17 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ethers } from "ethers";
 import Moralis from "moralis/node";
+import cors from "cors";
 
 import dbConn from "../db";
 
 var express = require("express");
 var router = express.Router();
 const crypto = require("crypto");
+router.use(cors());
 
-const serverUrl = "https://cfrj4efwe4ue.usemoralis.com:2053/server";
-const appId = "COE2RmzQBrMy1CNJR0Qaw70r5np2YTKrFyYu14r8";
+const serverUrl = "https://lw8kzegmn3yu.usemoralis.com:2053/server";
+const appId = "qX3uMKoeAqQHspXFNvk4DWvgtjWEtrbrsM8z8C4g";
 Moralis.start({ serverUrl, appId });
 
 router.get("/", async (req, res) => {
@@ -26,7 +28,7 @@ router.get(
     const nonce = crypto.randomBytes(16).toString("base64");
 
     const query = `
-      INSERT INTO topapr.users VALUES(
+      INSERT INTO users VALUES(
         ${dbConn.escape(reqAddress)}, ${dbConn.escape(nonce)}, now(), now()
       ) ON DUPLICATE KEY UPDATE nonce = ${dbConn.escape(
         nonce
@@ -53,7 +55,7 @@ router.get(
     const reqAddress = req.params.address.toLowerCase();
 
     const getNonceQuery = `
-      SELECT nonce from topapr.users where id = ${dbConn.escape(reqAddress)};
+      SELECT nonce from users where id = ${dbConn.escape(reqAddress)};
     `;
     const nonceQueryRes: any = await new Promise((res, rej) => {
       dbConn.query(getNonceQuery, function (err, result) {
@@ -68,7 +70,7 @@ router.get(
     try {
       const address = await ethers.utils
         .verifyMessage(
-          `Sign In to TopAPR.com \n Sign ID: ${nonce}`,
+          `Sign In to TopAPR.com\nSign ID: ${nonce}`,
           req.params.signature
         )
         .toLowerCase();
@@ -76,9 +78,9 @@ router.get(
       if (reqAddress !== address) return res.status(401).send("Unauthorized");
 
       const nfts = await Moralis.Web3API.account.getNFTsForContract({
-        chain: "bsc testnet",
+        chain: "bsc",
         address,
-        token_address: "0x5481307Ebc228f8B791b7b684cAaA6F9e781ddD9",
+        token_address: "0xdA3d65F55338974dDa06B8EF4CAcaCc5D1AfFEd7",
       });
 
       jwt.sign(

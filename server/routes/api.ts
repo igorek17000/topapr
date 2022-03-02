@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import cors from "cors";
 
 import dbConn from "../db";
 
 var express = require("express");
 var router = express.Router();
 const crypto = require("crypto");
+
+router.use(cors());
 
 router.get("/", async (req: Request, res: Response): Promise<Response> => {
   // console.log(req.query);
@@ -50,7 +53,10 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
   // console.log("checkedChains", checkedChains);
 
   const decodeToken = await (async () => {
-    if (req.headers.authorization.startsWith("Bearer ")) {
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer ")
+    ) {
       const authData = req.headers.authorization
         .replace("Bearer ", "")
         .split(":");
@@ -59,7 +65,7 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
 
       if (uid && token) {
         const getNonceQuery = `
-        SELECT nonce from topapr.users where id = ${dbConn.escape(uid)};
+        SELECT nonce from users where id = ${dbConn.escape(uid)};
       `;
         const nonceQueryRes: any = await new Promise((res, rej) => {
           dbConn.query(getNonceQuery, function (err, result) {
@@ -84,10 +90,10 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
 
   const query = (() => {
     if (decodeToken && decodeToken.isHavingNft && req.query.ih === "true") {
-      return `select topapr.farms.* from topapr.farms left join topapr.mexc on topapr.farms.pair like concat('%',topapr.mexc.token,'%') and topapr.mexc.token not in ('AVAX', 'USDC', 'BNB', 'SOL', 'RAY') ${checkedPools} ${checkedChains} ${pairTextFilter} and token is not null group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+      return `select farms.* from farms left join mexc on farms.pair like concat('%',mexc.token,'%') and mexc.token not in ('AVAX', 'USDC', 'BNB', 'SOL', 'RAY') ${checkedPools} ${checkedChains} ${pairTextFilter} and token is not null group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
     }
 
-    return `select * from topapr.farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+    return `select * from farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
   })();
 
   // console.log(query);
