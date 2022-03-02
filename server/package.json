@@ -11,7 +11,8 @@
     "jsonwebtoken": "^8.5.1",
     "moralis": "^1.3.2",
     "mysql": "^2.18.1",
-    "puppeteer": "^13.4.0"
+    "puppeteer": "^13.4.0",
+    "ts-node": "^10.6.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
@@ -22,7 +23,8 @@
     "typescript": "^4.5.5"
   },
   "scripts": {
-    "start": "ts-node-dev ./index.ts",
+    "start": "ts-node ./index.ts",
+    "dev": "ts-node-dev ./index.ts",
     "mexc-margin": "npx tsc && node ./build/scrapers/mexc-margin.js",
     "mdex-heco": "npx tsc && node ./build/scrapers/mdex-heco.js",
     "mdex-bsc": "npx tsc && node ./build/scrapers/mdex-bsc.js",

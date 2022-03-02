@@ -4,7 +4,7 @@ import authRouter from "./routes/auth";
 import apiRouter from "./routes/api";
 
 const app: Application = express();
-const port = 3100;
+const port = process.env.PORT || 3100;
 
 // Body parsing Middleware
 app.use(express.json());
