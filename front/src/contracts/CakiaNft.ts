@@ -1,4 +1,4 @@
-export const cakiaNftCa = '0x5481307Ebc228f8B791b7b684cAaA6F9e781ddD9';
+export const cakiaNftCa = '0xdA3d65F55338974dDa06B8EF4CAcaCc5D1AfFEd7';
 export const cakiaNftAbi = [
   {
     inputs: [

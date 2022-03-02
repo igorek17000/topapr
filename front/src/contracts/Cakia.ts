@@ -1,4 +1,4 @@
-export const cakiaCa = '0xa650C2194B5e73f8c4f4d7c3cAF5fE21e5cF9537';
+export const cakiaCa = '0x248b291290796c5743814bD18cAE46D37268E17d';
 export const cakiaAbi = [
   {
     inputs: [],

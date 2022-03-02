@@ -30,19 +30,19 @@ export default function SignInButton() {
             setAddress(address);
             setShortAddress(shortAddress);
 
-            fetch(`http://localhost:3100/auth/sign/${address}`)
+            fetch(`${process.env.REACT_APP_SERVER}/auth/sign/${address}`)
               .then((res) => res.json())
               .then(
                 (result) => {
                   if (signer && result.nonce) {
                     signer
                       .signMessage(
-                        `Sign In to TopAPR.com \n Sign ID: ${result.nonce}`
+                        `Sign In to TopAPR.com\nSign ID: ${result.nonce}`
                       )
                       .then((signature) => {
                         setIsUserLoading(true);
                         fetch(
-                          `http://localhost:3100/auth/verify/${address}/${signature}`
+                          `${process.env.REACT_APP_SERVER}/auth/verify/${address}/${signature}`
                         )
                           .then((res) => res.json())
                           .then((result) => {

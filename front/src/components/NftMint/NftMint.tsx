@@ -5,6 +5,7 @@ import NftMintButton from './NftMintButton';
 import CakiaAllowance from './CakiaAllowance';
 import UserContext from 'context/UserContext';
 import ContractContext from 'context/ContractContext';
+import { cakiaNftCa } from 'contracts';
 
 export default function NftMint() {
   const { address } = useContext(UserContext);
@@ -16,10 +17,7 @@ export default function NftMint() {
   useEffect(() => {
     (async function () {
       if (cakiaContract && address) {
-        let cakiaTxn = await cakiaContract.allowance(
-          address,
-          '0x5481307Ebc228f8B791b7b684cAaA6F9e781ddD9'
-        );
+        let cakiaTxn = await cakiaContract.allowance(address, cakiaNftCa);
 
         const allowance = parseFloat(ethers.utils.formatEther(cakiaTxn._hex));
         // console.log('Get allowance', allowance);

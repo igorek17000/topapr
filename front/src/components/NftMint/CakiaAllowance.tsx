@@ -5,6 +5,7 @@ import { LoadingButton } from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
 import NftMintButton from './NftMintButton';
 import ContractContext from 'context/ContractContext';
+import { cakiaNftCa } from 'contracts';
 
 interface CakiaAllowanceProps {
   isCakiaApproved: boolean;
@@ -20,7 +21,7 @@ export default function CakiaAllowance(props: CakiaAllowanceProps) {
     try {
       if (cakiaContract) {
         let nftTxn = await cakiaContract.increaseAllowance(
-          '0x5481307Ebc228f8B791b7b684cAaA6F9e781ddD9',
+          cakiaNftCa,
           ethers.utils.parseEther('100000')
         );
 

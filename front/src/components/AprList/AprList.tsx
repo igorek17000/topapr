@@ -68,7 +68,7 @@ function AprList() {
       }, '');
       // console.log('chainList', chainList);
       fetch(
-        `http://localhost:3100/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}&ih=${isHedge}`,
+        `${process.env.REACT_APP_SERVER}/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}&ih=${isHedge}`,
         {
           headers: {
             Authorization: idToken ? `Bearer ${uid}:${idToken}` : '',
