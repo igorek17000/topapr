@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
@@ -105,18 +105,29 @@ function AprList() {
     setIsLoading,
   ]);
 
-  window.onscroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
-    ) {
-      // console.log('Scroll hit...', isNoMoreData);
-      if (!isNoMoreData) {
-        setIsScrollHit(true);
+  const handleNavigation = useCallback(
+    (e) => {
+      const window = e.currentTarget;
+      if (
+        window.scrollY + window.innerHeight >
+        document.documentElement.offsetHeight - 100
+      ) {
+        // console.log('Scroll hit...', isNoMoreData);
+        if (!isNoMoreData) {
+          setIsScrollHit(true);
+        }
       }
-    }
-  };
+    },
+    [isNoMoreData, setIsScrollHit]
+  );
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleNavigation);
+
+    return () => {
+      window.removeEventListener('scroll', handleNavigation);
+    };
+  }, [handleNavigation]);
   // console.log(farmsAprArr, poolArr);
 
   const handleSortByChange = (event: SelectChangeEvent) => {
