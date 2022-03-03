@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Button, ButtonProps } from '@mui/material';
+import { Box, Button, ButtonProps, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
 import ContractContext from 'context/ContractContext';
@@ -43,6 +43,9 @@ export default function NftMintButton(props: NftMintButtonProps) {
           Mint NFT
         </Button>
       )}
+      <Box sx={{ my: 1 }}>
+        <Typography variant="body2">Cost: 50 CAKIA</Typography>
+      </Box>
     </React.Fragment>
   );
 }

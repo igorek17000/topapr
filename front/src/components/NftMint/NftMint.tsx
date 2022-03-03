@@ -6,6 +6,7 @@ import CakiaAllowance from './CakiaAllowance';
 import UserContext from 'context/UserContext';
 import ContractContext from 'context/ContractContext';
 import { cakiaNftCa } from 'contracts';
+import { Typography } from '@mui/material';
 
 export default function NftMint() {
   const { address } = useContext(UserContext);
@@ -42,9 +43,15 @@ export default function NftMint() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 'calc(100vh - 120px)',
+        flexDirection: 'column',
       }}
     >
+      <Box sx={{ my: 4, textAlign: 'center' }}>
+        <Typography variant="subtitle2">CAKIA Contract Address:</Typography>
+        <Typography variant="h6">
+          0x248b291290796c5743814bD18cAE46D37268E17d
+        </Typography>
+      </Box>
       {isCakiaApproved ? (
         <NftMintButton />
       ) : (
