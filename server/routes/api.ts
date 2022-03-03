@@ -27,7 +27,7 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
     ? (req.query.q as string).replace(/[\W_]+/g, " ").trim()
     : "";
   const pairTextFilter = pairAlphanum
-    ? `where pair like '%${pairAlphanum}%'`
+    ? `and pair like '%${pairAlphanum}%'`
     : "";
 
   const checkedPools = `where pool in ${(() => {
