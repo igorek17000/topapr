@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import authRouter from "./routes/auth";
 import apiRouter from "./routes/api";
+import nftRouter from "./routes/nft";
 
 const app: Application = express();
 const port = process.env.PORT || 3100;
@@ -19,6 +20,7 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
 
 app.use("/auth", authRouter);
 app.use("/api", apiRouter);
+app.use("/nft", nftRouter);
 
 try {
   app.listen(port, (): void => {

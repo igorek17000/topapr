@@ -7,6 +7,7 @@ import UserContext from 'context/UserContext';
 import ContractContext from 'context/ContractContext';
 import { cakiaNftCa } from 'contracts';
 import { Typography } from '@mui/material';
+import NftList from './NftList';
 
 export default function NftMint() {
   const { address } = useContext(UserContext);
@@ -60,6 +61,7 @@ export default function NftMint() {
           setCurrentAllowance={setCurrentAllowance}
         />
       )}
+      <NftList />
     </Box>
   );
 }
