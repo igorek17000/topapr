@@ -49,7 +49,15 @@ export default function NftMint() {
     >
       <Box sx={{ my: 4, textAlign: 'center' }}>
         <Typography variant="subtitle2">CAKIA Contract Address:</Typography>
-        <Typography variant="h6">
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: {
+              xs: '0.8rem',
+              md: '1.25rem',
+            },
+          }}
+        >
           0x248b291290796c5743814bD18cAE46D37268E17d
         </Typography>
       </Box>

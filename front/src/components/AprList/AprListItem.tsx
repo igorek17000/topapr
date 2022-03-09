@@ -15,8 +15,9 @@ export default React.memo(function AprListItem(props: AprListItemProps) {
   return (
     <ListItem
       sx={{
-        marginLeft: '24px',
-        marginRight: '24px',
+        mx: {
+          md: '24px',
+        },
       }}
     >
       <Grid container spacing={3}>
