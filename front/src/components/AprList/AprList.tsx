@@ -53,7 +53,7 @@ function AprList() {
   }, [debouncedValue, poolChecked, chainChecked, isHedge]);
 
   useEffect(() => {
-    if (isScrollHit && !isNoMoreData && !isLoading && !isUserLoading) {
+    if (isScrollHit && !isNoMoreData && !isLoading) {
       setIsScrollHit(false);
       setIsLoading(true);
       // console.log('loading data ...');
@@ -98,7 +98,6 @@ function AprList() {
     poolChecked,
     chainChecked,
     idToken,
-    isUserLoading,
     isHedge,
     uid,
     isLoading,
