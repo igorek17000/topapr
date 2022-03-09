@@ -23,7 +23,7 @@ import SortBySelect, { SortBy } from './SortBySelect';
 import HedgeSwitch from './HedgeSwitch';
 
 function AprList() {
-  const { idToken, uid, isUserLoading } = useContext(UserContext);
+  const { idToken, uid } = useContext(UserContext);
 
   const [chainChecked, setChainChecked] = useFilter<CheckedChain, ChainName>(
     chains
