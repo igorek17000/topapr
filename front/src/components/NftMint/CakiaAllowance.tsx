@@ -10,12 +10,13 @@ import { cakiaNftCa } from 'contracts';
 interface CakiaAllowanceProps {
   isCakiaApproved: boolean;
   setCurrentAllowance: React.Dispatch<React.SetStateAction<number>>;
+  tokenPrice?: number;
 }
 
 export default function CakiaAllowance(props: CakiaAllowanceProps) {
-  const { isCakiaApproved, setCurrentAllowance } = props;
+  const { isCakiaApproved, setCurrentAllowance, tokenPrice } = props;
   const { cakiaContract } = useContext(ContractContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isApproveLoading, setIsApproveLoading] = useState(false);
 
   const handleApprove = async () => {
     try {
@@ -25,11 +26,11 @@ export default function CakiaAllowance(props: CakiaAllowanceProps) {
           ethers.utils.parseEther('100000')
         );
 
-        setIsLoading(true);
+        setIsApproveLoading(true);
         // console.log('Approving... please wait');
         await nftTxn.wait();
 
-        setIsLoading(false);
+        setIsApproveLoading(false);
         setCurrentAllowance(100000);
         // console.log('Approved');
       }
@@ -41,7 +42,7 @@ export default function CakiaAllowance(props: CakiaAllowanceProps) {
   return (
     <Box>
       <Box component="span" sx={{ marginRight: '24px' }}>
-        {isLoading ? (
+        {isApproveLoading ? (
           <LoadingButton
             loading
             variant="contained"
@@ -54,14 +55,14 @@ export default function CakiaAllowance(props: CakiaAllowanceProps) {
           <Button
             variant="contained"
             onClick={handleApprove}
-            disabled={isCakiaApproved || isLoading}
+            disabled={isCakiaApproved || isApproveLoading}
             sx={{ textTransform: 'none' }}
           >
             Approve CAKIA
           </Button>
         )}
       </Box>
-      <NftMintButton disabled={!isCakiaApproved} />
+      <NftMintButton disabled={!isCakiaApproved} tokenPrice={tokenPrice} />
     </Box>
   );
 }

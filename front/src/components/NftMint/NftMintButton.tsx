@@ -4,9 +4,12 @@ import { LoadingButton } from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
 import ContractContext from 'context/ContractContext';
 
-interface NftMintButtonProps extends ButtonProps {}
+interface NftMintButtonProps extends ButtonProps {
+  tokenPrice?: number;
+}
 
 export default function NftMintButton(props: NftMintButtonProps) {
+  const { tokenPrice, ...rest } = props;
   const { nftContract } = useContext(ContractContext);
   const [isMining, setIsMining] = useState(false);
 
@@ -39,12 +42,19 @@ export default function NftMintButton(props: NftMintButtonProps) {
           Minting...
         </LoadingButton>
       ) : (
-        <Button {...props} variant="contained" onClick={handleMint}>
+        <Button {...rest} variant="contained" onClick={handleMint}>
           Mint NFT
         </Button>
       )}
       <Box sx={{ my: 1 }}>
-        <Typography variant="body2">Cost: 50 CAKIA</Typography>
+        <Typography variant="body2">
+          Cost: 50 CAKIA{' '}
+          {tokenPrice
+            ? `($${(tokenPrice * 50).toLocaleString(undefined, {
+                maximumFractionDigits: 2,
+              })})`
+            : ''}
+        </Typography>
       </Box>
     </React.Fragment>
   );

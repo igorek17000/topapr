@@ -1,6 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
 import { Box } from '@mui/system';
-import UserContext from 'context/UserContext';
 import {
   Card,
   CardContent,
@@ -9,35 +7,13 @@ import {
   Typography,
 } from '@mui/material';
 
-export default function NftList() {
-  const { idToken, uid } = useContext(UserContext);
-  const [nfts, setNfts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+interface NftListProps {
+  nfts: any[];
+  isLoading: boolean;
+}
 
-  useEffect(() => {
-    setIsLoading(true);
-    if (uid) {
-      fetch(`${process.env.REACT_APP_SERVER}/nft`, {
-        headers: {
-          Authorization: idToken ? `Bearer ${uid}:${idToken}` : '',
-        },
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          if (result && result.nfts) {
-            setNfts(result.nfts);
-          }
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else {
-      setNfts([]);
-      setIsLoading(false);
-    }
-  }, [uid, idToken]);
-
-  // console.log(nfts);
+export default function NftList(props: NftListProps) {
+  const { nfts, isLoading } = props;
 
   return (
     <Box sx={{ width: '100%' }}>

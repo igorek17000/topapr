@@ -10,10 +10,45 @@ import { Typography } from '@mui/material';
 import NftList from './NftList';
 
 export default function NftMint() {
-  const { address } = useContext(UserContext);
+  const { address, idToken, uid } = useContext(UserContext);
   const { cakiaContract } = useContext(ContractContext);
   const [currentAllowance, setCurrentAllowance] = useState(0);
   const [isCakiaApproved, setIsCakiaApproved] = useState(true);
+  const [nfts, setNfts] = useState([]);
+  const [tokenPrice, setTokenPrice] = useState<number | undefined>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  // get nfts & token price
+  useEffect(() => {
+    setIsLoading(true);
+    if (uid) {
+      fetch(`${process.env.REACT_APP_SERVER}/nft`, {
+        headers: {
+          Authorization: idToken ? `Bearer ${uid}:${idToken}` : '',
+        },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          // console.log(result);
+          if (result) {
+            if (result.nfts) {
+              setNfts(result.nfts);
+            }
+            if (result.cakiaPrice && result.cakiaPrice.usdPrice) {
+              setTokenPrice(result.cakiaPrice.usdPrice);
+            } else {
+              setTokenPrice(undefined);
+            }
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setNfts([]);
+      setIsLoading(false);
+    }
+  }, [uid, idToken]);
 
   // get Allowance
   useEffect(() => {
@@ -62,14 +97,15 @@ export default function NftMint() {
         </Typography>
       </Box>
       {isCakiaApproved ? (
-        <NftMintButton />
+        <NftMintButton tokenPrice={tokenPrice} />
       ) : (
         <CakiaAllowance
           isCakiaApproved={isCakiaApproved}
           setCurrentAllowance={setCurrentAllowance}
+          tokenPrice={tokenPrice}
         />
       )}
-      <NftList />
+      <NftList nfts={nfts} isLoading={isLoading} />
     </Box>
   );
 }
