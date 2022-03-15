@@ -13,7 +13,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   await page.emulate(device);
 
   console.log("Go to raydium page...");
-  await page.goto("https://raydium.io/farms/", {
+  await page.goto("https://v1.raydium.io/farms/", {
     waitUntil: "networkidle2",
   });
 
