@@ -11,10 +11,11 @@ interface CakiaAllowanceProps {
   isCakiaApproved: boolean;
   setCurrentAllowance: React.Dispatch<React.SetStateAction<number>>;
   tokenPrice?: number;
+  isLoading?: boolean;
 }
 
 export default function CakiaAllowance(props: CakiaAllowanceProps) {
-  const { isCakiaApproved, setCurrentAllowance, tokenPrice } = props;
+  const { isCakiaApproved, setCurrentAllowance, tokenPrice, isLoading } = props;
   const { cakiaContract } = useContext(ContractContext);
   const [isApproveLoading, setIsApproveLoading] = useState(false);
 
@@ -62,7 +63,11 @@ export default function CakiaAllowance(props: CakiaAllowanceProps) {
           </Button>
         )}
       </Box>
-      <NftMintButton disabled={!isCakiaApproved} tokenPrice={tokenPrice} />
+      <NftMintButton
+        disabled={!isCakiaApproved}
+        tokenPrice={tokenPrice}
+        isLoading={isLoading}
+      />
     </Box>
   );
 }

@@ -25,21 +25,26 @@ router.get("/", async (req, res) => {
         token_address: "0xdA3d65F55338974dDa06B8EF4CAcaCc5D1AfFEd7",
       });
 
-      const cakiaPrice = await Moralis.Web3API.token.getTokenPrice({
-        chain: "bsc",
-        address: "0x248b291290796c5743814bD18cAE46D37268E17d",
-      });
-
       if (nfts.total > 0) {
         return res.status(200).send({
           nfts: nfts.result,
-          cakiaPrice,
         });
       }
     }
   }
 
   return res.status(200).send({});
+});
+
+router.get("/price", async (req, res) => {
+  const cakiaPrice = await Moralis.Web3API.token.getTokenPrice({
+    chain: "bsc",
+    address: "0x248b291290796c5743814bD18cAE46D37268E17d",
+  });
+
+  return res.status(200).send({
+    cakiaPrice,
+  });
 });
 
 export default router;

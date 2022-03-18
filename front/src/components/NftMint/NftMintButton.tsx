@@ -1,15 +1,22 @@
 import React, { useContext, useState } from 'react';
-import { Box, Button, ButtonProps, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  ButtonProps,
+  CircularProgress,
+  Typography,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
 import ContractContext from 'context/ContractContext';
 
 interface NftMintButtonProps extends ButtonProps {
   tokenPrice?: number;
+  isLoading?: boolean;
 }
 
 export default function NftMintButton(props: NftMintButtonProps) {
-  const { tokenPrice, ...rest } = props;
+  const { tokenPrice, isLoading, ...rest } = props;
   const { nftContract } = useContext(ContractContext);
   const [isMining, setIsMining] = useState(false);
 
@@ -49,6 +56,14 @@ export default function NftMintButton(props: NftMintButtonProps) {
       <Box sx={{ my: 1 }}>
         <Typography variant="body2">
           Cost: 50 CAKIA{' '}
+          {isLoading && (
+            <CircularProgress
+              size={12}
+              sx={{
+                mx: '8px',
+              }}
+            />
+          )}
           {tokenPrice
             ? `($${(tokenPrice * 50).toLocaleString(undefined, {
                 maximumFractionDigits: 2,
