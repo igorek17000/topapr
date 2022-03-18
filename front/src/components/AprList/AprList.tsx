@@ -18,9 +18,13 @@ import ChainFilter, {
   chains,
   CheckedChain,
 } from './Filter/ChainFilter';
+import HedgeFilter, {
+  CheckedHedge,
+  HedgeName,
+  hedges,
+} from './Filter/HedgeFilter';
 import AprListItem from './AprListItem';
 import SortBySelect, { SortBy } from './SortBySelect';
-import HedgeSwitch from './HedgeSwitch';
 
 function AprList() {
   const { idToken, uid } = useContext(UserContext);
@@ -29,8 +33,9 @@ function AprList() {
     chains
   );
   const [poolChecked, setPoolChecked] = useFilter<CheckedPool, PoolName>(pools);
-
-  const [isHedge, setIsHedge] = useState(false);
+  const [hedgeChecked, setHedgeChecked] = useFilter<CheckedHedge, HedgeName>(
+    []
+  );
 
   const [farmsAprList, setFarmsAprList] = useState<any[]>([]);
   const [sortBy, setSortBy] = useState<SortBy>('APR');
@@ -50,25 +55,23 @@ function AprList() {
 
   useEffect(() => {
     resetStates();
-  }, [debouncedValue, poolChecked, chainChecked, isHedge]);
+  }, [debouncedValue, poolChecked, chainChecked, hedgeChecked]);
 
   useEffect(() => {
     if (isScrollHit && !isNoMoreData && !isLoading) {
       setIsScrollHit(false);
       setIsLoading(true);
-      // console.log('loading data ...');
-      const poolList = pools.reduce((prev, pool) => {
-        if (poolChecked[pool]) return `${prev}${prev ? ',' : ''}${pool}`;
-        return prev;
-      }, '');
-      // console.log('poolList', poolList);
-      const chainList = chains.reduce((prev, chain) => {
-        if (chainChecked[chain]) return `${prev}${prev ? ',' : ''}${chain}`;
-        return prev;
-      }, '');
-      // console.log('chainList', chainList);
+      const getList = (filterList: any, filterChecked: any) =>
+        filterList.reduce((prev: any, item: any) => {
+          if (filterChecked[item]) return `${prev}${prev ? ',' : ''}${item}`;
+          return prev;
+        }, '');
+
+      const poolList = getList(pools, poolChecked);
+      const chainList = getList(chains, chainChecked);
+      const hedgeList = getList(hedges, hedgeChecked);
       fetch(
-        `${process.env.REACT_APP_SERVER}/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}&ih=${isHedge}`,
+        `${process.env.REACT_APP_SERVER}/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}&hedges=${hedgeList}`,
         {
           headers: {
             Authorization: idToken ? `Bearer ${uid}:${idToken}` : '',
@@ -97,8 +100,8 @@ function AprList() {
     sortBy,
     poolChecked,
     chainChecked,
+    hedgeChecked,
     idToken,
-    isHedge,
     uid,
     isLoading,
     setIsLoading,
@@ -148,11 +151,11 @@ function AprList() {
       <PoolFilter checked={poolChecked} setChecked={setPoolChecked} />
       <Divider sx={{ marginBottom: '12px' }} />
       <ChainFilter checked={chainChecked} setChecked={setChainChecked} />
+      <Divider sx={{ marginBottom: '12px' }} />
+      <HedgeFilter checked={hedgeChecked} setChecked={setHedgeChecked} />
       <Divider />
       <Grid container spacing={3} sx={{ marginTop: '0px' }}>
-        <Grid item md={7} xs={12}>
-          <HedgeSwitch isHedge={isHedge} setIsHedge={setIsHedge} />
-        </Grid>
+        <Grid item md={7} xs={12}></Grid>
         <Grid item md={2} xs={5}>
           <SortBySelect sortBy={sortBy} handleChange={handleSortByChange} />
         </Grid>
