@@ -12,17 +12,17 @@ import UserContext from 'context/UserContext';
 interface NftListProps {}
 
 export default function NftList(props: NftListProps) {
-  const { idToken, uid } = useContext(UserContext);
+  const { address } = useContext(UserContext);
   const [nfts, setNfts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // get nfts
   useEffect(() => {
     setIsLoading(true);
-    if (uid) {
+    if (address) {
       fetch(`${process.env.REACT_APP_SERVER}/nft`, {
         headers: {
-          Authorization: idToken ? `Bearer ${uid}:${idToken}` : '',
+          Authorization: `Bearer ${address}:`,
         },
       })
         .then((res) => res.json())
@@ -44,7 +44,7 @@ export default function NftList(props: NftListProps) {
       setNfts([]);
       setIsLoading(false);
     }
-  }, [uid, idToken]);
+  }, [address]);
 
   return (
     <Box sx={{ width: '100%' }}>
