@@ -77,25 +77,15 @@ router.get(
 
       if (reqAddress !== address) return res.status(401).send("Unauthorized");
 
-      const nfts = await Moralis.Web3API.account.getNFTsForContract({
-        chain: "bsc",
-        address,
-        token_address: "0xdA3d65F55338974dDa06B8EF4CAcaCc5D1AfFEd7",
-      });
-
-      jwt.sign(
-        { isHavingNft: !!nfts.total },
-        nonce,
-        function (err, customToken) {
-          if (customToken) {
-            return res.status(200).send({
-              customToken,
-            });
-          }
-
-          return res.status(401).send("Unauthorized");
+      jwt.sign({}, nonce, function (err, customToken) {
+        if (customToken) {
+          return res.status(200).send({
+            customToken,
+          });
         }
-      );
+
+        return res.status(401).send("Unauthorized");
+      });
     } catch {
       return res.status(401).send("Unauthorized");
     }

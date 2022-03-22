@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-// import jwt from "jsonwebtoken";
 import cors from "cors";
 
 import dbConn from "../db";
@@ -10,8 +9,55 @@ var router = express.Router();
 router.use(cors());
 
 router.get("/", async (req: Request, res: Response): Promise<Response> => {
-  // console.log(req.query);
+  const {
+    itemsPerPage,
+    limit,
+    sortBy,
+    pairTextFilter,
+    checkedPools,
+    checkedChains,
+  } = await prepareReq(req);
 
+  const query = `select * from farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+
+  const queryRes = await new Promise((res, rej) => {
+    dbConn.query(query, function (err, result) {
+      if (err) return rej(err);
+      return res(result);
+    });
+  });
+
+  return res.status(200).send({
+    queryRes,
+  });
+});
+
+router.get("/hedge", async (req: Request, res: Response): Promise<Response> => {
+  const {
+    itemsPerPage,
+    limit,
+    sortBy,
+    pairTextFilter,
+    checkedPools,
+    checkedChains,
+  } = await prepareReq(req);
+
+  const query = `select farms.* from farms left join mexc on farms.pair like concat('%',mexc.token,'%') and mexc.token not in ('AVAX', 'USDC', 'BNB', 'SOL', 'RAY') ${checkedPools} ${checkedChains} ${pairTextFilter} and token is not null group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+
+  // console.log(query);
+  const queryRes = await new Promise((res, rej) => {
+    dbConn.query(query, function (err, result) {
+      if (err) return rej(err);
+      return res(result);
+    });
+  });
+
+  return res.status(200).send({
+    queryRes,
+  });
+});
+
+const prepareReq = async (req: Request) => {
   const itemsPerPage = 20;
   const page = parseInt((req.query.p as any) || "1", 10) || 1;
   const limit = (page - 1) * itemsPerPage;
@@ -51,61 +97,14 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
   })()}`;
   // console.log("checkedChains", checkedChains);
 
-  // const decodeToken = await (async () => {
-  //   if (
-  //     req.headers.authorization &&
-  //     req.headers.authorization.startsWith("Bearer ")
-  //   ) {
-  //     const authData = req.headers.authorization
-  //       .replace("Bearer ", "")
-  //       .split(":");
-  //     const uid = authData[0];
-  //     const token = authData[1];
-
-  //     if (uid && token) {
-  //       const getNonceQuery = `
-  //       SELECT nonce from users where id = ${dbConn.escape(uid)};
-  //     `;
-  //       const nonceQueryRes: any = await new Promise((res, rej) => {
-  //         dbConn.query(getNonceQuery, function (err, result) {
-  //           if (err) return rej(err);
-  //           return res(result);
-  //         });
-  //       });
-
-  //       if (nonceQueryRes.length < 1) return undefined;
-
-  //       const nonce = nonceQueryRes[0].nonce;
-  //       const decode = jwt.verify(token, nonce);
-  //       // console.log(decode);
-  //       return decode;
-  //     }
-
-  //     return undefined;
-  //   } else {
-  //     return undefined;
-  //   }
-  // })();
-
-  const query = (() => {
-    if (req.query.hedges) {
-      return `select farms.* from farms left join mexc on farms.pair like concat('%',mexc.token,'%') and mexc.token not in ('AVAX', 'USDC', 'BNB', 'SOL', 'RAY') ${checkedPools} ${checkedChains} ${pairTextFilter} and token is not null group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
-    }
-
-    return `select * from farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
-  })();
-
-  // console.log(query);
-  const queryRes = await new Promise((res, rej) => {
-    dbConn.query(query, function (err, result) {
-      if (err) return rej(err);
-      return res(result);
-    });
-  });
-
-  return res.status(200).send({
-    queryRes,
-  });
-});
+  return {
+    itemsPerPage,
+    limit,
+    sortBy,
+    pairTextFilter,
+    checkedPools,
+    checkedChains,
+  };
+};
 
 export default router;

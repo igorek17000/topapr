@@ -27,7 +27,7 @@ import AprListItem from './AprListItem';
 import SortBySelect, { SortBy } from './SortBySelect';
 
 function AprList() {
-  const { idToken, uid } = useContext(UserContext);
+  const { address, idToken, uid } = useContext(UserContext);
 
   const [chainChecked, setChainChecked] = useFilter<CheckedChain, ChainName>(
     chains
@@ -44,6 +44,9 @@ function AprList() {
   const [isLoading, setIsLoading] = useState(false);
   const [isNoMoreData, setIsNoMoreData] = useState(false);
 
+  const [nfts, setNfts] = useState([]);
+  const [isNftLoading, setIsNftLoading] = useState(true);
+
   const [searchText, setSearchText] = useState<string>('');
   const debouncedValue = useDebounce<string>(searchText, 200);
 
@@ -56,6 +59,36 @@ function AprList() {
   useEffect(() => {
     resetStates();
   }, [debouncedValue, poolChecked, chainChecked, hedgeChecked]);
+
+  // get nfts
+  useEffect(() => {
+    setIsNftLoading(true);
+    if (address) {
+      fetch(`${process.env.REACT_APP_SERVER}/nft`, {
+        headers: {
+          Authorization: `Bearer ${address}:`,
+        },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          // console.log(result);
+          if (result && result.nfts) {
+            setNfts(result.nfts);
+          } else {
+            setNfts([]);
+          }
+        })
+        .catch(() => {
+          setNfts([]);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setNfts([]);
+      setIsLoading(false);
+    }
+  }, [address]);
 
   useEffect(() => {
     if (isScrollHit && !isNoMoreData && !isLoading) {
@@ -70,14 +103,16 @@ function AprList() {
       const poolList = getList(pools, poolChecked);
       const chainList = getList(chains, chainChecked);
       const hedgeList = getList(hedges, hedgeChecked);
-      fetch(
-        `${process.env.REACT_APP_SERVER}/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}&hedges=${hedgeList}`,
-        {
-          headers: {
-            Authorization: idToken ? `Bearer ${uid}:${idToken}` : '',
-          },
-        }
-      )
+
+      const apiUrl = hedgeList
+        ? `${process.env.REACT_APP_SERVER}/api/hedge?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}&hedges=${hedgeList}`
+        : `${process.env.REACT_APP_SERVER}/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}`;
+
+      fetch(apiUrl, {
+        headers: {
+          Authorization: idToken ? `Bearer ${uid}:${idToken}` : '',
+        },
+      })
         .then((res) => res.json())
         .then((result) => {
           if (result.queryRes && result.queryRes.length > 0) {

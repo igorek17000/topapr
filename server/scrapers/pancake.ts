@@ -1,5 +1,5 @@
 import puppeteer = require("puppeteer");
-import { scrollToBottom } from "../tools";
+import { scrollToBottom } from "../tools/scrollToBottom";
 import dbConn from "../db";
 
 const device = puppeteer.devices["iPad Pro landscape"];
