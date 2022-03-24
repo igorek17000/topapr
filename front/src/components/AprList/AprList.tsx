@@ -82,11 +82,11 @@ function AprList() {
           setNfts([]);
         })
         .finally(() => {
-          setIsLoading(false);
+          setIsNftLoading(false);
         });
     } else {
       setNfts([]);
-      setIsLoading(false);
+      setIsNftLoading(false);
     }
   }, [address]);
 
@@ -187,7 +187,12 @@ function AprList() {
       <Divider sx={{ marginBottom: '12px' }} />
       <ChainFilter checked={chainChecked} setChecked={setChainChecked} />
       <Divider sx={{ marginBottom: '12px' }} />
-      <HedgeFilter checked={hedgeChecked} setChecked={setHedgeChecked} />
+      <HedgeFilter
+        nfts={nfts}
+        isNftLoading={isNftLoading}
+        checked={hedgeChecked}
+        setChecked={setHedgeChecked}
+      />
       <Divider />
       <Grid container spacing={3} sx={{ marginTop: '0px' }}>
         <Grid item md={7} xs={12}></Grid>
