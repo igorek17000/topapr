@@ -55,7 +55,7 @@ export default function NftMintButton(props: NftMintButtonProps) {
       )}
       <Box sx={{ my: 1 }}>
         <Typography variant="body2">
-          NFT Cost: 50 CAKIA{' '}
+          NFT Cost: 20 CAKIA{' '}
           {isLoading && (
             <CircularProgress
               size={12}
@@ -65,7 +65,7 @@ export default function NftMintButton(props: NftMintButtonProps) {
             />
           )}
           {tokenPrice
-            ? `($${(tokenPrice * 50).toLocaleString(undefined, {
+            ? `($${(tokenPrice * 20).toLocaleString(undefined, {
                 maximumFractionDigits: 2,
               })})`
             : ''}
