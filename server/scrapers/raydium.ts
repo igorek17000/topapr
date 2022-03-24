@@ -15,6 +15,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   console.log("Go to raydium page...");
   await page.goto("https://v1.raydium.io/farms/", {
     waitUntil: "networkidle2",
+    timeout: 180000,
   });
 
   await page.waitForXPath(

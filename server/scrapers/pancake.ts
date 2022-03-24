@@ -10,7 +10,10 @@ const device = puppeteer.devices["iPad Pro landscape"];
   await page.emulate(device);
 
   console.log("Go to pancake swap page...");
-  await page.goto("https://pancakeswap.finance/farms");
+  await page.goto("https://pancakeswap.finance/farms", {
+    waitUntil: "networkidle2",
+    timeout: 90000,
+  });
 
   console.log("Wait for ten seconds...");
   await page.waitForTimeout(10000);
