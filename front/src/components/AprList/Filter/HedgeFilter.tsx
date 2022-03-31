@@ -4,10 +4,7 @@ import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 
 import FilterCheckbox from './FilterCheckbox';
 import FilterFormControlLabel from './FilterFormControlLabel';
-
-export const hedges = ['MEXC'] as const;
-
-export type HedgeName = typeof hedges[number];
+import { HedgeName, hedges } from '../config';
 
 export type CheckedHedge = {
   [x in HedgeName]: boolean;
@@ -96,6 +93,7 @@ function HedgeFilter(props: HedgeFilterProps) {
               : ''
           }
           placement="top"
+          key={hedge}
         >
           <span>
             <FilterFormControlLabel
