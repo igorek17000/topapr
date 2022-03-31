@@ -1,11 +1,8 @@
 import { Stack } from '@mui/material';
 import React from 'react';
+import { ChainName, chains } from '../config';
 import FilterCheckbox from './FilterCheckbox';
 import FilterFormControlLabel from './FilterFormControlLabel';
-
-export const chains = ['Avalanche', 'BSC', 'ETH', 'Heco', 'Solana'] as const;
-
-export type ChainName = typeof chains[number];
 
 export type CheckedChain = {
   [x in ChainName]: boolean;

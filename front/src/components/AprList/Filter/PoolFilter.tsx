@@ -1,18 +1,8 @@
 import { Stack } from '@mui/material';
 import React from 'react';
+import { PoolName, pools, poolsName } from '../config';
 import FilterCheckbox from './FilterCheckbox';
 import FilterFormControlLabel from './FilterFormControlLabel';
-
-export const pools = [
-  'PancakeSwap',
-  'Mdex-BSC',
-  'Mdex-Heco',
-  'Raydium',
-  'TraderJoe',
-  'Sushi',
-] as const;
-
-export type PoolName = typeof pools[number];
 
 export type CheckedPool = {
   [x in PoolName]: boolean;
@@ -81,7 +71,7 @@ function PoolFilter(props: PoolFilterProps) {
                   height={18}
                 />
               </div>
-              <div>{pool}</div>
+              <div>{poolsName[pool]}</div>
             </Stack>
           }
           checked={checked[pool]}

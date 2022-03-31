@@ -12,19 +12,19 @@ import {
 import { useFilter } from 'hooks/useFilter';
 import useDebounce from 'hooks/useDebounce';
 import UserContext from 'context/UserContext';
-import PoolFilter, { CheckedPool, PoolName, pools } from './Filter/PoolFilter';
-import ChainFilter, {
-  ChainName,
-  chains,
-  CheckedChain,
-} from './Filter/ChainFilter';
-import HedgeFilter, {
-  CheckedHedge,
-  HedgeName,
-  hedges,
-} from './Filter/HedgeFilter';
+import PoolFilter, { CheckedPool } from './Filter/PoolFilter';
+import ChainFilter, { CheckedChain } from './Filter/ChainFilter';
+import HedgeFilter, { CheckedHedge } from './Filter/HedgeFilter';
 import AprListItem from './AprListItem';
 import SortBySelect, { SortBy } from './SortBySelect';
+import {
+  ChainName,
+  chains,
+  HedgeName,
+  hedges,
+  PoolName,
+  pools,
+} from './config';
 
 function AprList() {
   const { address, idToken, uid } = useContext(UserContext);
