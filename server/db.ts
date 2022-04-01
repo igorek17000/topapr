@@ -15,4 +15,5 @@ connection.connect((error) => {
   console.log("Successfully connected to the database.");
 });
 
-export default connection;
+export const dbConn = connection;
+export const db = dbConfig.DB;

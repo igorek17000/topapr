@@ -1,7 +1,7 @@
-import dbConn from "../db";
+import { dbConn, db } from "../db";
 
 (async () => {
-  const query = `delete FROM sql3476271.farms WHERE DATE_ADD(updatedAt, INTERVAL 12 HOUR) < NOW();`;
+  const query = `delete FROM ${db}.farms WHERE DATE_ADD(updatedAt, INTERVAL 12 HOUR) < NOW();`;
 
   await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {

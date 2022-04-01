@@ -1,5 +1,5 @@
 import puppeteer = require("puppeteer");
-import dbConn from "../db";
+import { dbConn, db } from "../db";
 
 const device = puppeteer.devices["iPad Pro landscape"];
 
@@ -62,7 +62,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
     }),`;
   }, "");
 
-  const query = `insert into sql3476271.mexc values ${queryValues.slice(
+  const query = `insert into ${db}.mexc values ${queryValues.slice(
     0,
     queryValues.length - 2
   )};`;

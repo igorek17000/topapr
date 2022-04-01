@@ -1,5 +1,5 @@
 import puppeteer = require("puppeteer");
-import dbConn from "../db";
+import { dbConn, db } from "../db";
 
 const device = puppeteer.devices["iPad Pro landscape"];
 
@@ -77,7 +77,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   }, "");
   const insertVal = insertValRaw.slice(0, insertValRaw.length - 1);
 
-  const query = `insert into sql3476271.farms values ${insertVal} on DUPLICATE KEY UPDATE apr = apr, totalValue = totalValue, multiplier = multiplier, updatedAt = NOW();`;
+  const query = `insert into ${db}.farms values ${insertVal} on DUPLICATE KEY UPDATE apr = VALUES(apr), totalValue = VALUES(totalValue), multiplier = VALUES(multiplier), updatedAt = NOW();`;
 
   // console.log(query);
   await new Promise((res, rej) => {

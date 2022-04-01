@@ -1,6 +1,6 @@
 import { Request } from "express";
 import jwt from "jsonwebtoken";
-import dbConn from "../db";
+import { dbConn } from "../db";
 
 export const decodeToken = async (req: Request) => {
   if (

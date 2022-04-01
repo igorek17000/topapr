@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import Moralis from "moralis/node";
 import cors from "cors";
 
-import dbConn from "../db";
+import { dbConn } from "../db";
 
 var express = require("express");
 var router = express.Router();

@@ -1,6 +1,6 @@
 import puppeteer = require("puppeteer");
 import fs = require("fs");
-import dbConn from "../db";
+import { dbConn } from "../db";
 
 const device = puppeteer.devices["iPad Pro landscape"];
 
