@@ -119,7 +119,7 @@ async function loopPagination(
     'button[aria-label="Go to next page"]:not([class~="Mui-disabled"])'
   );
   if (nextPage) {
-    nextPage.click();
+    await page.evaluate((ele) => ele.click(), nextPage);
     await page.waitForTimeout(1000);
     await page.waitForNetworkIdle({
       timeout: 10000,
