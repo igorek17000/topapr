@@ -31,7 +31,7 @@ async function main() {
   // console.log(content);
 
   const tablePairName = await page.$$(
-    "table > tbody > tr > td:nth-child(1) > div > div > span"
+    "table > tbody > tr > td:nth-child(1) > div > div > div > span"
   );
   const pairName = await Promise.all(
     tablePairName.map((tab) =>
