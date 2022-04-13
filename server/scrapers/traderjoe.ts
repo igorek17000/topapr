@@ -6,7 +6,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: false,
+    // headless: false,
     defaultViewport: null,
     args: ["--start-maximized"],
   });
