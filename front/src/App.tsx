@@ -38,8 +38,17 @@ function App() {
               >
                 <Link to="/">Farms</Link>
               </Box>
-              <Box component="span" sx={linkStyle}>
+              <Box
+                component="span"
+                sx={{
+                  ...linkStyle,
+                  marginRight: 4,
+                }}
+              >
                 <Link to="/nft">NFT</Link>
+              </Box>
+              <Box component="span" sx={linkStyle}>
+                <a href="mailto:cakia99999@gmail.com">Contact Us</a>
               </Box>
             </Box>
             <WalletButton />
