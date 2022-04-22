@@ -220,7 +220,7 @@ function AprList() {
       >
         {farmsAprList.map((farm) => (
           <React.Fragment key={farm.pair}>
-            <AprListItem farm={farm} />
+            <AprListItem farm={farm} isNftDetected={nfts.length > 0} />
             <Divider />
           </React.Fragment>
         ))}

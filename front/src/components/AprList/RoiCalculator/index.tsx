@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  Box,
   Button,
   ButtonGroup,
   Checkbox,
@@ -12,21 +13,25 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+
 import CalculateIcon from '@mui/icons-material/Calculate';
 import CloseIcon from '@mui/icons-material/Close';
+import LockIcon from '@mui/icons-material/Lock';
+
 import ButtonSwitch from './ButtonSwitch';
 import Projection from './Projection';
 
 interface RoiCalculatorProps {
   apr: number;
+  isNftDetected: boolean;
 }
 
 export default function RoiCalculator(props: RoiCalculatorProps) {
-  const { apr } = props;
+  const { apr, isNftDetected } = props;
 
   const [open, setOpen] = useState(false);
   const [staked, setStaked] = useState('100');
-  const [stakedTime, setStakedTime] = useState('3M');
+  const [stakedTime, setStakedTime] = useState('7D');
   const [compoundChecked, setCompoundChecked] = useState(false);
   const [compoundTime, setCompoundTime] = useState('1D');
 
@@ -86,12 +91,14 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
                   <InputAdornment position="start">$</InputAdornment>
                 ),
               }}
+              disabled={!isNftDetected}
             />
             <div>
               <Button
                 variant="outlined"
                 sx={{ mr: 1 }}
                 onClick={() => setStaked('10')}
+                disabled={!isNftDetected}
               >
                 $10
               </Button>
@@ -99,17 +106,39 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
                 variant="outlined"
                 sx={{ mr: 1 }}
                 onClick={() => setStaked('100')}
+                disabled={!isNftDetected}
               >
                 $100
               </Button>
-              <Button variant="outlined" onClick={() => setStaked('1000')}>
+              <Button
+                variant="outlined"
+                sx={{ mr: 2 }}
+                onClick={() => setStaked('1000')}
+                disabled={!isNftDetected}
+              >
                 $1000
               </Button>
+              {!isNftDetected && (
+                <Box
+                  sx={{
+                    display: 'inline-flex',
+                    height: '36px',
+                    alignItems: 'center',
+                    verticalAlign: 'middle',
+                  }}
+                >
+                  <LockIcon />
+                </Box>
+              )}
             </div>
             <Typography variant="caption" sx={{ mt: 3 }}>
               Staked For
             </Typography>
-            <ButtonGroup variant="outlined" aria-label="outlined button group">
+            <ButtonGroup
+              variant="outlined"
+              aria-label="outlined button group"
+              disabled={!isNftDetected}
+            >
               <ButtonSwitch value={stakedTime} setValue={setStakedTime}>
                 1D
               </ButtonSwitch>
@@ -134,6 +163,19 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
               <ButtonSwitch value={stakedTime} setValue={setStakedTime}>
                 5Y
               </ButtonSwitch>
+              {!isNftDetected && (
+                <Box
+                  sx={{
+                    display: 'inline-flex',
+                    height: '36px',
+                    alignItems: 'center',
+                    verticalAlign: 'middle',
+                    ml: 2,
+                  }}
+                >
+                  <LockIcon />
+                </Box>
+              )}
             </ButtonGroup>
             <Typography variant="caption" sx={{ mt: 3 }}>
               Compounding every
@@ -146,11 +188,12 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
                 onClick={() => {
                   setCompoundChecked(!compoundChecked);
                 }}
+                disabled={!isNftDetected}
               />
               <ButtonGroup
                 variant="outlined"
                 aria-label="outlined button group"
-                disabled={!compoundChecked}
+                disabled={!compoundChecked || !isNftDetected}
               >
                 <ButtonSwitch
                   value={compoundTime}
@@ -187,6 +230,19 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
                 >
                   30D
                 </ButtonSwitch>
+                {!isNftDetected && (
+                  <Box
+                    sx={{
+                      display: 'inline-flex',
+                      height: '36px',
+                      alignItems: 'center',
+                      verticalAlign: 'middle',
+                      ml: 2,
+                    }}
+                  >
+                    <LockIcon />
+                  </Box>
+                )}
               </ButtonGroup>
             </div>
             <Projection

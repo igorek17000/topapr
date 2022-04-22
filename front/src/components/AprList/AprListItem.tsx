@@ -15,10 +15,11 @@ import RoiCalculator from './RoiCalculator';
 
 type AprListItemProps = {
   farm: Farm;
+  isNftDetected: boolean;
 };
 
 export default React.memo(function AprListItem(props: AprListItemProps) {
-  const { farm } = props;
+  const { farm, isNftDetected } = props;
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -98,7 +99,7 @@ export default React.memo(function AprListItem(props: AprListItemProps) {
             }}
           >
             <ButtonPool poolName={farm.pool as PoolName} />
-            <RoiCalculator apr={farm.apr} />
+            <RoiCalculator apr={farm.apr} isNftDetected={isNftDetected} />
           </ListItem>
         </List>
       </Collapse>

@@ -59,7 +59,6 @@ export default function Projection(props: ProjectionProps) {
                 }
               : prev[prev.length - 1];
 
-          console.log(idx, idx % compoundDays);
           const roi = (() => {
             if (!compoundChecked) return (aprDaily * stakedNum) / 100;
             if (idx % compoundDays === 0)

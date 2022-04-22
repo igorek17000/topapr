@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Stack, CircularProgress, Tooltip } from '@mui/material';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 import FilterCheckbox from './FilterCheckbox';
 import FilterFormControlLabel from './FilterFormControlLabel';
@@ -137,9 +138,7 @@ function HedgeFilter(props: HedgeFilterProps) {
             }
             placement="top"
           >
-            <WorkspacePremiumIcon
-              color={nfts.length > 0 ? 'success' : 'warning'}
-            />
+            {nfts.length > 0 ? <LockOpenIcon /> : <LockIcon />}
           </Tooltip>
         )}
         {isNftLoading && <CircularProgress size={20} />}
