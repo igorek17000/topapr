@@ -5,13 +5,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Collapse from '@mui/material/Collapse';
-// import Button from '@mui/material/Button';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Farm } from 'types';
 import PairImg from './PairImg';
 import ButtonPool from './ButtonPool';
 import { PoolName } from './config';
+import RoiCalculator from './RoiCalculator';
 
 type AprListItemProps = {
   farm: Farm;
@@ -97,12 +97,8 @@ export default React.memo(function AprListItem(props: AprListItemProps) {
               },
             }}
           >
-            <ButtonPool
-              variant="outlined"
-              sx={{ mr: 2 }}
-              poolName={farm.pool as PoolName}
-            />
-            {/* <Button variant="outlined">Test 2</Button> */}
+            <ButtonPool poolName={farm.pool as PoolName} />
+            <RoiCalculator apr={farm.apr} />
           </ListItem>
         </List>
       </Collapse>

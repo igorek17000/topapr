@@ -143,7 +143,7 @@ function AprList() {
   ]);
 
   const handleNavigation = useCallback(
-    (e) => {
+    (e: any) => {
       const window = e.currentTarget;
       if (
         window.scrollY + window.innerHeight >

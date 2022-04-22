@@ -15,9 +15,9 @@ export default function ButtonPool(props: ButtonPoolProps) {
 
   return (
     <Button
-      {...buttonProps}
+      variant="outlined"
       onClick={handleClick}
-      sx={{ textTransform: 'none' }}
+      sx={{ mr: 2, textTransform: 'none' }}
       endIcon={
         <img
           src={`/pool/${poolName}.png`}
@@ -26,6 +26,7 @@ export default function ButtonPool(props: ButtonPoolProps) {
           height={18}
         />
       }
+      {...buttonProps}
     >
       Go To {poolsName[poolName]}
     </Button>
