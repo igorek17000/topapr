@@ -20,8 +20,8 @@ export const poolsUrl = {
 
 export const poolsName = {
   PancakeSwap: 'Pancake',
-  'Mdex-Heco': 'MDEX',
-  'Mdex-BSC': 'MDEX',
+  'Mdex-Heco': 'MDEX Heco',
+  'Mdex-BSC': 'MDEX BSC',
   Raydium: 'Raydium',
   TraderJoe: 'Trader Joe',
   Sushi: 'Sushi',
