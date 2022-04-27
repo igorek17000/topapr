@@ -10,8 +10,8 @@ import { useAuth, useSetContracts } from 'hooks';
 
 import HideOnScroll from 'components/HideOnScroll';
 import WalletButton from 'components/WalletButton';
-import AprList from 'components/AprList/AprList';
-import NftMint from 'components/NftMint/NftMint';
+import AprList from 'components/AprList';
+import NftMint from 'components/NftMint';
 
 function App() {
   useSetContracts();
