@@ -18,7 +18,12 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
     checkedChains,
   } = await prepareReq(req);
 
-  const query = `select * from farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+  const query = `
+    select q.*, p.cnt from (
+      select pair, max(apr) as apr, COUNT(pair) as cnt from farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}
+    ) p
+    left join farms as q on p.pair = q.pair and p.apr = q.apr
+  `;
 
   const queryRes = await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {
