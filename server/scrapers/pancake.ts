@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import puppeteer = require("puppeteer");
 import { scrollToBottom } from "../tools/scrollToBottom";
 import { dbConn, db } from "../db";

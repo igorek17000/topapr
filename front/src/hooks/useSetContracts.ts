@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import { useContext, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { cakiaAbi, cakiaCa, cakiaNftAbi, cakiaNftCa } from 'contracts';

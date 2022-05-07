@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import { dbConn, db } from "../db";
 
 (async () => {

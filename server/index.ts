@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import authRouter from "./routes/auth";

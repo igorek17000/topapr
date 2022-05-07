@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import { Divider, Stack, Typography, Box } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { getDays } from 'utils/getDays';

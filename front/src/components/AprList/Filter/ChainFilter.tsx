@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import { Stack } from '@mui/material';
 import React from 'react';
 import { ChainName, chains } from '../config';

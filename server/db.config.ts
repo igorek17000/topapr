@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 module.exports = {
   HOST: "remotemysql.com",
   USER: "EPnSpJw9F9",

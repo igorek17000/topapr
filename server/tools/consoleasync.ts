@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 export const consoleasync = (page) => {
   page.on("console", async (msg) => {
     const msgArgs = msg.args();

@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import { Avatar, Stack } from '@mui/material';
 
 type PairProps = {

@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import { useEffect, useState } from 'react';
 
 export function useFilter<T, U>(filterMapArr: readonly U[]) {

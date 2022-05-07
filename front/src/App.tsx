@@ -8,6 +8,8 @@ import Box from '@mui/material/Box';
 
 import { useAuth, useSetContracts } from 'hooks';
 
+// Bismillahirrahmaanirraahiim
+
 import HideOnScroll from 'components/HideOnScroll';
 import WalletButton from 'components/WalletButton';
 import AprList from 'components/AprList';

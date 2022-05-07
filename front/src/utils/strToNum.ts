@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 export function strToNum(str: string) {
   try {
     const res = parseFloat(str);

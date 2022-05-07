@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import puppeteer = require("puppeteer");
 import dappeteer = require("@chainsafe/dappeteer");
 import { dbConn, db } from "../db";

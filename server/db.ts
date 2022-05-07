@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import mysql from "mysql";
 const dbConfig = require("./db.config");
 

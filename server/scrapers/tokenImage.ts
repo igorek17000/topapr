@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import puppeteer = require("puppeteer");
 import fs = require("fs");
 import { dbConn } from "../db";

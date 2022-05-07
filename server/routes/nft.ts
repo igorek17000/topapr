@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import Moralis from "moralis/node";
 import cors from "cors";
 

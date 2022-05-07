@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import { createContext } from 'react';
 import { ethers } from 'ethers';
 

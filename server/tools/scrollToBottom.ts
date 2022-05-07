@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 export async function scrollToBottom() {
   await new Promise((resolve) => {
     const distance = 100; // should be less than or equal to window.innerHeight

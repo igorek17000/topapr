@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 export const pools = [
   'PancakeSwap',
   'Mdex-BSC',

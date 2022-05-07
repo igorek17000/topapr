@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 export function getShortAddress(address: string) {
   return (
     address.substring(0, 6) +

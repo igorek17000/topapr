@@ -1,3 +1,5 @@
+// Bismillahirrahmaanirraahiim
+
 import puppeteer = require("puppeteer");
 // import { consoleasync } from "../tools/consoleasync";
 import { dbConn, db } from "../db";
