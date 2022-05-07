@@ -20,7 +20,7 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
 
   const query = `
     select q.*, p.cnt from (
-      select pair, max(apr) as apr, COUNT(pair) as cnt from farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}
+      select pair, max(apr) as apr, max(totalValue) as totalValue, COUNT(pair) as cnt from farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}
     ) p
     left join farms as q on p.pair = q.pair and p.apr = q.apr
   `;
