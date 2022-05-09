@@ -27,6 +27,7 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
     left join farms as q on p.pair = q.pair and p.apr = q.apr
   `;
 
+  // console.log(query);
   const queryRes = await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {
       if (err) return rej(err);
@@ -49,7 +50,12 @@ router.get("/hedge", async (req: Request, res: Response): Promise<Response> => {
     checkedChains,
   } = await prepareReq(req);
 
-  const query = `select farms.* from farms left join mexc on farms.pair like concat('%',mexc.token,'%') and mexc.token not in ('AVAX', 'USDC', 'BNB', 'SOL', 'RAY') ${checkedPools} ${checkedChains} ${pairTextFilter} and token is not null group by pair order by ${sortBy} limit ${limit},${itemsPerPage}`;
+  const query = `
+    select q.*, p.cnt from (
+      select pair, max(apr) as apr, max(totalValue) as totalValue, COUNT(pair) as cnt from farms inner join mexc on pair like concat(mexc.token, '-%') or pair like concat('%-', mexc.token) ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}
+    ) p
+    left join farms as q on p.pair = q.pair and p.apr = q.apr
+  `;
 
   // console.log(query);
   const queryRes = await new Promise((res, rej) => {
