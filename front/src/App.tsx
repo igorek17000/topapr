@@ -24,13 +24,13 @@ function App() {
       <CssBaseline />
       <HideOnScroll>
         <AppBar>
-          <Toolbar>
-            <Box sx={{ marginRight: 4 }}>
+          <Toolbar disableGutters sx={{ mx: 2 }}>
+            <Box>
               <Link to="/">
                 <img src="/logo.png" alt="Top APR" width={48} height={48} />
               </Link>
             </Box>
-            <Box sx={{ flex: 1 }}>
+            <Box sx={{ flex: 1, px: 3 }}>
               <Box
                 component="span"
                 sx={{
@@ -50,7 +50,7 @@ function App() {
                 <Link to="/nft">NFT</Link>
               </Box>
               <Box component="span" sx={linkStyle}>
-                <a href="mailto:cakia99999@gmail.com">Contact Us</a>
+                <a href="mailto:cakia99999@gmail.com">Contact</a>
               </Box>
             </Box>
             <WalletButton />
