@@ -3,7 +3,6 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ethers } from "ethers";
-import Moralis from "moralis/node";
 import cors from "cors";
 
 import { dbConn } from "../db";
@@ -12,10 +11,6 @@ var express = require("express");
 var router = express.Router();
 const crypto = require("crypto");
 router.use(cors());
-
-const serverUrl = "https://lw8kzegmn3yu.usemoralis.com:2053/server";
-const appId = "qX3uMKoeAqQHspXFNvk4DWvgtjWEtrbrsM8z8C4g";
-Moralis.start({ serverUrl, appId });
 
 router.get("/", async (req, res) => {
   return res.status(200).send({

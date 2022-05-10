@@ -107,12 +107,16 @@ function AprList() {
       const hedgeList = getList(hedges, hedgeChecked);
 
       const apiUrl = hedgeList
-        ? `${process.env.REACT_APP_SERVER}/api/hedge?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}&hedges=${hedgeList}`
+        ? `${process.env.REACT_APP_SERVER}/hedge?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}&hedges=${hedgeList}`
         : `${process.env.REACT_APP_SERVER}/api?q=${debouncedValue}&sort=${sortBy}&p=${page}&pools=${poolList}&chains=${chainList}`;
 
       fetch(apiUrl, {
         headers: {
-          Authorization: idToken ? `Bearer ${uid}:${idToken}` : '',
+          Authorization: idToken
+            ? `Bearer ${uid}:${idToken}`
+            : address
+            ? `Bearer ${address}:`
+            : ``,
         },
       })
         .then((res) => res.json())
@@ -140,6 +144,7 @@ function AprList() {
     hedgeChecked,
     idToken,
     uid,
+    address,
     isLoading,
     setIsLoading,
   ]);

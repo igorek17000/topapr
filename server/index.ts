@@ -4,6 +4,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import authRouter from "./routes/auth";
 import apiRouter from "./routes/api";
+import hedgeRouter from "./routes/hedge";
 import nftRouter from "./routes/nft";
 
 const app: Application = express();
@@ -22,6 +23,7 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
 
 app.use("/auth", authRouter);
 app.use("/api", apiRouter);
+app.use("/hedge", hedgeRouter);
 app.use("/nft", nftRouter);
 
 try {
