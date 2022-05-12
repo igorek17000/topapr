@@ -33,7 +33,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   console.log(pairName);
 
   const tablePairApr = await page.$$(
-    "table > tbody > tr > td:nth-child(3) > div > div > div:nth-child(2) > div > div"
+    "table > tbody > tr > td:nth-child(4) > div > div > div:nth-child(2) > div > div"
   );
   const pairApr = (
     await Promise.all(
@@ -44,7 +44,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   console.log(pairApr);
 
   const tablePairLiquidity = await page.$$(
-    "table > tbody > tr > td:nth-child(4) > div > div > div:nth-child(2) > div > div > div"
+    "table > tbody > tr > td:nth-child(5) > div > div > div:nth-child(2) > div > div > div"
   );
   const pairLiquidity = await Promise.all(
     tablePairLiquidity.map((tab) =>
@@ -57,7 +57,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   console.log(pairLiquidity);
 
   const tablePairMultiplier = await page.$$(
-    "table > tbody > tr > td:nth-child(5) > div > div > div:nth-child(2) > div > div:nth-child(1)"
+    "table > tbody > tr > td:nth-child(6) > div > div > div:nth-child(2) > div > div:nth-child(1)"
   );
   const pairMultiplier = await Promise.all(
     tablePairMultiplier.map((tab) =>
