@@ -36,6 +36,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
           name: el.firstChild.lastChild.firstChild.textContent
             .replaceAll("\n", "")
             .replaceAll("DUAL YIELD", "")
+            .replaceAll("NEW POOL", "")
             .replaceAll("LP", "")
             .replaceAll("$", "")
             .toUpperCase()
