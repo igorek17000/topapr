@@ -80,8 +80,8 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ my: 3 }}>
-          <Stack>
+        <DialogContent>
+          <Stack sx={{ my: 4, mx: 1 }}>
             <TextField
               label="Staked Amount"
               sx={{ my: 1 }}

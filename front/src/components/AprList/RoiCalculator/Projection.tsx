@@ -6,6 +6,7 @@ import { getDays } from 'utils/getDays';
 import { strToNum } from 'utils/strToNum';
 import { useTable, usePagination } from 'react-table';
 import { styled } from '@mui/material/styles';
+import { numToUsd } from 'utils/numToUsd';
 
 interface ProjectionProps {
   apr: number;
@@ -98,9 +99,9 @@ export default function Projection(props: ProjectionProps) {
     const stakedNum = strToNum(staked);
     return compoundEarnings.map((earning, idx) => ({
       col1: idx + 1,
-      col2: `$${earning.earning.toLocaleString()}`,
-      col3: `$${(earning.balance - (stakedNum || 0)).toLocaleString()}`,
-      col4: `$${earning.balance.toLocaleString()}`,
+      col2: numToUsd(earning.earning),
+      col3: numToUsd(earning.balance - (stakedNum || 0)),
+      col4: numToUsd(earning.balance),
     }));
   }, [compoundEarnings, staked]);
 
@@ -156,7 +157,7 @@ export default function Projection(props: ProjectionProps) {
       <Typography variant="h5" sx={{ mb: 3 }}>
         Projection
       </Typography>
-      <Stack direction="row" spacing={6}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 2, sm: 6 }}>
         <Stack spacing={1}>
           <div>
             <Typography variant="caption">Days</Typography>
@@ -181,19 +182,15 @@ export default function Projection(props: ProjectionProps) {
           <div>
             <Typography variant="caption">Total Earnings</Typography>
             <Typography variant="h4" color="primary">
-              $
-              {!compoundChecked
-                ? roi?.toLocaleString()
-                : totalEarnings.toLocaleString()}
+              {!compoundChecked ? numToUsd(roi) : numToUsd(totalEarnings)}
             </Typography>
           </div>
           <div>
             <Typography variant="caption">Total Investment Value</Typography>
             <Typography variant="h4" color="primary">
-              $
               {!compoundChecked
-                ? ((roi || 0) + (strToNum(staked) || 0)).toLocaleString()
-                : (totalEarnings + (strToNum(staked) || 0)).toLocaleString()}
+                ? numToUsd((roi || 0) + (strToNum(staked) || 0))
+                : numToUsd(totalEarnings + (strToNum(staked) || 0))}
             </Typography>
           </div>
           <div>
@@ -303,7 +300,6 @@ const Styles = styled(Box)`
 
   table {
     border-spacing: 0;
-    border: 1px solid black;
 
     tr {
       :last-child {
@@ -317,8 +313,8 @@ const Styles = styled(Box)`
     td {
       margin: 0;
       padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      text-align: right;
 
       :last-child {
         border-right: 0;
