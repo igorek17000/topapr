@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 export function strToNum(str: string) {
   try {

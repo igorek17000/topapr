@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import CalculateIcon from '@mui/icons-material/Calculate';
 import CloseIcon from '@mui/icons-material/Close';

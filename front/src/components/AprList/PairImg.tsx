@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import { Avatar, Stack } from '@mui/material';
 

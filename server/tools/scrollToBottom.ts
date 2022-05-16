@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 export async function scrollToBottom() {
   await new Promise((resolve) => {

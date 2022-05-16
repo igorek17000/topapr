@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import puppeteer = require("puppeteer");
 import dappeteer = require("@chainsafe/dappeteer");

@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 export function numToUsd(num: number | undefined) {
   if (num === undefined) return '';

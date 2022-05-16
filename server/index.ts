@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import express, { Application, Request, Response } from "express";
 import cors from "cors";

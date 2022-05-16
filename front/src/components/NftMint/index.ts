@@ -1,3 +1,3 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 export { default } from './NftMint';

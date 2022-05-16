@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import { useContext, useEffect } from 'react';
 import { ethers } from 'ethers';

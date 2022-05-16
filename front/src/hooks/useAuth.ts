@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import { useContext, useEffect } from 'react';
 import UserContext from 'context/UserContext';

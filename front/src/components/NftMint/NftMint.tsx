@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import { useContext, useEffect, useState } from 'react';
 import { Box } from '@mui/system';

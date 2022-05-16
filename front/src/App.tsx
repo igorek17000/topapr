@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 
 import { useAuth, useSetContracts } from 'hooks';
 
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import HideOnScroll from 'components/HideOnScroll';
 import WalletButton from 'components/WalletButton';

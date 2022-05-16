@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import { Divider, Stack, Typography, Box } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';

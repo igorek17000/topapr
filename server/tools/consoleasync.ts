@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 export const consoleasync = (page) => {
   page.on("console", async (msg) => {

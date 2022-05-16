@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import React from 'react';
 import { Box, Stack, CircularProgress, Tooltip } from '@mui/material';

@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 import Checkbox from '@mui/material/Checkbox';
 import { CheckboxProps } from '@mui/material';

@@ -1,4 +1,4 @@
-// Bismillahirrahmaanirraahiim
+// Bismillaahirrahmaanirrahiim
 
 export function getDays(dates: string) {
   const regexp = /(\d+)(D|W|M|Y)/g;
