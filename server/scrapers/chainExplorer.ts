@@ -14,6 +14,9 @@ export const chainExplorer = async (page, tokenAddresses, network) => {
       waitUntil: "networkidle2",
       timeout: 90000,
     });
+    await page.waitForXPath("//*[@id='totaltxns' and not(text()='-')]", {
+      timeout: 90000,
+    });
 
     const [tokenFullNamePath] = await page.$x(
       "/html/body/div[1]/main/div[1]/div/div[1]/h1/div/span"
@@ -130,7 +133,9 @@ export const chainExplorer = async (page, tokenAddresses, network) => {
     console.log("cSupply", cSupply);
 
     const holders = await getNumContent(
-      "/html/body/div[1]/main/div[4]/div[1]/div[1]/div/div[2]/div[3]/div/div[2]/div/div",
+      network === "Heco"
+        ? "/html/body/div[1]/main/div[4]/div[1]/div[1]/div/div[2]/div[3]/div/div[2]"
+        : "/html/body/div[1]/main/div[4]/div[1]/div[1]/div/div[2]/div[3]/div/div[2]/div/div",
       [" addresses"],
       true
     );
