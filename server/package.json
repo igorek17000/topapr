@@ -28,6 +28,7 @@
     "mexc-margin": "npx tsc && node ./build/scrapers/mexc-margin.js",
     "mdex-heco": "npx tsc && node ./build/scrapers/mdex-heco.js",
     "mdex-bsc": "npx tsc && node ./build/scrapers/mdex-bsc.js",
+    "mdex-bsc-details": "npx tsc && node ./build/scrapers/mdex-bsc-details.js",
     "pancake": "npx tsc && node ./build/scrapers/pancake.js",
     "pancake-details": "npx tsc && node ./build/scrapers/pancake-details.js",
     "traderjoe": "npx tsc && node ./build/scrapers/traderjoe.js",
