@@ -97,7 +97,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
 
           if (isImg) {
             elImg.screenshot({
-              path: `C:\\Users\\cakia\\dev\\topapr\\front\\public\\token2\\${token.name}.png`,
+              path: `C:\\Users\\cakia\\dev\\topapr\\front\\public\\token\\${token.name}.png`,
               type: "png",
               omitBackground: true,
               captureBeyondViewport: false,
