@@ -2,7 +2,7 @@
 
 import puppeteer = require("puppeteer");
 import { dbConn } from "../db";
-import { bscscan_snowtrace } from "./bscscan_snowtrace";
+import { chainExplorer } from "./chainExplorer";
 
 const device = puppeteer.devices["iPad Pro landscape"];
 
@@ -126,7 +126,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
       }
     }
     console.log(tokenAddresses);
-    await bscscan_snowtrace(page, tokenAddresses, false);
+    await chainExplorer(page, tokenAddresses, "Avalanche");
     await browser.close();
   }
   process.exit();

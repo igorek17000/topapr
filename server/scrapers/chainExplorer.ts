@@ -1,18 +1,19 @@
 // Bismillaahirrahmaanirrahiim
 import { dbConn, db } from "../db";
 
-export const bscscan_snowtrace = async (page, tokenAddresses, isBsc) => {
+export const chainExplorer = async (page, tokenAddresses, network) => {
+  const explorerUrl = (() => {
+    if (network === "Avalanche") return "snowtrace.io";
+    if (network === "Heco") return "hecoinfo.com";
+    return "bscscan.com";
+  })();
+
   for (const tokenAddress of tokenAddresses) {
     await page.waitForTimeout(1000);
-    await page.goto(
-      `https://${isBsc ? "bscscan.com" : "snowtrace.io"}/token/${
-        tokenAddress.address
-      }`,
-      {
-        waitUntil: "networkidle2",
-        timeout: 90000,
-      }
-    );
+    await page.goto(`https://${explorerUrl}/token/${tokenAddress.address}`, {
+      waitUntil: "networkidle2",
+      timeout: 90000,
+    });
 
     const [tokenFullNamePath] = await page.$x(
       "/html/body/div[1]/main/div[1]/div/div[1]/h1/div/span"
@@ -140,7 +141,7 @@ export const bscscan_snowtrace = async (page, tokenAddresses, isBsc) => {
 
     const query = `insert into ${db}.tokens values (${dbConn.escape(
       tokenAddress.name
-    )}, ${isBsc ? "'BSC'" : "'Avalanche'"}, ${dbConn.escape(
+    )}, ${dbConn.escape(network)}, ${dbConn.escape(
       tokenAddress.address
     )}, ${dbConn.escape(tokenFullName)}, ${tokenDec}, ${dbConn.escape(
       officialSite
