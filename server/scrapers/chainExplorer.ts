@@ -1,7 +1,13 @@
 // Bismillaahirrahmaanirrahiim
+
+import puppeteer = require("puppeteer");
 import { dbConn, db } from "../db";
 
-export const chainExplorer = async (page, tokenAddresses, network) => {
+export const chainExplorer = async (
+  page: puppeteer.Page,
+  tokenAddresses,
+  network
+) => {
   const explorerUrl = (() => {
     if (network === "Avalanche") return "snowtrace.io";
     if (network === "Heco") return "hecoinfo.com";
