@@ -35,6 +35,7 @@
     "traderjoe": "npx tsc && node ./build/scrapers/traderjoe.js",
     "traderjoe-details": "npx tsc && node ./build/scrapers/traderjoe-details.js",
     "raydium": "npx tsc && node ./build/scrapers/raydium.js",
+    "raydium-details": "npx tsc && node ./build/scrapers/raydium-details.js",
     "tokenImage": "npx tsc && node ./build/scrapers/tokenImage.js",
     "cleanup": "npx tsc && node ./build/scrapers/cleanup.js"
   }
