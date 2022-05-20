@@ -41,4 +41,32 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
   });
 });
 
+router.get(
+  "/pairdetails",
+  async (req: Request, res: Response): Promise<Response> => {
+    const tokens = req.query.pair
+      .toString()
+      .split("-")
+      .map((token) => dbConn.escape(token))
+      .join(",");
+    const network = req.query.network.toString();
+
+    const query = `select * from tokens where network = ${dbConn.escape(
+      network
+    )} and name in (${tokens})`;
+
+    // console.log(query);
+    const queryRes = await new Promise((res, rej) => {
+      dbConn.query(query, function (err, result) {
+        if (err) return rej(err);
+        return res(result);
+      });
+    });
+
+    return res.status(200).send({
+      queryRes,
+    });
+  }
+);
+
 export default router;
