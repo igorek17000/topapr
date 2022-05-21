@@ -29,7 +29,7 @@ interface RoiCalculatorProps {
 }
 
 export default function RoiCalculator(props: RoiCalculatorProps) {
-  const { apr, isNftDetected } = props;
+  const { apr, isNftDetected, ...rest } = props;
 
   const [open, setOpen] = useState(false);
   const [staked, setStaked] = useState('100');
@@ -61,7 +61,7 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
         onClick={handleClick}
         sx={{ mr: 2, textTransform: 'none' }}
         endIcon={<CalculateIcon />}
-        {...props}
+        {...rest}
       >
         ROI Calculator
       </Button>

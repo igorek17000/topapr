@@ -14,6 +14,7 @@ import PairImg from './PairImg';
 import ButtonPool from './ButtonPool';
 import { PoolName } from './config';
 import RoiCalculator from './RoiCalculator';
+import PairDetails from './PairDetails';
 
 type AprListItemProps = {
   farm: Farm;
@@ -23,6 +24,14 @@ type AprListItemProps = {
 export default React.memo(function AprListItem(props: AprListItemProps) {
   const { farm, isNftDetected } = props;
   const [open, setOpen] = React.useState(false);
+  const [firstToken, setFirstToken] = React.useState('');
+  const [secondToken, setSecondToken] = React.useState('');
+
+  React.useEffect(() => {
+    const tokens = farm.pair.split('-');
+    if (tokens[0]) setFirstToken(tokens[0]);
+    if (tokens[1]) setSecondToken(tokens[1]);
+  }, [farm.pair, setFirstToken, setSecondToken]);
 
   const handleClick = () => {
     setOpen(!open);
@@ -58,11 +67,15 @@ export default React.memo(function AprListItem(props: AprListItemProps) {
               alignItems: 'center',
             }}
           >
-            {farm.pair}
+            <Typography color="primary.dark">{firstToken}</Typography>
+            <Typography sx={{ mx: '4px', color: '#aaa' }}>-</Typography>
+            <Typography color="secondary.dark">{secondToken}</Typography>
           </Grid>
           <Grid item xs>
             <Typography variant="caption">APR</Typography>
-            <div>{(farm.apr as number).toLocaleString()}%</div>
+            <Typography color="success.light" sx={{ fontWeight: 600 }}>
+              {(farm.apr as number).toLocaleString()}%
+            </Typography>
           </Grid>
           <Grid item xs>
             <Typography variant="caption">Value</Typography>
@@ -102,6 +115,15 @@ export default React.memo(function AprListItem(props: AprListItemProps) {
           >
             <ButtonPool poolName={farm.pool as PoolName} />
             <RoiCalculator apr={farm.apr} isNftDetected={isNftDetected} />
+          </ListItem>
+          <ListItem
+            sx={{
+              px: {
+                md: '48px',
+              },
+            }}
+          >
+            <PairDetails pair={farm.pair} network={farm.network} />
           </ListItem>
         </List>
       </Collapse>
