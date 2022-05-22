@@ -8,7 +8,7 @@ import CakiaAllowance from './CakiaAllowance';
 import UserContext from 'context/UserContext';
 import ContractContext from 'context/ContractContext';
 import { cakiaNftCa } from 'contracts';
-import { Divider, Typography } from '@mui/material';
+import { Button, Divider, Typography } from '@mui/material';
 import NftList from './NftList';
 
 export default function NftMint() {
@@ -95,6 +95,20 @@ export default function NftMint() {
             })}
           </Typography>
         )}
+        <Button
+          variant="contained"
+          onClick={() =>
+            window.open(
+              'https://pancakeswap.finance/swap?inputCurrency=0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56&outputCurrency=0x248b291290796c5743814bD18cAE46D37268E17d',
+              '_blank'
+            )
+          }
+          sx={{
+            marginTop: 2,
+          }}
+        >
+          Buy CAKIA
+        </Button>
       </Box>
       <Box sx={{ width: '100%' }}>
         <Divider sx={{ my: 4 }} />

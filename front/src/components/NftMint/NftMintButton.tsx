@@ -60,7 +60,7 @@ export default function NftMintButton(props: NftMintButtonProps) {
       )}
       <Box sx={{ my: 1 }}>
         <Typography variant="body2">
-          NFT Cost: 20 CAKIA{' '}
+          Cost: 20 CAKIA{' '}
           {isLoading && (
             <CircularProgress
               size={12}
