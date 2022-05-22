@@ -37,6 +37,7 @@
     "raydium": "npx tsc && node ./build/scrapers/raydium.js",
     "raydium-details": "npx tsc && node ./build/scrapers/raydium-details.js",
     "tokenImage": "npx tsc && node ./build/scrapers/tokenImage.js",
-    "cleanup": "npx tsc && node ./build/scrapers/cleanup.js"
+    "cleanup": "npx tsc && node ./build/scrapers/cleanup.js",
+    "update-details": "npx tsc && node ./build/scrapers/update-details.js"
   }
 }

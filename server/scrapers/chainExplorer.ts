@@ -150,7 +150,7 @@ export const chainExplorer = async (
     const transfers = await getNumContent('//*[@id="totaltxns"]', [], true);
     console.log("transfers", transfers);
 
-    const query = `insert into ${db}.tokens values (${dbConn.escape(
+    const query = `replace into ${db}.tokens values (${dbConn.escape(
       tokenAddress.name
     )}, ${dbConn.escape(network)}, ${dbConn.escape(
       tokenAddress.address
