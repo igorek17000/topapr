@@ -22,9 +22,7 @@ async function main() {
   const page = await browser.newPage();
   await page.emulate(device);
   console.log("Go to mdex page...");
-  await page.goto("https://mdex.co/#/liquidity?lang=en", {
-    waitUntil: "networkidle2",
-  });
+  await page.goto("https://mdex.co/#/liquidity?lang=en", {});
 
   console.log("Wait for 5 seconds...");
   await page.waitForTimeout(5000);
