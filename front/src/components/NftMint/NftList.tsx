@@ -73,7 +73,7 @@ export default function NftList(props: NftListProps) {
       )}
       {nfts.length === 0 && !isLoading && (
         <Typography variant="body1" sx={{ marginLeft: 2 }}>
-          You don't have Cakia NFT yet.
+          You don't have any Cakia NFT yet.
         </Typography>
       )}
     </Box>
