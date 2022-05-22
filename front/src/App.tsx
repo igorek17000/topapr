@@ -1,26 +1,25 @@
-import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-
-import { useAuth, useSetContracts } from 'hooks';
-
 // Bismillaahirrahmaanirrahiim
 
-import HideOnScroll from 'components/HideOnScroll';
-import WalletButton from 'components/WalletButton';
-import AprList from 'components/AprList';
-import NftMint from 'components/NftMint';
+import { Routes, Route, Link } from 'react-router-dom';
+import { useAuth, useSetContracts } from 'hooks';
+import { AppBar, Box, Container, CssBaseline, Toolbar } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { AprList, HideOnScroll, NftMint, WalletButton } from 'components';
+
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: 'rgb(51, 39, 106)',
+    },
+  },
+});
 
 function App() {
   useSetContracts();
   useAuth();
 
   return (
-    <React.Fragment>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <HideOnScroll>
         <AppBar>
@@ -66,7 +65,7 @@ function App() {
           </Routes>
         </Box>
       </Container>
-    </React.Fragment>
+    </ThemeProvider>
   );
 }
 
