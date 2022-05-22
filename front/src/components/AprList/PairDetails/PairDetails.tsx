@@ -37,21 +37,22 @@ export default function PairDetails(props: PairDetailsProps) {
   return (
     <Box sx={{ width: '100%' }}>
       <Divider sx={{ marginBottom: 2 }} />
-      {isLoading && (
+      {isLoading ? (
         <Box sx={{ textAlign: 'center' }}>
           <CircularProgress size={24} />
         </Box>
-      )}
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <TokenDetails token={firstToken} idx={0} />
-        </Grid>
-        {secondToken && (
+      ) : (
+        <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <TokenDetails token={secondToken} idx={1} />
+            <TokenDetails token={firstToken} idx={0} />
           </Grid>
-        )}
-      </Grid>
+          {secondToken && (
+            <Grid item xs={12} md={6}>
+              <TokenDetails token={secondToken} idx={1} />
+            </Grid>
+          )}
+        </Grid>
+      )}
     </Box>
   );
 }
