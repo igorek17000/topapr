@@ -1,13 +1,13 @@
 // Bismillaahirrahmaanirrahiim
 
 import puppeteer = require("puppeteer");
-import { dbConn } from "../db";
+import { dbConn, db } from "../db";
 import { chainExplorer } from "./chainExplorer";
 
 const device = puppeteer.devices["iPad Pro landscape"];
 
 (async () => {
-  const query = `select pair from topapr.farms where pool='Mdex-Heco'`;
+  const query = `select pair from ${db}.farms where pool='Mdex-Heco'`;
 
   // console.log(query);
   const pairs: any = await new Promise((res, rej) => {
@@ -41,7 +41,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
         )
       ) data
     where not exists (
-      select 1 from tokens where data.name = tokens.name and tokens.network = 'Heco'
+      select 1 from ${db}.tokens where data.name = tokens.name and tokens.network = 'Heco'
     )
   `;
 
