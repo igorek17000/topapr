@@ -33,7 +33,7 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
 
   const [open, setOpen] = useState(false);
   const [staked, setStaked] = useState('100');
-  const [stakedTime, setStakedTime] = useState('7D');
+  const [stakedTime, setStakedTime] = useState('14D');
   const [compoundChecked, setCompoundChecked] = useState(false);
   const [compoundTime, setCompoundTime] = useState('1D');
 
