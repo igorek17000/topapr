@@ -102,8 +102,12 @@ function HedgeFilter(props: HedgeFilterProps) {
             <FilterFormControlLabel
               key={hedge}
               label={
-                <Stack direction="row" spacing={1}>
-                  <div>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  sx={{ alignItems: 'center' }}
+                >
+                  <Box sx={{ display: 'flex' }}>
                     <img
                       src={`/hedge/${hedge}.png`}
                       style={
@@ -113,7 +117,7 @@ function HedgeFilter(props: HedgeFilterProps) {
                       width={18}
                       height={18}
                     />
-                  </div>
+                  </Box>
                   <div>{hedge}</div>
                 </Stack>
               }

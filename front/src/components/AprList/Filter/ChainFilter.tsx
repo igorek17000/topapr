@@ -1,6 +1,6 @@
 // Bismillaahirrahmaanirrahiim
 
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import React from 'react';
 import { ChainName, chains } from '../config';
 import FilterCheckbox from './FilterCheckbox';
@@ -63,8 +63,8 @@ function ChainFilter(props: ChainFilterProps) {
         <FilterFormControlLabel
           key={chain}
           label={
-            <Stack direction="row" spacing={1}>
-              <div>
+            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+              <Box sx={{ display: 'flex' }}>
                 <img
                   src={`/chain/${chain}.png`}
                   style={checked[chain] ? {} : { filter: 'grayscale(100%)' }}
@@ -72,7 +72,7 @@ function ChainFilter(props: ChainFilterProps) {
                   width={18}
                   height={18}
                 />
-              </div>
+              </Box>
               <div>{chain}</div>
             </Stack>
           }
