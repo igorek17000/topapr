@@ -57,6 +57,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
     "ROLL",
     "WEWETH",
     "WOOD",
+    "SLC",
   ];
   const newTokens: any = (
     (await new Promise((res, rej) => {

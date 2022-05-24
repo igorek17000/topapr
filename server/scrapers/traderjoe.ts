@@ -50,6 +50,27 @@ const device = puppeteer.devices["iPad Pro landscape"];
     });
   });
 
+  const insertHistoryValRaw = farmVal.reduce((prev, farm) => {
+    return `${prev}
+      (null, ${dbConn.escape(farm.name)}, 'TraderJoe', ${farm.apr}, ${
+      farm.totalValue
+    }, NOW()),`;
+  }, "");
+  const insertHistoryVal = insertHistoryValRaw.slice(
+    0,
+    insertHistoryValRaw.length - 1
+  );
+
+  const queryHistory = `insert into ${db}.aprhistory values ${insertHistoryVal};`;
+
+  // console.log(queryHistory);
+  await new Promise((res, rej) => {
+    dbConn.query(queryHistory, function (err, result) {
+      if (err) return rej(err);
+      return res(result);
+    });
+  });
+
   await browser.close();
   console.log("finish");
   process.exit();
