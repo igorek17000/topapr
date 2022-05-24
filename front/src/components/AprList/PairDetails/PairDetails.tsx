@@ -21,7 +21,7 @@ export default function PairDetails(props: PairDetailsProps) {
     fetch(apiUrl)
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         if (result.queryRes[0]) {
           setFirstToken(result.queryRes[0]);
         }
