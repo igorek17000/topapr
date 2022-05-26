@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
-    "@chainsafe/dappeteer": "^2.4.1",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "ethers": "^5.6.7",
@@ -11,7 +10,6 @@
     "jsonwebtoken": "^8.5.1",
     "moralis": "^1.7.0",
     "mysql": "^2.18.1",
-    "puppeteer": "^14.1.1",
     "ts-node": "^10.8.0"
   },
   "devDependencies": {
@@ -24,20 +22,6 @@
   },
   "scripts": {
     "start": "ts-node ./index.ts",
-    "dev": "ts-node-dev ./index.ts",
-    "mexc-margin": "npx tsc && node ./build/scrapers/mexc-margin.js",
-    "mdex-heco": "npx tsc && node ./build/scrapers/mdex-heco.js",
-    "mdex-heco-details": "npx tsc && node ./build/scrapers/mdex-heco-details.js",
-    "mdex-bsc": "npx tsc && node ./build/scrapers/mdex-bsc.js",
-    "mdex-bsc-details": "npx tsc && node ./build/scrapers/mdex-bsc-details.js",
-    "pancake": "npx tsc && node ./build/scrapers/pancake.js",
-    "pancake-details": "npx tsc && node ./build/scrapers/pancake-details.js",
-    "traderjoe": "npx tsc && node ./build/scrapers/traderjoe.js",
-    "traderjoe-details": "npx tsc && node ./build/scrapers/traderjoe-details.js",
-    "raydium": "npx tsc && node ./build/scrapers/raydium.js",
-    "raydium-details": "npx tsc && node ./build/scrapers/raydium-details.js",
-    "tokenImage": "npx tsc && node ./build/scrapers/tokenImage.js",
-    "cleanup": "npx tsc && node ./build/scrapers/cleanup.js",
-    "update-details": "npx tsc && node ./build/scrapers/update-details.js"
+    "dev": "ts-node-dev ./index.ts"
   }
 }

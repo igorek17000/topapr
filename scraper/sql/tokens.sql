@@ -18,3 +18,16 @@ CREATE TABLE `tokens` (
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`name`,`network`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DELETE FROM `topapr`.`tokens` WHERE (`name` = 'RACA') and (`network` = 'BSC');
+DELETE FROM `topapr`.`tokens` WHERE (`name` = 'SLC') and (`network` = 'Solana');
+DELETE FROM `topapr`.`tokens` WHERE (`name` = 'ATS') and (`network` = 'Solana');
+DELETE FROM `topapr`.`tokens` WHERE (`name` = 'SOL') and (`network` = 'Solana');
+DELETE FROM `topapr`.`tokens` WHERE (`name` = 'USDT') and (`network` = 'Avalanche');
+
+ALTER TABLE `topapr`.`tokens` 
+CHANGE COLUMN `address` `address` VARCHAR(45) NOT NULL FIRST,
+CHANGE COLUMN `network` `network` VARCHAR(45) NOT NULL AFTER `address`,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`network`, `address`);
+;
