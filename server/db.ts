@@ -9,6 +9,7 @@ const connection = mysql.createPool({
   user: dbConfig.USER,
   password: dbConfig.PASSWORD,
   database: dbConfig.DB,
+  dateStrings: true,
 });
 
 export const dbConn = connection;
