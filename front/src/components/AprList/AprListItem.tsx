@@ -3,6 +3,7 @@
 import React, { memo, useState } from 'react';
 import {
   Box,
+  Button,
   Collapse,
   Grid,
   IconButton,
@@ -36,13 +37,18 @@ export default memo(function AprListItem(props: AprListItemProps) {
   const [openCalc, setOpenCalc] = useState(false);
   const [aprCalc, setAprCalc] = useState(0);
 
+  const [openDetails, setOpenDetails] = useState(false);
+  const [tokenDetails, setTokenDetails] = useState('');
+
   React.useEffect(() => {
     const tokens = farm.pair.split('-');
     if (tokens[0]) setFirstToken(tokens[0]);
     if (tokens[1]) setSecondToken(tokens[1]);
   }, [farm.pair, setFirstToken, setSecondToken]);
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     setOpen(!open);
   };
 
@@ -52,6 +58,15 @@ export default memo(function AprListItem(props: AprListItemProps) {
       e.stopPropagation();
       setAprCalc(apr);
       setOpenCalc(true);
+    };
+
+  const handleTokenClick =
+    (token: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      setTokenDetails(token);
+      setOpenDetails(true);
     };
 
   return (
@@ -82,11 +97,24 @@ export default memo(function AprListItem(props: AprListItemProps) {
             sx={{
               display: 'flex',
               alignItems: 'center',
+              minWidth: '220px',
             }}
           >
-            <Typography color="primary.dark">{firstToken}</Typography>
+            <Button
+              color="primary"
+              variant="outlined"
+              onClick={handleTokenClick(firstToken)}
+            >
+              {firstToken}
+            </Button>
             <Typography sx={{ mx: '4px', color: '#aaa' }}>-</Typography>
-            <Typography color="secondary.dark">{secondToken}</Typography>
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={handleTokenClick(secondToken)}
+            >
+              {secondToken}
+            </Button>
           </Grid>
           <Grid item xs>
             <Typography variant="caption">APR</Typography>
@@ -104,14 +132,6 @@ export default memo(function AprListItem(props: AprListItemProps) {
                 </IconButton>
               </Box>
             </Stack>
-          </Grid>
-          <Grid item xs>
-            <Typography variant="caption">Value</Typography>
-            <div>
-              {farm.totalValue
-                ? `$${(farm.totalValue as number).toLocaleString()}`
-                : '-'}
-            </div>
           </Grid>
           <Grid item xs>
             <Typography variant="caption">Pool</Typography>
@@ -152,7 +172,7 @@ export default memo(function AprListItem(props: AprListItemProps) {
           </Grid>
         </Grid>
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={open} timeout="auto" mountOnEnter unmountOnExit>
         <List>
           <ListItem
             sx={{
@@ -169,9 +189,7 @@ export default memo(function AprListItem(props: AprListItemProps) {
                 md: '48px',
               },
             }}
-          >
-            <PairDetails pair={farm.pair} network={farm.network} />
-          </ListItem>
+          ></ListItem>
         </List>
       </Collapse>
       <RoiCalculator
@@ -179,6 +197,12 @@ export default memo(function AprListItem(props: AprListItemProps) {
         isNftDetected={isNftDetected}
         isOpen={openCalc}
         setIsOpen={setOpenCalc}
+      />
+      <PairDetails
+        token={tokenDetails}
+        network={farm.network}
+        isOpen={openDetails}
+        setIsOpen={setOpenDetails}
       />
     </React.Fragment>
   );
