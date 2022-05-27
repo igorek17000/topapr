@@ -79,14 +79,12 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
                 <InputAdornment position="start">$</InputAdornment>
               ),
             }}
-            disabled={!isNftDetected}
           />
           <div>
             <Button
               variant="outlined"
               sx={{ mr: 1 }}
               onClick={() => setStaked('10')}
-              disabled={!isNftDetected}
             >
               $10
             </Button>
@@ -94,7 +92,6 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
               variant="outlined"
               sx={{ mr: 1 }}
               onClick={() => setStaked('100')}
-              disabled={!isNftDetected}
             >
               $100
             </Button>
@@ -102,31 +99,14 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
               variant="outlined"
               sx={{ mr: 2 }}
               onClick={() => setStaked('1000')}
-              disabled={!isNftDetected}
             >
               $1000
             </Button>
-            {!isNftDetected && (
-              <Box
-                sx={{
-                  display: 'inline-flex',
-                  height: '36px',
-                  alignItems: 'center',
-                  verticalAlign: 'middle',
-                }}
-              >
-                <LockIcon />
-              </Box>
-            )}
           </div>
           <Typography variant="caption" sx={{ mt: 3 }}>
             Staked For
           </Typography>
-          <ButtonGroup
-            variant="outlined"
-            aria-label="outlined button group"
-            disabled={!isNftDetected}
-          >
+          <ButtonGroup variant="outlined" aria-label="outlined button group">
             <ButtonSwitch value={stakedTime} setValue={setStakedTime}>
               1D
             </ButtonSwitch>
@@ -151,19 +131,6 @@ export default function RoiCalculator(props: RoiCalculatorProps) {
             <ButtonSwitch value={stakedTime} setValue={setStakedTime}>
               5Y
             </ButtonSwitch>
-            {!isNftDetected && (
-              <Box
-                sx={{
-                  display: 'inline-flex',
-                  height: '36px',
-                  alignItems: 'center',
-                  verticalAlign: 'middle',
-                  ml: 2,
-                }}
-              >
-                <LockIcon />
-              </Box>
-            )}
           </ButtonGroup>
           <Typography variant="caption" sx={{ mt: 3 }}>
             Compounding every

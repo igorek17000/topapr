@@ -24,6 +24,7 @@ export interface Farm {
   firstToken?: string;
   secondToken?: string;
   apr: number;
+  apy: number;
   totalValue?: number;
   multiplier?: number;
   url?: string;

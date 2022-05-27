@@ -134,27 +134,29 @@ export default memo(function AprListItem(props: AprListItemProps) {
             </Stack>
           </Grid>
           <Grid item xs>
-            <Typography variant="caption">Pool</Typography>
+            <Typography variant="caption">APY</Typography>
+            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+              <Typography color="success.light" sx={{ fontWeight: 600 }}>
+                {(farm.apy as number).toLocaleString()}%
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs>
+            <Typography variant="caption">Value</Typography>
+            <div>
+              {farm.totalValue
+                ? `$${(farm.totalValue as number).toLocaleString()}`
+                : '-'}
+            </div>
+          </Grid>
+          <Grid item xs>
+            <Typography variant="caption">{farm.network}</Typography>
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
               <div>{(poolsName as any)[farm.pool]}</div>
               <Box sx={{ display: 'flex' }}>
                 <img
                   src={`/pool/${farm.pool}.png`}
                   alt={farm.pool}
-                  width={18}
-                  height={18}
-                />
-              </Box>
-            </Stack>
-          </Grid>
-          <Grid item xs>
-            <Typography variant="caption">Chain</Typography>
-            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-              <div>{farm.network}</div>
-              <Box sx={{ display: 'flex' }}>
-                <img
-                  src={`/chain/${farm.network}.png`}
-                  alt={farm.network}
                   width={18}
                   height={18}
                 />
