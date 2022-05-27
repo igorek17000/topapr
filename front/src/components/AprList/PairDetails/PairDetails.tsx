@@ -17,7 +17,6 @@ export default function PairDetails(props: PairDetailsProps) {
   const [tokenData, setTokenData] = useState<any>({});
 
   useEffect(() => {
-    console.log(token, network, isOpen);
     if (isOpen) {
       setIsLoading(true);
       const apiUrl = `${process.env.REACT_APP_SERVER}/api/details?network=${network}&token=${token}`;
