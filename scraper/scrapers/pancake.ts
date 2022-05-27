@@ -39,7 +39,9 @@ const device = puppeteer.devices["iPad Pro landscape"];
     await Promise.all(
       tablePairApr.map((tab) => tab.evaluate((el) => el.innerHTML))
     )
-  ).map((apr) => parseFloat(apr.split("<button")[0].replace("%", "")));
+  ).map((apr) =>
+    parseFloat(apr.split("<button")[0].replace(",", "").replace("%", ""))
+  );
 
   console.log(pairApr);
 

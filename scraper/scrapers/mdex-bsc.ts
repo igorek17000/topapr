@@ -66,7 +66,7 @@ async function main() {
   );
   const pairApr = await Promise.all(
     tablePairApr.map((tab) =>
-      tab.evaluate((el) => parseFloat(el.textContent.trim()))
+      tab.evaluate((el) => parseFloat(el.textContent.replace(",", "").trim()))
     )
   );
   console.log(pairApr);

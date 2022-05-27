@@ -59,7 +59,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   );
   const pairApr = await Promise.all(
     tablePairApr.map((tab) =>
-      tab.evaluate((el) => parseFloat(el.textContent.trim()))
+      tab.evaluate((el) => parseFloat(el.textContent.replace(",", "").trim()))
     )
   );
   // console.log(pairApr);

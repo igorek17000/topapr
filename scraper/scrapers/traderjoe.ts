@@ -99,6 +99,7 @@ async function loopPagination(
           apr: parseFloat(
             el.children[2].children[2].firstChild.textContent
               .replaceAll("%", "")
+              .replaceAll(",", "")
               .trim()
           ),
           totalValue: parseInt(

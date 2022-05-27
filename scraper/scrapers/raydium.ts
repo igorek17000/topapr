@@ -45,6 +45,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
             el.firstChild.lastChild.childNodes[4].textContent
               .replaceAll("Total Apr  \n", "")
               .replaceAll("%", "")
+              .replaceAll(",", "")
               .trim()
           ),
           totalValue: parseInt(
