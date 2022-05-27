@@ -41,9 +41,6 @@ export default function NftMintButton(props: NftMintButtonProps) {
 
   return (
     <React.Fragment>
-      <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        Unlock all site features with a CAKIA NFT
-      </Typography>
       {isMining ? (
         <LoadingButton
           loading

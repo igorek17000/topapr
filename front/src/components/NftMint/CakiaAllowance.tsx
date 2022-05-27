@@ -2,7 +2,7 @@
 
 import React, { useContext, useState } from 'react';
 import { ethers } from 'ethers';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
 import NftMintButton from './NftMintButton';
@@ -43,8 +43,11 @@ export default function CakiaAllowance(props: CakiaAllowanceProps) {
   };
 
   return (
-    <Box>
-      <Box component="span" sx={{ marginRight: '24px' }}>
+    <Box sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" sx={{ marginBottom: 2 }}>
+        Unlock all site features with a CAKIA NFT
+      </Typography>
+      <Box component="span" sx={{ mx: 2 }}>
         {isApproveLoading ? (
           <LoadingButton
             loading
