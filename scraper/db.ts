@@ -1,7 +1,7 @@
 // Bismillaahirrahmaanirrahiim
 
 import mysql from "mysql";
-const dbConfig = require("./db.config.local");
+const dbConfig = require("./db.config");
 
 // Create a connection to the database
 const connection = mysql.createPool({
