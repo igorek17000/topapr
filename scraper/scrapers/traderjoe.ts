@@ -4,6 +4,7 @@ import puppeteer = require("puppeteer");
 // import { consoleasync } from "../tools/consoleasync";
 import { dbConn, db } from "../db";
 import { dbConnLocal, dbLocal } from "../db";
+import { aprToApy } from "../tools/aprToApy";
 
 const device = puppeteer.devices["iPad Pro landscape"];
 
@@ -36,11 +37,11 @@ const device = puppeteer.devices["iPad Pro landscape"];
     return `${prev}
       (${dbConn.escape(farm.visualName)}, 'TraderJoe', 'Avalanche', ${
       farm.apr
-    }, ${farm.totalValue}, null, NOW(), NOW()),`;
+    }, ${farm.apy}, ${farm.totalValue}, null, NOW(), NOW()),`;
   }, "");
   const insertVal = insertValRaw.slice(0, insertValRaw.length - 1);
 
-  const query = `insert into ${db}.farms values ${insertVal} on DUPLICATE KEY UPDATE apr = VALUES(apr), totalValue = VALUES(totalValue), multiplier = VALUES(multiplier), updatedAt = NOW();`;
+  const query = `insert into ${db}.farms values ${insertVal} on DUPLICATE KEY UPDATE apr = VALUES(apr), apy = VALUES(apy), totalValue = VALUES(totalValue), multiplier = VALUES(multiplier), updatedAt = NOW();`;
 
   // console.log(query);
 
@@ -146,7 +147,11 @@ async function loopPagination(
           visualName: pair.name,
         };
       }
-    });
+    })
+    .map((pair) => ({
+      ...pair,
+      apy: aprToApy(pair.apr),
+    }));
 
   // console.log(data);
 

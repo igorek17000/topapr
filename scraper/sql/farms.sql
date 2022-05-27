@@ -9,3 +9,6 @@ CREATE TABLE `farms` (
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`pair`,`pool`)
 )
+
+ALTER TABLE `farms` 
+ADD COLUMN `apy` DOUBLE NULL AFTER `apr`;

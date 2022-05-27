@@ -4,6 +4,7 @@ import puppeteer = require("puppeteer");
 import { scrollToBottom } from "../tools/scrollToBottom";
 import { dbConn, db } from "../db";
 import { dbConnLocal, dbLocal } from "../db";
+import { aprToApy } from "../tools/aprToApy";
 
 const device = puppeteer.devices["iPad Pro landscape"];
 
@@ -73,6 +74,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
   const farmVal = pairName.map((name, idx) => ({
     name,
     apr: pairApr[idx],
+    apy: aprToApy(pairApr[idx]),
     totalValue: pairLiquidity[idx],
     multiplier: pairMultiplier[idx],
   }));
@@ -81,12 +83,12 @@ const device = puppeteer.devices["iPad Pro landscape"];
   const insertValRaw = farmVal.reduce((prev, farm) => {
     return `${prev}
       (${dbConn.escape(farm.name)}, 'PancakeSwap', 'BSC', ${farm.apr}, ${
-      farm.totalValue
-    }, ${farm.multiplier}, NOW(), NOW()),`;
+      farm.apy
+    }, ${farm.totalValue}, ${farm.multiplier}, NOW(), NOW()),`;
   }, "");
   const insertVal = insertValRaw.slice(0, insertValRaw.length - 1);
 
-  const query = `insert into ${db}.farms values ${insertVal} on DUPLICATE KEY UPDATE apr = VALUES(apr), totalValue = VALUES(totalValue), multiplier = VALUES(multiplier), updatedAt = NOW();`;
+  const query = `insert into ${db}.farms values ${insertVal} on DUPLICATE KEY UPDATE apr = VALUES(apr), apy = VALUES(apy), totalValue = VALUES(totalValue), multiplier = VALUES(multiplier), updatedAt = NOW();`;
 
   // console.log(query);
   await new Promise((res, rej) => {

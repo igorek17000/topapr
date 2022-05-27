@@ -3,6 +3,7 @@
 import puppeteer = require("puppeteer");
 import { dbConn, db } from "../db";
 import { dbConnLocal, dbLocal } from "../db";
+import { aprToApy } from "../tools/aprToApy";
 
 const device = puppeteer.devices["iPad Pro landscape"];
 
@@ -60,18 +61,23 @@ const device = puppeteer.devices["iPad Pro landscape"];
         }))
       )
     )
-  ).filter((val) => val.isVisible && val.apr);
+  )
+    .filter((val) => val.isVisible && val.apr)
+    .map((farm) => ({
+      ...farm,
+      apy: aprToApy(farm.apr),
+    }));
 
   console.log(farmVal);
   const insertValRaw = farmVal.reduce((prev, farm) => {
     return `${prev}
       (${dbConn.escape(farm.name)}, 'Raydium', 'Solana', ${farm.apr}, ${
-      farm.totalValue
-    }, null, NOW(), NOW()),`;
+      farm.apy
+    }, ${farm.totalValue}, null, NOW(), NOW()),`;
   }, "");
   const insertVal = insertValRaw.slice(0, insertValRaw.length - 1);
 
-  const query = `insert into ${db}.farms values ${insertVal} on DUPLICATE KEY UPDATE apr = VALUES(apr), totalValue = VALUES(totalValue), multiplier = VALUES(multiplier), updatedAt = NOW();`;
+  const query = `insert into ${db}.farms values ${insertVal} on DUPLICATE KEY UPDATE apr = VALUES(apr), apy = VALUES(apy), totalValue = VALUES(totalValue), multiplier = VALUES(multiplier), updatedAt = NOW();`;
 
   // console.log(query);
   await new Promise((res, rej) => {
