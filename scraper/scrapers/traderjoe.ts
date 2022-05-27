@@ -3,6 +3,7 @@
 import puppeteer = require("puppeteer");
 // import { consoleasync } from "../tools/consoleasync";
 import { dbConn, db } from "../db";
+import { dbConnLocal, dbLocal } from "../db";
 
 const device = puppeteer.devices["iPad Pro landscape"];
 
@@ -66,6 +67,16 @@ const device = puppeteer.devices["iPad Pro landscape"];
   // console.log(queryHistory);
   await new Promise((res, rej) => {
     dbConn.query(queryHistory, function (err, result) {
+      if (err) return rej(err);
+      return res(result);
+    });
+  });
+
+  const queryHistoryLocal = `insert into ${dbLocal}.aprhistory values ${insertHistoryVal};`;
+
+  // console.log(queryHistory);
+  await new Promise((res, rej) => {
+    dbConnLocal.query(queryHistoryLocal, function (err, result) {
       if (err) return rej(err);
       return res(result);
     });
