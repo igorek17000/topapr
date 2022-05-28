@@ -73,12 +73,14 @@ async function main() {
   );
   console.log(pairApr);
 
-  const farmVal = pairName.map((name, idx) => ({
-    name,
-    apr: pairApr[idx],
-    apy: aprToApy(pairApr[idx]),
-    totalValue: pairValue[idx],
-  }));
+  const farmVal = pairName
+    .map((name, idx) => ({
+      name,
+      apr: pairApr[idx],
+      apy: aprToApy(pairApr[idx]),
+      totalValue: pairValue[idx],
+    }))
+    .filter((farm) => farm.apr > 0);
   console.log(farmVal);
 
   const insertValRaw = farmVal.reduce((prev, farm) => {

@@ -151,7 +151,8 @@ async function loopPagination(
     .map((pair) => ({
       ...pair,
       apy: aprToApy(pair.apr),
-    }));
+    }))
+    .filter((farm) => farm.apr > 0);
 
   // console.log(data);
 

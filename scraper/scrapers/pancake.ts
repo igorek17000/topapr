@@ -71,13 +71,15 @@ const device = puppeteer.devices["iPad Pro landscape"];
 
   console.log(pairMultiplier);
 
-  const farmVal = pairName.map((name, idx) => ({
-    name,
-    apr: pairApr[idx],
-    apy: aprToApy(pairApr[idx]),
-    totalValue: pairLiquidity[idx],
-    multiplier: pairMultiplier[idx],
-  }));
+  const farmVal = pairName
+    .map((name, idx) => ({
+      name,
+      apr: pairApr[idx],
+      apy: aprToApy(pairApr[idx]),
+      totalValue: pairLiquidity[idx],
+      multiplier: pairMultiplier[idx],
+    }))
+    .filter((farm) => farm.apr > 0);
   console.log(farmVal);
 
   const insertValRaw = farmVal.reduce((prev, farm) => {
