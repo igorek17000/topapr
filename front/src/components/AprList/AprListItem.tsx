@@ -138,7 +138,10 @@ export default memo(function AprListItem(props: AprListItemProps) {
               <Typography variant="caption">APY</Typography>
               <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                 <Typography color="success.light" sx={{ fontWeight: 600 }}>
-                  {(farm.apy as number).toLocaleString()}%
+                  {(farm.apy as number).toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                  %
                 </Typography>
               </Stack>
             </Grid>
