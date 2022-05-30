@@ -21,7 +21,7 @@ import PairImg from './PairImg';
 import ButtonPool from './ButtonPool';
 import { PoolName, poolsName } from './config';
 import RoiCalculator from './RoiCalculator';
-import PairDetails from './PairDetails';
+import TokenDetails from './TokenDetails';
 
 type AprListItemProps = {
   farm: Farm;
@@ -205,7 +205,7 @@ export default memo(function AprListItem(props: AprListItemProps) {
         isOpen={openCalc}
         setIsOpen={setOpenCalc}
       />
-      <PairDetails
+      <TokenDetails
         token={tokenDetails}
         network={farm.network}
         isOpen={openDetails}

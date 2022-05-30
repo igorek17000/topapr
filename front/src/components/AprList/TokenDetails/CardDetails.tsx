@@ -16,11 +16,11 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { numToUsd } from 'utils/numToUsd';
 import TokenSocials from './TokenSocials';
 
-type TokenDetailsProps = {
+type CardDetailsProps = {
   token: any;
 };
 
-export default function TokenDetails(props: TokenDetailsProps) {
+export default function CardDetails(props: CardDetailsProps) {
   const { token } = props;
   // const [lastUpdated, setLastUpdated] = useState('');
 

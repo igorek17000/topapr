@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress, Dialog, DialogContent } from '@mui/material';
-import TokenDetails from './TokenDetails';
+import CardDetails from './CardDetails';
 
-type PairDetailsProps = {
+type TokenDetailsProps = {
   token: string;
   network: string;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function PairDetails(props: PairDetailsProps) {
+export default function TokenDetails(props: TokenDetailsProps) {
   const { token, network, isOpen, setIsOpen } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [tokenData, setTokenData] = useState<any>({});
@@ -46,7 +46,7 @@ export default function PairDetails(props: PairDetailsProps) {
             <CircularProgress size={36} />
           </Box>
         ) : (
-          <TokenDetails token={tokenData} />
+          <CardDetails token={tokenData} />
         )}
       </DialogContent>
     </Dialog>
