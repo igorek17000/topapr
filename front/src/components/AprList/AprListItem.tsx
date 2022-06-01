@@ -112,10 +112,17 @@ export default memo(function AprListItem(props: AprListItemProps) {
         }}
         onClick={handleClick}
       >
-        <Grid container spacing={3}>
+        <Grid
+          container
+          spacing={3}
+          ml={{ xs: '-12px', md: '-24px' }}
+          mt={{ xs: '8px', md: '-24px' }}
+          mb={{ xs: '12px', md: 'unset' }}
+        >
           <Grid
             item
             xs
+            pt={{ xs: '8px !important', md: '24px !important' }}
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -127,6 +134,7 @@ export default memo(function AprListItem(props: AprListItemProps) {
           <Grid
             item
             xs
+            pt={{ xs: '8px !important', md: '24px !important' }}
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -149,7 +157,7 @@ export default memo(function AprListItem(props: AprListItemProps) {
               {secondToken}
             </Button>
           </Grid>
-          <Grid item xs>
+          <Grid item xs pt={{ xs: '8px !important', md: '24px !important' }}>
             <Typography variant="caption">APR</Typography>
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
               <Typography color="success.light" sx={{ fontWeight: 600 }}>
@@ -167,7 +175,7 @@ export default memo(function AprListItem(props: AprListItemProps) {
             </Stack>
           </Grid>
           {farm.apy && (
-            <Grid item xs>
+            <Grid item xs pt={{ xs: '8px !important', md: '24px !important' }}>
               <Typography variant="caption">APY</Typography>
               <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                 <Typography color="success.light" sx={{ fontWeight: 600 }}>
@@ -179,7 +187,7 @@ export default memo(function AprListItem(props: AprListItemProps) {
               </Stack>
             </Grid>
           )}
-          <Grid item xs>
+          <Grid item xs pt={{ xs: '8px !important', md: '24px !important' }}>
             <Typography variant="caption">Value</Typography>
             <div>
               {farm.totalValue
@@ -187,7 +195,7 @@ export default memo(function AprListItem(props: AprListItemProps) {
                 : '-'}
             </div>
           </Grid>
-          <Grid item xs>
+          <Grid item xs pt={{ xs: '8px !important', md: '24px !important' }}>
             <Typography variant="caption">{farm.network}</Typography>
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
               <div>{(poolsName as any)[farm.pool]}</div>
@@ -203,6 +211,7 @@ export default memo(function AprListItem(props: AprListItemProps) {
           </Grid>
           <Grid
             item
+            pt={{ xs: '8px !important', md: '24px !important' }}
             sx={{
               display: 'flex',
               alignItems: 'center',
