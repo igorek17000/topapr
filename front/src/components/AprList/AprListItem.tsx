@@ -55,12 +55,10 @@ export default memo(function AprListItem(props: AprListItemProps) {
   useEffect(() => {
     if (open && pairHistory === undefined) {
       setIsPairHistoryLoading(true);
-      console.log('fetch pairHistory data', farm.pair);
       fetch(`${process.env.REACT_APP_SERVER}/api/history?pair=${farm.pair}`)
         .then((res) => res.json())
         .then((result) => {
           if (result.queryRes && result.queryRes.length > 0) {
-            console.log('sini', result.queryRes);
             setPairHistory(
               result.queryRes.reverse().map((data: any) => ({
                 date: new Date(data.date.replace(' ', 'T') + 'Z'),
