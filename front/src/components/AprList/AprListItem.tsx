@@ -1,6 +1,6 @@
 // Bismillaahirrahmaanirrahiim
 
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -22,6 +22,7 @@ import ButtonPool from './ButtonPool';
 import { PoolName, poolsName } from './config';
 import RoiCalculator from './RoiCalculator';
 import TokenDetails from './TokenDetails';
+import PairCharts from './PairCharts';
 
 type AprListItemProps = {
   farm: Farm;
@@ -40,11 +41,44 @@ export default memo(function AprListItem(props: AprListItemProps) {
   const [openDetails, setOpenDetails] = useState(false);
   const [tokenDetails, setTokenDetails] = useState('');
 
-  React.useEffect(() => {
+  const [pairHistory, setPairHistory] = useState<any[] | undefined>(undefined);
+  const [isPairHistoryLoading, setIsPairHistoryLoading] = useState(false);
+
+  useEffect(() => {
     const tokens = farm.pair.split('-');
     if (tokens[0]) setFirstToken(tokens[0]);
     if (tokens[1]) setSecondToken(tokens[1]);
   }, [farm.pair, setFirstToken, setSecondToken]);
+
+  // Set pairHistory data
+  useEffect(() => {
+    if (open && pairHistory === undefined) {
+      setIsPairHistoryLoading(true);
+      console.log('fetch pairHistory data', farm.pair);
+      fetch(`${process.env.REACT_APP_SERVER}/api/history?pair=${farm.pair}`)
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.queryRes && result.queryRes.length > 0) {
+            console.log('sini', result.queryRes);
+            setPairHistory(
+              result.queryRes.reverse().map((data: any) => ({
+                date: new Date(data.date.replace(' ', 'T') + 'Z'),
+                APR: data.apr,
+                'Total Value': data.totalValue,
+              }))
+            );
+          } else {
+            setPairHistory([]);
+          }
+        })
+        .catch(() => {
+          setPairHistory([]);
+        })
+        .finally(() => {
+          setIsPairHistoryLoading(false);
+        });
+    }
+  }, [farm.pair, open, pairHistory, setPairHistory]);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -196,7 +230,9 @@ export default memo(function AprListItem(props: AprListItemProps) {
                 md: '48px',
               },
             }}
-          ></ListItem>
+          >
+            {pairHistory && <PairCharts data={pairHistory} />}
+          </ListItem>
         </List>
       </Collapse>
       <RoiCalculator
