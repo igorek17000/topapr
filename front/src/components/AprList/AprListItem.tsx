@@ -4,6 +4,7 @@ import React, { memo, useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  CircularProgress,
   Collapse,
   Grid,
   IconButton,
@@ -231,7 +232,20 @@ export default memo(function AprListItem(props: AprListItemProps) {
               },
             }}
           >
-            {pairHistory && <PairCharts data={pairHistory} />}
+            {isPairHistoryLoading && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'center',
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            )}
+            {!isPairHistoryLoading && pairHistory && pairHistory.length > 0 && (
+              <PairCharts data={pairHistory} />
+            )}
           </ListItem>
         </List>
       </Collapse>
