@@ -121,6 +121,10 @@ const device = puppeteer.devices["iPad Pro landscape"];
 
         const tokenCa = (await img.evaluate((el) => el.getAttribute("src")))
           .replace("https://mdex.co/token-icons/bsc/", "")
+          .replace(
+            "https://raw.githubusercontent.com/mdexCo/token-icons/tokens/bsc/",
+            ""
+          )
           .replace(".png", "");
         tokenAddresses = [
           ...tokenAddresses,
