@@ -99,20 +99,26 @@ const device = puppeteer.devices["iPad Pro landscape"];
       );
       if (img) {
         const imgUrl = await img.evaluate((el) => el.getAttribute("src"));
+
         const pageNew = await browser.newPage();
-        const response = await pageNew.goto(imgUrl, {
-          timeout: 0,
-          waitUntil: "networkidle0",
-        });
-        const imageBuffer = await response.buffer();
-        await fs.promises.writeFile(
-          `C:\\Users\\cakia\\dev\\topapr\\front\\public\\token2\\${token.name}.png`,
-          imageBuffer
-        );
-        await pageNew.close();
+        try {
+          const response = await pageNew.goto(imgUrl, {
+            timeout: 0,
+            waitUntil: "networkidle0",
+          });
+          const imageBuffer = await response.buffer();
+          await fs.promises.writeFile(
+            `C:\\Users\\cakia\\dev\\topapr\\front\\public\\token2\\${token.name}.png`,
+            imageBuffer
+          );
+        } catch {
+        } finally {
+          await pageNew.close();
+        }
 
         const tokenAddress = imgUrl
           .replace("https://sdk.raydium.io/icons/", "")
+          .replace("https://img.raydium.io/icon/", "")
           .replace(
             "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/",
             ""

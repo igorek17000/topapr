@@ -151,9 +151,9 @@ export const chainExplorer = async (
     console.log("transfers", transfers);
 
     const query = `replace into ${db}.tokens values (${dbConn.escape(
-      tokenAddress.name
-    )}, ${dbConn.escape(network)}, ${dbConn.escape(
       tokenAddress.address
+    )}, ${dbConn.escape(network)}, ${dbConn.escape(
+      tokenAddress.name
     )}, ${dbConn.escape(tokenFullName)}, ${tokenDec}, ${dbConn.escape(
       officialSite
     )}, ${dbConn.escape(social)}, ${dbConn.escape(tags)}, ${price}, ${

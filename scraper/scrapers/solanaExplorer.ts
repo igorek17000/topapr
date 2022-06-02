@@ -111,8 +111,8 @@ export const solanaExplorer = async (page: puppeteer.Page, tokenAddresses) => {
     }
 
     const query = `replace into ${db}.tokens values (${dbConn.escape(
-      tokenAddress.name
-    )}, 'Solana', ${dbConn.escape(tokenAddress.address)}, ${dbConn.escape(
+      tokenAddress.address
+    )}, 'Solana', ${dbConn.escape(tokenAddress.name)}, ${dbConn.escape(
       tokenFullName
     )}, ${tokenDec}, ${dbConn.escape(officialSite)}, ${dbConn.escape(
       social
