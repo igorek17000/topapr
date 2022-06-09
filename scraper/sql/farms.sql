@@ -12,3 +12,13 @@ CREATE TABLE `farms` (
 
 ALTER TABLE `farms` 
 ADD COLUMN `apy` DOUBLE NULL AFTER `apr`;
+
+#####################
+
+ALTER TABLE `farms` 
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`pair`, `pool`, `network`);
+;
+
+update `farms` set pool = 'Mdex' where pool = 'Mdex-BSC' and pair != '' and network != '';
+update `farms` set pool = 'Mdex' where pool = 'Mdex-Heco' and pair != '' and network != '';

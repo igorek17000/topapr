@@ -89,7 +89,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
 
   const insertHistoryValRaw = farmVal.reduce((prev, farm) => {
     return `${prev}
-      (null, ${dbConn.escape(farm.name)}, 'Raydium', ${farm.apr}, ${
+      (null, ${dbConn.escape(farm.name)}, 'Raydium', 'Solana', ${farm.apr}, ${
       farm.totalValue
     }, NOW()),`;
   }, "");

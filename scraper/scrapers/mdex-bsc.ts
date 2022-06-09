@@ -85,9 +85,9 @@ async function main() {
 
   const insertValRaw = farmVal.reduce((prev, farm) => {
     return `${prev}
-      (${dbConn.escape(farm.name)}, 'Mdex-BSC', 'BSC', ${farm.apr}, ${
-      farm.apy
-    }, ${farm.totalValue}, null, NOW(), NOW()),`;
+      (${dbConn.escape(farm.name)}, 'Mdex', 'BSC', ${farm.apr}, ${farm.apy}, ${
+      farm.totalValue
+    }, null, NOW(), NOW()),`;
   }, "");
   const insertVal = insertValRaw.slice(0, insertValRaw.length - 1);
 
@@ -103,7 +103,7 @@ async function main() {
 
   const insertHistoryValRaw = farmVal.reduce((prev, farm) => {
     return `${prev}
-      (null, ${dbConn.escape(farm.name)}, 'Mdex-BSC', ${farm.apr}, ${
+      (null, ${dbConn.escape(farm.name)}, 'Mdex', 'BSC', ${farm.apr}, ${
       farm.totalValue
     }, NOW()),`;
   }, "");
