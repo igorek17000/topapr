@@ -1,23 +1,16 @@
 // Bismillaahirrahmaanirrahiim
 
 import { useContext } from 'react';
-import { Button } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
 import ContractContext from 'context/ContractContext';
 import UserContext from 'context/UserContext';
 import { getShortAddress } from 'utils/getShortAddress';
-import jwt_decode from 'jwt-decode';
+// import jwt_decode from 'jwt-decode';
 
 export default function SignInButton() {
   const { signer } = useContext(ContractContext);
-  const {
-    setAddress,
-    setShortAddress,
-    resetAccount,
-    setIdToken,
-    setUid,
-    setIsUserLoading,
-    setIsHavingNft,
-  } = useContext(UserContext);
+  const { setAddress, setShortAddress, resetAccount, setIsUserLoading } =
+    useContext(UserContext);
 
   const handleClick = () => {
     const { ethereum } = window as any;
@@ -28,9 +21,6 @@ export default function SignInButton() {
           if (acc.length > 0) {
             const address = acc[0].toLowerCase();
             const shortAddress = getShortAddress(address);
-
-            setAddress(address);
-            setShortAddress(shortAddress);
 
             fetch(`${process.env.REACT_APP_SERVER}/auth/sign/${address}`)
               .then((res) => res.json())
@@ -48,18 +38,16 @@ export default function SignInButton() {
                         )
                           .then((res) => res.json())
                           .then((result) => {
-                            const { customToken } = result;
-                            if (customToken) {
-                              const { isHavingNft } = jwt_decode(
-                                customToken
-                              ) as any;
+                            const { token } = result;
+                            if (token) {
+                              // console.log(token);
+                              // console.log('decode', jwt_decode(token));
 
-                              setIsHavingNft(isHavingNft);
                               setIsUserLoading(false);
-                              setUid(address.toLowerCase());
-                              setIdToken(customToken);
+                              setAddress(address);
+                              setShortAddress(shortAddress);
 
-                              localStorage.setItem('data', customToken);
+                              sessionStorage.setItem('data', token);
                             } else {
                               setIsUserLoading(false);
                             }
@@ -83,8 +71,15 @@ export default function SignInButton() {
       color="secondary"
       onClick={handleClick}
       sx={{ textTransform: 'none' }}
+      startIcon={
+        <Avatar
+          src="/metamask.png"
+          variant="rounded"
+          sx={{ width: 22, height: 22, mr: '4px' }}
+        />
+      }
     >
-      {signer ? 'Connect Metamask' : 'Install Metamask'}
+      {signer ? 'Sign In' : 'Install Metamask'}
     </Button>
   );
 }

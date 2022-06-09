@@ -12,8 +12,6 @@ interface ContextWrapProps {
 export default function ContextWrap(props: ContextWrapProps) {
   const [address, setAddress] = useState('');
   const [shortAddress, setShortAddress] = useState('');
-  const [uid, setUid] = useState('');
-  const [idToken, setIdToken] = useState('');
   const [isHavingNft, setIsHavingNft] = useState(false);
   const [isUserLoading, setIsUserLoading] = useState(true);
 
@@ -30,8 +28,6 @@ export default function ContextWrap(props: ContextWrapProps) {
   function resetAccount() {
     setAddress('');
     setShortAddress('');
-    setUid('');
-    setIdToken('');
     setIsHavingNft(false);
     setIsUserLoading(false);
   }
@@ -41,14 +37,10 @@ export default function ContextWrap(props: ContextWrapProps) {
       value={{
         address,
         shortAddress,
-        uid,
-        idToken,
         isHavingNft,
         isUserLoading,
         setAddress,
         setShortAddress,
-        setUid,
-        setIdToken,
         setIsHavingNft,
         setIsUserLoading,
         resetAccount,

@@ -7,7 +7,7 @@ import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 
 export default function WalletButton() {
-  const { uid } = useContext(UserContext);
+  const { address } = useContext(UserContext);
 
-  return <Box>{uid ? <SignOutButton /> : <SignInButton />}</Box>;
+  return <Box>{address ? <SignOutButton /> : <SignInButton />}</Box>;
 }

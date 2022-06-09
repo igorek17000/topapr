@@ -2,23 +2,12 @@
 
 import { useContext, useEffect } from 'react';
 import UserContext from 'context/UserContext';
-import ContractContext from 'context/ContractContext';
+import jwtDecode from 'jwt-decode';
 import { getShortAddress } from 'utils/getShortAddress';
-import jwt_decode from 'jwt-decode';
 
 export function useAuth() {
-  const {
-    address,
-    setAddress,
-    setShortAddress,
-    setIdToken,
-    setIsHavingNft,
-    setIsUserLoading,
-    setUid,
-    resetAccount,
-  } = useContext(UserContext);
-
-  const { signer } = useContext(ContractContext);
+  const { setAddress, setShortAddress, resetAccount, setIsUserLoading } =
+    useContext(UserContext);
 
   useEffect(() => {
     const { ethereum } = window as any;
@@ -26,43 +15,25 @@ export function useAuth() {
       ethereum.on('accountsChanged', (acc: string[]) => {
         if (acc.length > 0) {
           resetAccount();
-          localStorage.removeItem('data');
+          sessionStorage.removeItem('data');
         }
       });
     }
   }, [resetAccount]);
 
   useEffect(() => {
-    if (signer) {
-      signer
-        .getAddress()
-        .then((data) => {
-          if (data) {
-            const address = data.toLocaleLowerCase();
-            const shortAddress = getShortAddress(address);
-
-            setAddress(address);
-            setShortAddress(shortAddress);
-            setIsUserLoading(false);
-          }
-        })
-        .catch((err) => {
-          resetAccount();
-          localStorage.removeItem('data');
-          console.error(err);
-        });
-    }
-  }, [signer, setAddress, setShortAddress, setIsUserLoading, resetAccount]);
-
-  useEffect(() => {
-    if (address) {
-      const customToken = localStorage.getItem('data');
-      if (customToken) {
-        const { isHavingNft } = jwt_decode(customToken) as any;
-        setIdToken(customToken);
-        setIsHavingNft(isHavingNft);
-        setUid(address);
+    setIsUserLoading(true);
+    const token = sessionStorage.getItem('data');
+    if (token) {
+      const data: any = jwtDecode(token);
+      if (data && data.address) {
+        setAddress(data.address);
+        setShortAddress(getShortAddress(data.address));
+      } else {
+        resetAccount();
+        sessionStorage.removeItem('data');
       }
     }
-  }, [setIsHavingNft, setIdToken, address, setUid]);
+    setIsUserLoading(false);
+  }, [setIsUserLoading, setAddress, setShortAddress, resetAccount]);
 }

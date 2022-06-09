@@ -17,12 +17,12 @@ export default function PairImg(props: PairProps) {
       <Avatar
         alt={firstToken}
         src={`/token/${firstToken}.png`}
-        sx={{ width: 24, height: 24, zIndex: 10 }}
+        sx={{ width: 28, height: 28, zIndex: 10 }}
       />
       <Avatar
         alt={secondToken}
         src={`/token/${secondToken}.png`}
-        sx={{ width: 24, height: 24, zIndex: 9 }}
+        sx={{ width: 28, height: 28, zIndex: 9 }}
       />
     </Stack>
   );

@@ -21,11 +21,13 @@ export default function NftList(props: NftListProps) {
   // get nfts
   useEffect(() => {
     setIsLoading(true);
+
     if (address) {
+      const token = sessionStorage.getItem('data');
+      const bearer = token ? `Bearer ${token}` : '';
+
       fetch(`${process.env.REACT_APP_SERVER}/nft`, {
-        headers: {
-          Authorization: `Bearer ${address}:`,
-        },
+        headers: { Authorization: bearer },
       })
         .then((res) => res.json())
         .then((result) => {

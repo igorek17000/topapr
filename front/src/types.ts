@@ -28,6 +28,7 @@ export interface Farm {
   totalValue?: number;
   multiplier?: number;
   url?: string;
+  isStarred?: boolean;
   createdAt: number;
   updatedAt: number;
 }

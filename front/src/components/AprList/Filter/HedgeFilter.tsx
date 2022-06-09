@@ -1,6 +1,6 @@
 // Bismillaahirrahmaanirrahiim
 
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Box, Stack, CircularProgress, Tooltip } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -8,6 +8,7 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import FilterCheckbox from './FilterCheckbox';
 import FilterFormControlLabel from './FilterFormControlLabel';
 import { HedgeName, hedges } from '../config';
+import UserContext from 'context/UserContext';
 
 export type CheckedHedge = {
   [x in HedgeName]: boolean;
@@ -22,6 +23,21 @@ type HedgeFilterProps = {
 
 function HedgeFilter(props: HedgeFilterProps) {
   const { nfts, checked, setChecked, isNftLoading } = props;
+  const { address } = useContext(UserContext);
+
+  useEffect(() => {
+    if (!address) {
+      setChecked(
+        hedges.reduce(
+          (prev, hedge) => ({
+            ...prev,
+            [hedge]: false,
+          }),
+          {} as CheckedHedge
+        )
+      );
+    }
+  }, [address, setChecked]);
 
   const allChecked = hedges.reduce(
     (prev, hedge) => prev && checked[hedge],
