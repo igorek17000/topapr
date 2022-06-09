@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ethers } from "ethers";
 import cors from "cors";
+import "dotenv/config";
 
 import { dbConn } from "../db";
 
@@ -31,7 +32,8 @@ router.get(
         nonce
       )}, updatedAt = now();
     `;
-    const queryRes = await new Promise((res, rej) => {
+
+    await new Promise((res, rej) => {
       dbConn.query(query, function (err, result) {
         if (err) return rej(err);
         return res(result);
@@ -41,7 +43,6 @@ router.get(
     return res.status(200).send({
       address: reqAddress,
       nonce,
-      queryRes,
     });
   }
 );
@@ -74,15 +75,15 @@ router.get(
 
       if (reqAddress !== address) return res.status(401).send("Unauthorized");
 
-      jwt.sign({}, nonce, function (err, customToken) {
-        if (customToken) {
-          return res.status(200).send({
-            customToken,
-          });
-        }
-
-        return res.status(401).send("Unauthorized");
+      const token = jwt.sign({ address }, process.env.SECRET_KEY, {
+        expiresIn: "1d",
       });
+
+      if (token) {
+        return res.status(200).send({ token });
+      }
+
+      return res.status(401).send("Unauthorized");
     } catch {
       return res.status(401).send("Unauthorized");
     }

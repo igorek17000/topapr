@@ -6,19 +6,17 @@ import { prepareReq } from "../../tools/prepareReq";
 
 export default async (req: Request, res: Response): Promise<Response> => {
   const {
+    fromTable,
     itemsPerPage,
     limit,
     sortBy,
     pairTextFilter,
     checkedPools,
     checkedChains,
-  } = await prepareReq(req);
+  } = await prepareReq(req.body);
 
   const query = `
-    select q.*, p.cnt from (
-      select pair, max(apr) as apr, max(totalValue) as totalValue, COUNT(pair) as cnt from farms ${checkedPools} ${checkedChains} ${pairTextFilter} group by pair order by ${sortBy} limit ${limit},${itemsPerPage}
-    ) p
-    left join farms as q on p.pair = q.pair and p.apr = q.apr
+    select m.* ${fromTable} ${checkedPools} ${checkedChains} ${pairTextFilter} order by ${sortBy} limit ${limit},${itemsPerPage}
   `;
 
   // console.log(query);

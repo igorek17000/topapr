@@ -6,7 +6,9 @@ import { db, dbConn } from "../../db";
 export default async (req: Request, res: Response): Promise<Response> => {
   const query = `
     SELECT apr,totalValue,date FROM ${db}.aprhistory
-    where pair = ${dbConn.escape(req.query.pair)} 
+    where pair = ${dbConn.escape(req.query.pair)}
+    and pool = ${dbConn.escape(req.query.pool)}
+    and network = ${dbConn.escape(req.query.network)}
     and date >= date(now() - interval 30 day);
   `;
 

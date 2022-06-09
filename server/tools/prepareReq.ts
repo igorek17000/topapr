@@ -2,27 +2,38 @@
 
 import { Request } from "express";
 
-export const prepareReq = async (req: Request) => {
+export const prepareReq = async (body: any) => {
   const itemsPerPage = 20;
-  const page = parseInt((req.query.p as any) || "1", 10) || 1;
+  const page = body.p ? parseInt((body.p as any) || "1", 10) || 1 : 1;
   const limit = (page - 1) * itemsPerPage;
 
-  const sortBy = (() => {
-    if (req.query.sort === "Name") return "pair";
-    if (req.query.sort === "Total value") return "totalValue desc";
-    return "apr desc";
+  const fromTable = (() => {
+    if (!body.starred) return "from farms as m";
+
+    return `
+      FROM starred as n left join farms as m
+      on n.pair = m.pair
+      and n.pool = m.pool
+      and n.network = m.network
+    `;
   })();
 
-  const pairAlphanum = req.query.q
-    ? (req.query.q as string).replace(/[\W_]+/g, " ").trim()
+  const sortBy = (() => {
+    if (body.sort === "Name") return "m.pair";
+    if (body.sort === "Total value") return "m.totalValue desc";
+    return "m.apr desc";
+  })();
+
+  const pairAlphanum = body.q
+    ? (body.q as string).replace(/[\W_]+/g, " ").trim()
     : "";
   const pairTextFilter = pairAlphanum
-    ? `and pair like '%${pairAlphanum}%'`
+    ? `and m.pair like '%${pairAlphanum}%'`
     : "";
 
-  const checkedPools = `where pool in ${(() => {
-    if (!req.query.pools) return "('')";
-    return `(${req.query.pools
+  const checkedPools = `where m.pool in ${(() => {
+    if (!body.pools) return "('')";
+    return `(${body.pools
       .toString()
       .split(",")
       .reduce((prev, pool) => {
@@ -31,9 +42,9 @@ export const prepareReq = async (req: Request) => {
   })()}`;
   // console.log("checkedPools", checkedPools);
 
-  const checkedChains = `and network in ${(() => {
-    if (!req.query.chains) return "('')";
-    return `(${req.query.chains
+  const checkedChains = `and m.network in ${(() => {
+    if (!body.chains) return "('')";
+    return `(${body.chains
       .toString()
       .split(",")
       .reduce((prev, chain) => {
@@ -43,6 +54,7 @@ export const prepareReq = async (req: Request) => {
   // console.log("checkedChains", checkedChains);
 
   return {
+    fromTable,
     itemsPerPage,
     limit,
     sortBy,

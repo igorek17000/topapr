@@ -2,6 +2,8 @@
 
 import Moralis from "moralis/node";
 import cors from "cors";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
 var express = require("express");
 var router = express.Router();
@@ -16,22 +18,28 @@ router.get("/", async (req, res) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer ")
   ) {
-    const authData = req.headers.authorization
-      .replace("Bearer ", "")
-      .split(":");
-    const uid = authData[0];
-    if (uid) {
-      const nfts = await Moralis.Web3API.account.getNFTsForContract({
-        chain: "bsc",
-        address: uid,
-        token_address: "0xdA3d65F55338974dDa06B8EF4CAcaCc5D1AfFEd7",
-      });
+    try {
+      const decoded = jwt.verify(
+        req.headers.authorization.replace("Bearer ", ""),
+        process.env.SECRET_KEY
+      );
 
-      if (nfts.total > 0) {
-        return res.status(200).send({
-          nfts: nfts.result,
+      const uid = decoded.address;
+      if (decoded && uid) {
+        const nfts = await Moralis.Web3API.account.getNFTsForContract({
+          chain: "bsc",
+          address: uid,
+          token_address: "0xdA3d65F55338974dDa06B8EF4CAcaCc5D1AfFEd7",
         });
+
+        if (nfts.total > 0) {
+          return res.status(200).send({
+            nfts: nfts.result,
+          });
+        }
       }
+    } catch {
+      return res.status(401).send("Unauthorized");
     }
   }
 
