@@ -62,6 +62,7 @@ router.post("/", async (req: Request, res: Response): Promise<Response> => {
                 and n.network = m.network
               inner join mexc on m.pair like concat(mexc.token, '-%') or m.pair like concat('%-', mexc.token) 
             ${checkedPools} ${checkedChains} ${pairTextFilter}
+            and m.userid = ${dbConn.escape(uid)}
             order by ${sortBy} limit ${limit},${itemsPerPage}      
             `;
 

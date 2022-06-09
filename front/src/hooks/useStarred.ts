@@ -48,13 +48,7 @@ export function useStarred(farmsAprList: Farm[], starredFarmsAprList: Farm[]) {
 
   // Combine data
   useEffect(() => {
-    // console.log('combine data', farmsAprList, starredFarmsAprList);
-    const baseData =
-      farmsAprList.length === 0 && starredFarmsAprList.length > 0
-        ? starredFarmsAprList
-        : farmsAprList;
-
-    const starredList = baseData.map((farm) => {
+    const farmList = farmsAprList.map((farm) => {
       if (
         pairStarred &&
         pairStarred.find(
@@ -69,9 +63,39 @@ export function useStarred(farmsAprList: Farm[], starredFarmsAprList: Farm[]) {
 
       return { ...farm, isStarred: false };
     });
+    setFarmList(farmList);
 
-    setFarmList(starredList);
-    setStarredFarmList(starredList.filter((farm) => farm.isStarred));
+    const starredList = pairStarred
+      ? pairStarred
+          .map((star) => {
+            const farm = starredFarmsAprList.find(
+              (farm) =>
+                star.pair === farm.pair &&
+                star.pool === farm.pool &&
+                star.network === farm.network
+            );
+
+            if (farm) {
+              return { ...farm, isStarred: true };
+            }
+
+            const baseFarm = farmsAprList.find(
+              (farm) =>
+                star.pair === farm.pair &&
+                star.pool === farm.pool &&
+                star.network === farm.network
+            );
+
+            if (baseFarm) {
+              return { ...baseFarm, isStarred: true };
+            }
+
+            return undefined;
+          })
+          .filter((farm) => farm !== undefined)
+      : [];
+
+    setStarredFarmList(starredList);
   }, [
     farmsAprList,
     starredFarmsAprList,

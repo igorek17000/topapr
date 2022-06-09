@@ -7,17 +7,6 @@ export const prepareReq = async (body: any) => {
   const page = body.p ? parseInt((body.p as any) || "1", 10) || 1 : 1;
   const limit = (page - 1) * itemsPerPage;
 
-  const fromTable = (() => {
-    if (!body.starred) return "from farms as m";
-
-    return `
-      FROM starred as n left join farms as m
-      on n.pair = m.pair
-      and n.pool = m.pool
-      and n.network = m.network
-    `;
-  })();
-
   const sortBy = (() => {
     if (body.sort === "Name") return "m.pair";
     if (body.sort === "Total value") return "m.totalValue desc";
@@ -54,7 +43,6 @@ export const prepareReq = async (body: any) => {
   // console.log("checkedChains", checkedChains);
 
   return {
-    fromTable,
     itemsPerPage,
     limit,
     sortBy,
