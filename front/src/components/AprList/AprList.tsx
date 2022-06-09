@@ -278,7 +278,9 @@ export default memo(function AprList() {
       <Grid container spacing={3} sx={{ mt: '0px', mb: '32px' }}>
         <Grid item md={7} xs={12}></Grid>
         <Grid item md={2} xs={5}>
-          <SortBySelect sortBy={sortBy} handleChange={handleSortByChange} />
+          {tabValue === 0 && (
+            <SortBySelect sortBy={sortBy} handleChange={handleSortByChange} />
+          )}
         </Grid>
         <Grid item md={3} xs={7}>
           <TextField

@@ -90,9 +90,12 @@ export function useStarred(farmsAprList: Farm[], starredFarmsAprList: Farm[]) {
               return { ...baseFarm, isStarred: true };
             }
 
-            return undefined;
+            return null;
           })
-          .filter((farm) => farm !== undefined)
+          .filter((farm) => farm !== null)
+          .sort((a, b) => {
+            return (b ? b.apr : 0) - (a ? a.apr : 0);
+          })
       : [];
 
     setStarredFarmList(starredList);
