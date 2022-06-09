@@ -62,11 +62,11 @@ router.post("/", async (req: Request, res: Response): Promise<Response> => {
                 and n.network = m.network
               inner join mexc on m.pair like concat(mexc.token, '-%') or m.pair like concat('%-', mexc.token) 
             ${checkedPools} ${checkedChains} ${pairTextFilter}
-            and m.userid = ${dbConn.escape(uid)}
+            and n.userid = ${dbConn.escape(uid)}
             order by ${sortBy} limit ${limit},${itemsPerPage}      
             `;
 
-          // console.log(query);
+          console.log(query);
           const queryRes = await new Promise((res, rej) => {
             dbConn.query(query, function (err, result) {
               if (err) return rej(err);
