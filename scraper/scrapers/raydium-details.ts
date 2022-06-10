@@ -1,7 +1,7 @@
 // Bismillaahirrahmaanirrahiim
 
 import puppeteer = require("puppeteer");
-import * as fs from "fs";
+// import * as fs from "fs";
 
 import { dbConn, db } from "../db";
 import { solanaExplorer } from "./solanaExplorer";
@@ -93,28 +93,40 @@ const device = puppeteer.devices["iPad Pro landscape"];
       await page.waitForTimeout(1000);
 
       const [img] = await page.$x(
-        token.name === "USDC" || token.name === "USDH" || token.name === "USDT"
+        token.name === "USDC" ||
+          token.name === "USDH" ||
+          token.name === "USDT" ||
+          token.name === "SOL"
           ? "/html/body/div/div/div[1]/main/div[2]/div/div[3]/div/div/div/div/div[2]/div[1]/div[2]/div/img"
           : "/html/body/div/div/div[1]/main/div[2]/div/div[3]/div/div/div/div/div[2]/div[1]/div[1]/div/img"
       );
       if (img) {
         const imgUrl = await img.evaluate((el) => el.getAttribute("src"));
 
-        const pageNew = await browser.newPage();
-        try {
-          const response = await pageNew.goto(imgUrl, {
-            timeout: 0,
-            waitUntil: "networkidle0",
+        // const pageNew = await browser.newPage();
+        // try {
+        //   const response = await pageNew.goto(imgUrl, {
+        //     timeout: 0,
+        //     waitUntil: "networkidle0",
+        //   });
+        //   const imageBuffer = await response.buffer();
+        //   await fs.promises.writeFile(
+        //     `C:\\Users\\cakia\\dev\\topapr\\front\\public\\token2\\${token.name}.png`,
+        //     imageBuffer
+        //   );
+        // } catch {
+        //   console.log("error");
+        const excludeImgTokens = ["SOL", "NOVA"];
+        if (!excludeImgTokens.find((exc) => exc === token.name))
+          img.screenshot({
+            path: `C:\\Users\\cakia\\dev\\topapr\\front\\public\\token\\${token.name}.png`,
+            type: "png",
+            omitBackground: true,
+            captureBeyondViewport: false,
           });
-          const imageBuffer = await response.buffer();
-          await fs.promises.writeFile(
-            `C:\\Users\\cakia\\dev\\topapr\\front\\public\\token2\\${token.name}.png`,
-            imageBuffer
-          );
-        } catch {
-        } finally {
-          await pageNew.close();
-        }
+        // } finally {
+        //   await pageNew.close();
+        // }
 
         const tokenAddress = imgUrl
           .replace("https://sdk.raydium.io/icons/", "")
