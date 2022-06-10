@@ -9,7 +9,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
 
 (async () => {
   const browser = await puppeteer.launch({
-    // headless: false,
+    headless: false,
   });
   const page = await browser.newPage();
   await page.emulate(device);
@@ -23,30 +23,30 @@ const device = puppeteer.devices["iPad Pro landscape"];
   console.log("Wait for two seconds...");
   await page.waitForTimeout(2000);
 
-  const divs = await page.$x(
-    "/html/body/div/div[2]/div/div[3]/div/div[2]/div[3]/div[2]/div/div/div[1]/table/tbody/tr[@class]"
+  const trs = await page.$x(
+    "/html/body/div/div[2]/div/div[3]/div/div[3]/div[3]/div[2]/div/div/div[1]/table/tbody/tr[@class]"
   );
 
-  if (divs.length > 0) {
+  if (trs.length > 0) {
     const farms = [];
 
-    for (const div of divs) {
-      console.log(await div.evaluate((el) => el.textContent));
+    for (const tr of trs) {
+      console.log(await tr.evaluate((el) => el.textContent));
 
-      const childDivs = await div.$x("div");
-      if (childDivs.length > 0) {
+      const childTds = await tr.$x("td");
+      if (childTds.length > 0) {
         let pairName;
         let pairApr;
         let pairValue;
-        for (const [i, childDiv] of childDivs.entries()) {
+        for (const [i, childTd] of childTds.entries()) {
           // console.log(i, await childDiv.evaluate((el) => el.textContent));
           if (i === 0) {
-            pairName = await childDiv.evaluate((el) => el.textContent);
+            pairName = await childTd.evaluate((el) => el.textContent);
           }
 
           if (i === 1) {
             pairApr = parseFloat(
-              (await childDiv.evaluate((el) => el.textContent))
+              (await childTd.evaluate((el) => el.textContent))
                 .replace("%", "")
                 .replace(",", "")
             );
@@ -54,7 +54,7 @@ const device = puppeteer.devices["iPad Pro landscape"];
 
           if (i === 2) {
             pairValue = parseFloat(
-              (await childDiv.evaluate((el) => el.textContent))
+              (await childTd.evaluate((el) => el.textContent))
                 .replace("$", "")
                 .replace(",", "")
             );
