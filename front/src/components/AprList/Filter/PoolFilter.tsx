@@ -1,7 +1,7 @@
 // Bismillaahirrahmaanirrahiim
 
+import React, { MouseEvent } from 'react';
 import { Box, Stack } from '@mui/material';
-import React from 'react';
 import { PoolName, pools, poolsName } from '../config';
 import FilterCheckbox from './FilterCheckbox';
 import FilterFormControlLabel from './FilterFormControlLabel';
@@ -27,10 +27,29 @@ function PoolFilter(props: PoolFilterProps) {
     pools.reduce((prev, pool) => prev || checked[pool], false as boolean) &&
     !allChecked;
 
-  const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleClick = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const id = (e as any).target.attributes['data-name'].value;
+    if (id) {
+      setChecked(
+        pools.reduce(
+          (prev, pool) => ({
+            ...prev,
+            [pool]: pool === id,
+          }),
+          {} as CheckedPool
+        )
+      );
+    }
+  };
+
+  const handleClickCheckbox = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     setChecked({
       ...checked,
-      [event.target.name]: event.target.checked,
+      [(e as any).target.name]: !(checked as any)[(e as any).target.name],
     });
   };
 
@@ -62,18 +81,26 @@ function PoolFilter(props: PoolFilterProps) {
       {pools.map((pool) => (
         <FilterFormControlLabel
           key={pool}
+          onClick={handleClick}
+          data-name={pool}
           label={
-            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+            <Stack
+              direction="row"
+              spacing={1}
+              data-name={pool}
+              sx={{ alignItems: 'center' }}
+            >
               <Box sx={{ display: 'flex' }}>
                 <img
                   src={`/pool/${pool}.png`}
                   style={checked[pool] ? {} : { filter: 'grayscale(100%)' }}
                   alt={pool}
+                  data-name={pool}
                   width={18}
                   height={18}
                 />
               </Box>
-              <div>{poolsName[pool]}</div>
+              <div data-name={pool}>{poolsName[pool]}</div>
             </Stack>
           }
           checked={checked[pool]}
@@ -81,7 +108,7 @@ function PoolFilter(props: PoolFilterProps) {
             <FilterCheckbox
               name={pool}
               checked={checked[pool]}
-              onChange={handleChecked}
+              onClick={handleClickCheckbox}
             />
           }
         />

@@ -1,7 +1,7 @@
 // Bismillaahirrahmaanirrahiim
 
+import React, { MouseEvent } from 'react';
 import { Box, Stack } from '@mui/material';
-import React from 'react';
 import { ChainName, chains } from '../config';
 import FilterCheckbox from './FilterCheckbox';
 import FilterFormControlLabel from './FilterFormControlLabel';
@@ -27,10 +27,29 @@ function ChainFilter(props: ChainFilterProps) {
     chains.reduce((prev, chain) => prev || checked[chain], false as boolean) &&
     !allChecked;
 
-  const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleClick = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const id = (e as any).target.attributes['data-name'].value;
+    if (id) {
+      setChecked(
+        chains.reduce(
+          (prev, chain) => ({
+            ...prev,
+            [chain]: chain === id,
+          }),
+          {} as CheckedChain
+        )
+      );
+    }
+  };
+
+  const handleClickCheckbox = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     setChecked({
       ...checked,
-      [event.target.name]: event.target.checked,
+      [(e as any).target.name]: !(checked as any)[(e as any).target.name],
     });
   };
 
@@ -62,26 +81,34 @@ function ChainFilter(props: ChainFilterProps) {
       {chains.map((chain) => (
         <FilterFormControlLabel
           key={chain}
+          data-name={chain}
           label={
-            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-              <Box sx={{ display: 'flex' }}>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{ alignItems: 'center' }}
+              data-name={chain}
+            >
+              <Box sx={{ display: 'flex' }} data-name={chain}>
                 <img
                   src={`/chain/${chain}.png`}
                   style={checked[chain] ? {} : { filter: 'grayscale(100%)' }}
                   alt={chain}
                   width={18}
                   height={18}
+                  data-name={chain}
                 />
               </Box>
-              <div>{chain}</div>
+              <div data-name={chain}>{chain}</div>
             </Stack>
           }
+          onClick={handleClick}
           checked={checked[chain]}
           control={
             <FilterCheckbox
               name={chain}
               checked={checked[chain]}
-              onChange={handleChecked}
+              onClick={handleClickCheckbox}
             />
           }
         />
