@@ -5,8 +5,9 @@ import { dbConn, db } from "../db";
 
 export const chainExplorer = async (
   page: puppeteer.Page,
-  tokenAddresses,
-  network
+  tokens: any,
+  network: string,
+  saveLogo?: boolean
 ) => {
   const explorerUrl = (() => {
     if (network === "Avalanche") return "snowtrace.io";
@@ -14,15 +15,30 @@ export const chainExplorer = async (
     return "bscscan.com";
   })();
 
-  for (const tokenAddress of tokenAddresses) {
+  for (const token of tokens) {
     await page.waitForTimeout(1000);
-    await page.goto(`https://${explorerUrl}/token/${tokenAddress.address}`, {
+    await page.goto(`https://${explorerUrl}/token/${token.address}`, {
       waitUntil: "networkidle2",
       timeout: 90000,
     });
     await page.waitForXPath("//*[@id='totaltxns' and not(text()='-')]", {
       timeout: 90000,
     });
+
+    if (saveLogo) {
+      const [img] = await page.$x(
+        "/html/body/div[1]/main/div[1]/div/div[1]/h1/img"
+      );
+      if (img) {
+        await page.waitForTimeout(1000);
+        img.screenshot({
+          path: `C:\\Users\\cakia\\dev\\topapr\\front\\public\\token\\${token.name}.png`,
+          type: "png",
+          omitBackground: true,
+          captureBeyondViewport: false,
+        });
+      }
+    }
 
     const [tokenFullNamePath] = await page.$x(
       "/html/body/div[1]/main/div[1]/div/div[1]/h1/div/span"
@@ -151,9 +167,9 @@ export const chainExplorer = async (
     console.log("transfers", transfers);
 
     const query = `replace into ${db}.tokens values (${dbConn.escape(
-      tokenAddress.address
+      token.address
     )}, ${dbConn.escape(network)}, ${dbConn.escape(
-      tokenAddress.name
+      token.name
     )}, ${dbConn.escape(tokenFullName)}, ${tokenDec}, ${dbConn.escape(
       officialSite
     )}, ${dbConn.escape(social)}, ${dbConn.escape(tags)}, ${price}, ${

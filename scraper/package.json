@@ -35,6 +35,7 @@
     "sushi-eth": "npx tsc && node ./build/scrapers/sushi-eth.js",
     "spookyswap": "npx tsc && node ./build/scrapers/spookyswap.js",
     "pangolin": "npx tsc && node ./build/scrapers/pangolin.js",
+    "pangolin-details": "npx tsc && node ./build/scrapers/pangolin-details.js",
     "apeswap": "npx tsc && node ./build/scrapers/apeswap.js",
     "tokenImage": "npx tsc && node ./build/scrapers/tokenImage.js",
     "cleanup": "npx tsc && node ./build/scrapers/cleanup.js",
