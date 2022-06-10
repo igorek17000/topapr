@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress, Dialog, DialogContent } from '@mui/material';
 import CardDetails from './CardDetails';
+import mapTokens from './mapTokens';
 
 type TokenDetailsProps = {
   token: string;
@@ -19,7 +20,15 @@ export default function TokenDetails(props: TokenDetailsProps) {
   useEffect(() => {
     if (isOpen) {
       setIsLoading(true);
-      const apiUrl = `${process.env.REACT_APP_SERVER}/api/details?network=${network}&token=${token}`;
+
+      const tokenToMap = mapTokens.find(
+        (mapToken) => mapToken.token === token && mapToken.network === network
+      );
+      const tokenBase = tokenToMap
+        ? { token: tokenToMap.toToken, network: tokenToMap.toNetwork }
+        : { token, network };
+
+      const apiUrl = `${process.env.REACT_APP_SERVER}/api/details?network=${tokenBase.network}&token=${tokenBase.token}`;
       fetch(apiUrl)
         .then((res) => res.json())
         .then((result) => {
