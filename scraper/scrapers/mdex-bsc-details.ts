@@ -8,7 +8,7 @@ import { chainExplorer } from "./chainExplorer";
 const device = puppeteer.devices["iPad Pro landscape"];
 
 (async () => {
-  const query = `select pair from ${db}.farms where pool='Mdex-BSC'`;
+  const query = `select pair from ${db}.farms where pool='Mdex' and network='BSC'`;
 
   // console.log(query);
   const pairs: any = await new Promise((res, rej) => {
