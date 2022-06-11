@@ -50,8 +50,9 @@ router.post("/", async (req: Request, res: Response): Promise<Response> => {
           const query = !req.body.starred
             ? `
               select m.* from farms as m
-              inner join mexc on m.pair like concat(mexc.token, '-%') or m.pair like concat('%-', mexc.token) 
               ${checkedPools} ${checkedChains} ${pairTextFilter}
+              and substring_index(m.pair, '-', 1) in (select token from mexclite)
+              and substring_index(m.pair, '-', -1) in (select token from mexclite)
               order by ${sortBy} limit ${limit},${itemsPerPage}
             `
             : `
@@ -60,13 +61,14 @@ router.post("/", async (req: Request, res: Response): Promise<Response> => {
                 on n.pair = m.pair
                 and n.pool = m.pool
                 and n.network = m.network
-              inner join mexc on m.pair like concat(mexc.token, '-%') or m.pair like concat('%-', mexc.token) 
             ${checkedPools} ${checkedChains} ${pairTextFilter}
+            and substring_index(m.pair, '-', 1) in (select token from mexclite)
+            and substring_index(m.pair, '-', -1) in (select token from mexclite)
             and n.userid = ${dbConn.escape(uid)}
             order by ${sortBy} limit ${limit},${itemsPerPage}      
             `;
 
-          console.log(query);
+          // console.log(query);
           const queryRes = await new Promise((res, rej) => {
             dbConn.query(query, function (err, result) {
               if (err) return rej(err);
