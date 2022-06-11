@@ -21,6 +21,7 @@
   },
   "scripts": {
     "mexc-margin": "npx tsc && node ./build/scrapers/mexc-margin.js",
+    "mexclite": "npx tsc && node ./build/scrapers/mexclite.js",
     "mdex-heco": "npx tsc && node ./build/scrapers/mdex-heco.js",
     "mdex-heco-details": "npx tsc && node ./build/scrapers/mdex-heco-details.js",
     "mdex-bsc": "npx tsc && node ./build/scrapers/mdex-bsc.js",
