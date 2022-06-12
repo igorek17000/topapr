@@ -14,7 +14,7 @@ export function useNft() {
     // console.log('address changed', address);
     setIsNftLoading(true);
     if (address) {
-      const token = sessionStorage.getItem('data');
+      const token = localStorage.getItem('data');
       const bearer = token ? `Bearer ${token}` : '';
 
       fetch(`${process.env.REACT_APP_SERVER}/nft`, {

@@ -104,7 +104,7 @@ export default memo(function AprList() {
     const chainList = getList(chains, chainChecked);
     const hedgeList = address ? getList(hedges, hedgeChecked) : undefined;
 
-    const token = sessionStorage.getItem('data');
+    const token = localStorage.getItem('data');
     const bearer = token ? `Bearer ${token}` : '';
 
     const fetchData = {

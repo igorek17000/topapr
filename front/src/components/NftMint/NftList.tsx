@@ -23,7 +23,7 @@ export default function NftList(props: NftListProps) {
     setIsLoading(true);
 
     if (address) {
-      const token = sessionStorage.getItem('data');
+      const token = localStorage.getItem('data');
       const bearer = token ? `Bearer ${token}` : '';
 
       fetch(`${process.env.REACT_APP_SERVER}/nft`, {

@@ -25,7 +25,7 @@ export function useStarred(farmsAprList: Farm[], starredFarmsAprList: Farm[]) {
   useEffect(() => {
     if (address) {
       setIsPairStarredLoading(true);
-      const token = sessionStorage.getItem('data');
+      const token = localStorage.getItem('data');
       const bearer = token ? `Bearer ${token}` : '';
 
       fetch(`${process.env.REACT_APP_SERVER}/api/starred`, {
@@ -129,7 +129,7 @@ export function useStarred(farmsAprList: Farm[], starredFarmsAprList: Farm[]) {
       e.stopPropagation();
 
       if (address) {
-        const token = sessionStorage.getItem('data');
+        const token = localStorage.getItem('data');
         const bearer = token ? `Bearer ${token}` : '';
 
         setPairStarred((old) => {

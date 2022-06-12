@@ -15,7 +15,7 @@ export function useAuth() {
       ethereum.on('accountsChanged', (acc: string[]) => {
         if (acc.length > 0) {
           resetAccount();
-          sessionStorage.removeItem('data');
+          localStorage.removeItem('data');
         }
       });
     }
@@ -23,7 +23,7 @@ export function useAuth() {
 
   useEffect(() => {
     setIsUserLoading(true);
-    const token = sessionStorage.getItem('data');
+    const token = localStorage.getItem('data');
     if (token) {
       const data: any = jwtDecode(token);
       if (data && data.address) {
@@ -31,7 +31,7 @@ export function useAuth() {
         setShortAddress(getShortAddress(data.address));
       } else {
         resetAccount();
-        sessionStorage.removeItem('data');
+        localStorage.removeItem('data');
       }
     }
     setIsUserLoading(false);

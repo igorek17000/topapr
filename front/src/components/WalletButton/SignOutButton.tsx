@@ -20,7 +20,7 @@ export default function SignOutButton() {
   const handleSignout = () => {
     resetAccount();
     setAnchorEl(null);
-    sessionStorage.removeItem('data');
+    localStorage.removeItem('data');
   };
 
   return (

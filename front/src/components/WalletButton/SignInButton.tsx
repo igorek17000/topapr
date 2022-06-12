@@ -47,7 +47,7 @@ export default function SignInButton() {
                               setAddress(address);
                               setShortAddress(shortAddress);
 
-                              sessionStorage.setItem('data', token);
+                              localStorage.setItem('data', token);
                             } else {
                               setIsUserLoading(false);
                             }
