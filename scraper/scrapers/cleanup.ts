@@ -3,7 +3,7 @@
 import { dbConn, db } from "../db";
 
 (async () => {
-  const query = `delete FROM ${db}.farms WHERE DATE_ADD(updatedAt, INTERVAL 1 HOUR) < NOW();`;
+  const query = `delete FROM ${db}.farms WHERE DATE_ADD(updatedAt, INTERVAL 6 HOUR) < NOW();`;
 
   await new Promise((res, rej) => {
     dbConn.query(query, function (err, result) {
