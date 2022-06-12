@@ -65,8 +65,15 @@ const device = puppeteer.devices["iPad Pro landscape"];
     for (const div of divs) {
       console.log(await div.evaluate((el) => el.textContent));
 
+      var name = "";
       const [pairNameEl] = await div.$x("div[1]/div[2]/div[1]");
-      const name = await pairNameEl.evaluate((el) => el.textContent);
+      const basename = await pairNameEl.evaluate((el) => el.textContent);
+      if (basename === "HOT") {
+        const [pairEl] = await div.$x("div[1]/div[2]/div[2]");
+        name = await pairEl.evaluate((el) => el.textContent);
+      } else {
+        name = basename;
+      }
 
       const [aprEl1] = await div.$x("div[2]/div[2]/div[2]");
       const aprTxt1 = (await aprEl1.evaluate((el) => el.textContent))
