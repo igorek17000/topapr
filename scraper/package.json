@@ -34,6 +34,7 @@
     "raydium-details": "npx tsc && node ./build/scrapers/raydium-details.js",
     "biswap": "npx tsc && node ./build/scrapers/biswap.js",
     "sushi-eth": "npx tsc && node ./build/scrapers/sushi-eth.js",
+    "sushi-eth-details": "npx tsc && node ./build/scrapers/sushi-eth-details.js",
     "spookyswap": "npx tsc && node ./build/scrapers/spookyswap.js",
     "pangolin": "npx tsc && node ./build/scrapers/pangolin.js",
     "pangolin-details": "npx tsc && node ./build/scrapers/pangolin-details.js",

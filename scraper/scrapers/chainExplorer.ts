@@ -12,6 +12,7 @@ export const chainExplorer = async (
   const explorerUrl = (() => {
     if (network === "Avalanche") return "snowtrace.io";
     if (network === "Heco") return "hecoinfo.com";
+    if (network === "ETH") return "etherscan.io";
     return "bscscan.com";
   })();
 
@@ -31,7 +32,7 @@ export const chainExplorer = async (
       );
       if (img) {
         await page.waitForTimeout(1000);
-        img.screenshot({
+        await img.screenshot({
           path: `C:\\Users\\cakia\\dev\\topapr\\front\\public\\token\\${token.name}.png`,
           type: "png",
           omitBackground: true,
@@ -48,8 +49,10 @@ export const chainExplorer = async (
     );
     console.log("token full name", tokenFullName);
 
+    const divPath = network === "ETH" ? 5 : 4;
+
     const [tokenDecPath] = await page.$x(
-      "/html/body/div[1]/main/div[4]/div[1]/div[2]/div/div[2]/div[2]/div/div[2]"
+      `/html/body/div[1]/main/div[${divPath}]/div[1]/div[2]/div/div[2]/div[2]/div/div[2]`
     );
     const tokenDec = parseInt(
       await tokenDecPath.evaluate((el) => el.textContent),
@@ -58,7 +61,7 @@ export const chainExplorer = async (
     console.log("token decimals", tokenDec);
 
     const [officialSitePath] = await page.$x(
-      "/html/body/div[1]/main/div[4]/div[1]/div[2]/div/div[2]/div[3]/div/div[2]"
+      `/html/body/div[1]/main/div[${divPath}]/div[1]/div[2]/div/div[2]/div[3]/div/div[2]`
     );
     const officialSiteBase = await officialSitePath.evaluate(
       (el) => el.textContent
@@ -70,7 +73,7 @@ export const chainExplorer = async (
 
     var social = undefined;
     const [socialPath] = await page.$x(
-      "/html/body/div[1]/main/div[4]/div[1]/div[2]/div/div[2]/div[4]/div/div[2]/ul"
+      `/html/body/div[1]/main/div[${divPath}]/div[1]/div[2]/div/div[2]/div[4]/div/div[2]/ul`
     );
     if (socialPath) {
       const socialLinks = await socialPath.$$("a");
@@ -107,6 +110,15 @@ export const chainExplorer = async (
     }
     console.log("tags", tags);
 
+    const cleanNum = (numStr: string, cleanStr?: string[], isInt?: boolean) => {
+      const numBaseStr = (
+        cleanStr ? [...cleanStr, ",", "$"] : [",", "$"]
+      ).reduce((prev, curr) => prev.replaceAll(curr, ""), numStr);
+      const numBase = isInt ? parseInt(numBaseStr, 10) : parseFloat(numBaseStr);
+
+      return numBase;
+    };
+
     const getNumContent = async (
       xPath: string,
       cleanStr?: string[],
@@ -115,27 +127,20 @@ export const chainExplorer = async (
       const [path] = await page.$x(xPath);
       if (path) {
         const baseStr = await path.evaluate((el) => el.textContent);
-        const numBaseStr = (
-          cleanStr ? [...cleanStr, ",", "$"] : [",", "$"]
-        ).reduce((prev, curr) => prev.replaceAll(curr, ""), baseStr);
-        const numBase = isInt
-          ? parseInt(numBaseStr, 10)
-          : parseFloat(numBaseStr);
-        // console.log("intBase", intBase);
-
-        return numBase;
+        return cleanNum(baseStr, cleanStr, isInt);
       }
 
       return undefined;
     };
 
+    const overviewDiv = network === "ETH" ? 5 : 4;
     const price = await getNumContent(
-      "/html/body/div[1]/main/div[4]/div[1]/div[1]/div/div[2]/div[1]/div/div[1]/span/span[1]"
+      `/html/body/div[1]/main/div[${overviewDiv}]/div[1]/div[1]/div/div[2]/div[1]/div/div[1]/span/span[1]`
     );
     console.log("price", price);
 
     const priceChange = await getNumContent(
-      "/html/body/div[1]/main/div[4]/div[1]/div[1]/div/div[2]/div[1]/div/div[1]/span/span[3]",
+      `/html/body/div[1]/main/div[${overviewDiv}]/div[1]/div[1]/div/div[2]/div[1]/div/div[1]/span/span[3]`,
       ["(", ")", "%"]
     );
     console.log("priceChange", priceChange);
@@ -144,12 +149,12 @@ export const chainExplorer = async (
     console.log("marketCap", marketCap);
 
     const totalSupply = await getNumContent(
-      "/html/body/div[1]/main/div[4]/div[1]/div[1]/div/div[2]/div[2]/div[2]/span[1]"
+      `/html/body/div[1]/main/div[${overviewDiv}]/div[1]/div[1]/div/div[2]/div[2]/div[2]/span[1]`
     );
     console.log("totalSupply", totalSupply);
 
     const cSupply = await getNumContent(
-      "/html/body/div[1]/main/div[4]/div[1]/div[1]/div/div[2]/div[2]/div[2]/span[2]/span",
+      `/html/body/div[1]/main/div[${overviewDiv}]/div[1]/div[1]/div/div[2]/div[2]/div[2]/span[2]/span`,
       ["CSupply: "]
     );
     console.log("cSupply", cSupply);
@@ -157,7 +162,7 @@ export const chainExplorer = async (
     const holders = await getNumContent(
       network === "Heco"
         ? "/html/body/div[1]/main/div[4]/div[1]/div[1]/div/div[2]/div[3]/div/div[2]"
-        : "/html/body/div[1]/main/div[4]/div[1]/div[1]/div/div[2]/div[3]/div/div[2]/div/div",
+        : `/html/body/div[1]/main/div[${overviewDiv}]/div[1]/div[1]/div/div[2]/div[3]/div/div[2]/div/div`,
       [" addresses"],
       true
     );
@@ -172,7 +177,7 @@ export const chainExplorer = async (
       token.name
     )}, ${dbConn.escape(tokenFullName)}, ${tokenDec}, ${dbConn.escape(
       officialSite
-    )}, ${dbConn.escape(social)}, ${dbConn.escape(tags)}, ${price}, ${
+    )}, ${dbConn.escape(social)}, ${dbConn.escape(tags)}, ${price || null}, ${
       priceChange || null
     }, ${marketCap || null}, ${totalSupply || null}, ${cSupply || null}, ${
       holders || null
